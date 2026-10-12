@@ -1,0 +1,37 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/**/*.pyc
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Environment / secrets
+.env
+*.env
+
+# Database backups
+*.dump
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Test/cache files
+.pytest_cache/
+
+# Logs
+*.log
+
+# Generated reports
+/backend/reports/
+
+# Palm-line training dataset
+/backend/datasets/palm_lines/

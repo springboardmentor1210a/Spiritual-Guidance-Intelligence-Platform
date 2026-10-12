@@ -1,0 +1,5663 @@
+/* =========================================================
+   AI PALMISTRY & TAROT INTELLIGENCE PLATFORM
+   GLOBAL STYLESHEET
+========================================================= */
+
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+  background: #f5f3ff;
+  color: #1f2937;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* =========================================================
+   MAIN APP
+========================================================= */
+
+.app {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(124, 58, 237, 0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(79, 70, 229, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f8f7ff 0%,
+      #f5f3ff 45%,
+      #eef2ff 100%
+    );
+}
+
+
+/* =========================================================
+   COMMON HEADER
+========================================================= */
+
+.header {
+  height: 82px;
+
+  background: rgba(255, 255, 255, 0.88);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 60px;
+
+  border-bottom: 1px solid rgba(99, 102, 241, 0.12);
+
+  box-shadow:
+    0 4px 20px rgba(31, 41, 55, 0.06);
+
+  position: relative;
+  z-index: 10;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  font-size: 28px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c3aed,
+      #4f46e5
+    );
+
+  box-shadow:
+    0 8px 20px rgba(79, 70, 229, 0.25);
+}
+
+.logo-section h1 {
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 750;
+
+  background:
+    linear-gradient(
+      90deg,
+      #312e81,
+      #6d28d9
+    );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-section p {
+  margin: 3px 0 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+
+
+/* =========================================================
+   AUTH CONTAINER
+========================================================= */
+
+.auth-container {
+  min-height: calc(100vh - 145px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 55px 20px;
+}
+
+
+/* =========================================================
+   AUTH CARD
+========================================================= */
+
+.auth-card {
+  width: 440px;
+
+  padding: 42px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border-radius: 24px;
+
+  border: 1px solid rgba(99, 102, 241, 0.12);
+
+  box-shadow:
+    0 25px 60px rgba(67, 56, 202, 0.12),
+    0 8px 25px rgba(31, 41, 55, 0.06);
+
+  animation: fadeUp 0.5s ease;
+}
+
+
+/* =========================================================
+   AUTH ICON
+========================================================= */
+
+.auth-icon {
+  width: 65px;
+  height: 65px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 17px;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ede9fe,
+      #e0e7ff
+    );
+
+  font-size: 31px;
+
+  box-shadow:
+    0 8px 20px rgba(79, 70, 229, 0.12);
+}
+
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.welcome h2 {
+  margin: 0 0 10px;
+
+  font-size: 30px;
+  font-weight: 750;
+
+  color: #312e81;
+}
+
+.welcome p {
+  margin: 0;
+
+  color: #6b7280;
+
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 17px;
+  margin-bottom: 7px;
+
+  font-size: 14px;
+  font-weight: 650;
+
+  color: #374151;
+}
+
+input,
+select {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  border: 1px solid #d8d5f3;
+
+  border-radius: 10px;
+
+  background: #fafaff;
+
+  color: #1f2937;
+
+  font-size: 15px;
+
+  transition:
+    border 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
+input:hover,
+select:hover {
+  background: white;
+}
+
+input:focus,
+select:focus {
+  border-color: #6366f1;
+
+  background: white;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.11);
+}
+
+
+/* =========================================================
+   PASSWORD FIELDS
+========================================================= */
+
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field input {
+  width: 100%;
+}
+
+
+/* =========================================================
+   GENDER SELECT
+========================================================= */
+
+.gender-select {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  border: 1px solid #d8d5f3;
+
+  border-radius: 10px;
+
+  background: #fafaff;
+
+  color: #1f2937;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+  transition:
+    border 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.gender-select:hover {
+  background: white;
+}
+
+.gender-select:focus {
+  border-color: #6366f1;
+
+  background: white;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.11);
+}
+
+
+/* =========================================================
+   PASSWORD MATCH MESSAGE
+========================================================= */
+
+.password-match {
+  margin-top: 7px;
+
+  font-size: 11px;
+
+  line-height: 1.4;
+}
+
+.password-match.success {
+  color: #027a48;
+}
+
+.password-match.error {
+  color: #b42318;
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.primary-button {
+  margin-top: 25px;
+
+  padding: 13px 18px;
+
+  border: none;
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c3aed,
+      #4f46e5
+    );
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+
+  box-shadow:
+    0 8px 18px rgba(79, 70, 229, 0.22);
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 25px rgba(79, 70, 229, 0.28);
+}
+
+.primary-button:active {
+  transform: translateY(0);
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+========================================================= */
+
+.secondary-button {
+  width: 100%;
+
+  padding: 11px 16px;
+
+  border: 1px solid #8b5cf6;
+
+  border-radius: 10px;
+
+  background: white;
+
+  color: #6d28d9;
+
+  font-size: 14px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.secondary-button:hover {
+  background: #f5f3ff;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   AUTH SWITCH
+========================================================= */
+
+.switch {
+  text-align: center;
+
+  margin-top: 26px;
+
+  padding-top: 22px;
+
+  border-top: 1px solid #eeeef8;
+}
+
+.switch p {
+  margin: 0 0 11px;
+
+  color: #6b7280;
+
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   SUCCESS / ERROR MESSAGES
+========================================================= */
+
+.success-message,
+.error-message {
+  margin-top: 20px;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  animation: fadeIn 0.3s ease;
+}
+
+.success-message {
+  background: #ecfdf3;
+
+  border: 1px solid #abefc6;
+
+  color: #027a48;
+}
+
+.error-message {
+  background: #fef3f2;
+
+  border: 1px solid #fecdca;
+
+  color: #b42318;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+  text-align: center;
+
+  padding: 20px;
+
+  color: #6b7280;
+
+  background:
+    rgba(255, 255, 255, 0.75);
+
+  border-top: 1px solid rgba(99, 102, 241, 0.08);
+
+  font-size: 13px;
+}
+
+footer p {
+  margin: 0;
+}
+
+
+/* =========================================================
+   PROFILE SECTION
+========================================================= */
+
+.profile-section {
+  width: 500px;
+
+  padding: 42px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  border-radius: 24px;
+
+  border: 1px solid rgba(99, 102, 241, 0.14);
+
+  box-shadow:
+    0 25px 60px rgba(67, 56, 202, 0.13),
+    0 8px 25px rgba(31, 41, 55, 0.06);
+
+  animation: fadeUp 0.5s ease;
+
+  text-align: center;
+}
+
+.profile-section .profile-avatar {
+  width: 80px;
+  height: 80px;
+
+  margin: 0 auto 18px;
+
+  font-size: 30px;
+}
+
+.profile-section h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+
+  color: #312e81;
+
+  font-size: 28px;
+}
+
+.profile-section form {
+  text-align: left;
+}
+
+.profile-section p {
+  margin: 0 0 10px;
+
+  padding: 14px 16px;
+
+  border-radius: 10px;
+
+  background: #f8f7ff;
+
+  border: 1px solid #eeeeff;
+
+  color: #4b5563;
+
+  font-size: 14px;
+}
+
+.profile-section strong {
+  color: #312e81;
+}
+
+
+/* =========================================================
+   DASHBOARD HEADER
+========================================================= */
+
+.dashboard-header {
+  height: 78px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 35px;
+
+  border-bottom: 1px solid rgba(99, 102, 241, 0.12);
+
+  box-shadow:
+    0 4px 20px rgba(31, 41, 55, 0.06);
+
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.user-avatar,
+.profile-avatar {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c3aed,
+      #4f46e5
+    );
+
+  color: white;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.user-header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-header-info strong {
+  color: #312e81;
+  font-size: 14px;
+}
+
+.user-header-info span {
+  color: #8b5cf6;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+
+/* =========================================================
+   DASHBOARD LAYOUT
+========================================================= */
+
+.dashboard-layout {
+  min-height: calc(100vh - 78px);
+
+  display: flex;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+  width: 245px;
+
+  flex-shrink: 0;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  border-right: 1px solid rgba(99, 102, 241, 0.1);
+
+  padding: 28px 15px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.sidebar-title {
+  padding: 0 14px 12px;
+
+  color: #9ca3af;
+
+  font-size: 10px;
+  font-weight: 750;
+
+  letter-spacing: 1.2px;
+}
+
+.nav-item {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: #667085;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-item:hover {
+  background: #f5f3ff;
+
+  color: #5b21b6;
+
+  transform: translateX(2px);
+}
+
+.nav-item.active {
+  background:
+    linear-gradient(
+      135deg,
+      #ede9fe,
+      #eef2ff
+    );
+
+  color: #5b21b6;
+
+  box-shadow:
+    inset 3px 0 0 #7c3aed;
+}
+
+.sidebar-divider {
+  height: 1px;
+
+  background: #eeeef8;
+
+  margin: 15px 8px;
+}
+
+.logout-item {
+  margin-top: auto;
+}
+
+
+/* =========================================================
+   DASHBOARD MAIN
+========================================================= */
+
+.dashboard-main {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 40px;
+
+  overflow-y: auto;
+}
+
+
+/* =========================================================
+   DASHBOARD HERO
+========================================================= */
+
+.dashboard-hero {
+  min-height: 230px;
+
+  padding: 38px;
+
+  border-radius: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background:
+    linear-gradient(
+      135deg,
+      #312e81,
+      #5b21b6,
+      #4f46e5
+    );
+
+  color: white;
+
+  box-shadow:
+    0 20px 45px rgba(79, 70, 229, 0.22);
+
+  animation: fadeUp 0.5s ease;
+}
+
+.hero-label {
+  font-size: 11px;
+
+  letter-spacing: 1.4px;
+
+  font-weight: 700;
+
+  opacity: 0.8;
+}
+
+.dashboard-hero h2 {
+  margin: 12px 0 10px;
+
+  font-size: 32px;
+}
+
+.dashboard-hero p {
+  max-width: 600px;
+
+  margin: 0;
+
+  line-height: 1.6;
+
+  font-size: 14px;
+
+  opacity: 0.85;
+}
+
+.hero-symbol {
+  width: 120px;
+  height: 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  font-size: 55px;
+
+  box-shadow:
+    0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.section-title {
+  margin: 38px 0 20px;
+}
+
+.section-title h3 {
+  margin: 0 0 5px;
+
+  color: #312e81;
+
+  font-size: 21px;
+}
+
+.section-title p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   FEATURE GRID
+========================================================= */
+
+.feature-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+.feature-card {
+  padding: 27px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 12px 30px rgba(67, 56, 202, 0.08);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  animation: fadeUp 0.5s ease;
+}
+
+.feature-card:hover {
+
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 20px 40px rgba(67, 56, 202, 0.14);
+}
+
+.feature-icon {
+  width: 54px;
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  background: #f5f3ff;
+
+  font-size: 27px;
+
+  margin-bottom: 18px;
+}
+
+.feature-card h3 {
+  margin: 0 0 9px;
+
+  color: #312e81;
+
+  font-size: 19px;
+}
+
+.feature-card p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+/* Tarot Reader Dashboard Cards */
+
+.tarot-reader-card {
+  min-height: 155px;
+}
+
+.tarot-reader-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 18px 35px rgba(67, 56, 202, 0.14);
+
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+.tarot-reader-card .feature-icon {
+  margin-bottom: 14px;
+}
+
+.tarot-reader-card h3 {
+  margin-bottom: 8px;
+}
+
+.tarot-reader-card p {
+  min-height: auto;
+}
+
+.feature-button {
+  margin-top: 18px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #6d28d9;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  padding: 0;
+}
+
+.tarot-card {
+  border-top: 3px solid #7c3aed;
+}
+
+.palm-card {
+  border-top: 3px solid #4f46e5;
+}
+
+.history-card {
+  border-top: 3px solid #6366f1;
+}
+
+
+/* =========================================================
+   INSIGHT CARD
+========================================================= */
+
+.insight-card {
+  margin-top: 25px;
+
+  padding: 22px 25px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 17px;
+}
+
+/* =========================================================
+   PERSONALIZED GUIDANCE
+========================================================= */
+
+.dashboard-guidance-card {
+  margin-top: 25px;
+
+  padding: 25px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 12px 30px rgba(67, 56, 202, 0.08);
+}
+
+
+.dashboard-guidance-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  margin-bottom: 22px;
+}
+
+
+.dashboard-guidance-header h3 {
+  margin: 0 0 5px;
+
+  color: #312e81;
+
+  font-size: 18px;
+}
+
+
+.dashboard-guidance-header p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+.dashboard-guidance-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.dashboard-guidance-item {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  padding: 13px 15px;
+
+  background: #fafaff;
+
+  border: 1px solid #eeeeff;
+
+  border-radius: 12px;
+}
+
+
+.dashboard-guidance-item > span {
+  color: #7c3aed;
+
+  font-size: 16px;
+
+  line-height: 1.5;
+
+  flex-shrink: 0;
+}
+
+
+.dashboard-guidance-item p {
+  margin: 0;
+
+  color: #4b5563;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   LIFE TREND ANALYSIS
+========================================================= */
+
+.dashboard-life-trend-card {
+  margin-top: 25px;
+
+  padding: 25px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 12px 30px rgba(67, 56, 202, 0.08);
+}
+
+
+.dashboard-life-trend-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  margin-bottom: 22px;
+}
+
+
+.dashboard-life-trend-header h3 {
+  margin: 0 0 5px;
+
+  color: #312e81;
+
+  font-size: 18px;
+}
+
+
+.dashboard-life-trend-header p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+.dashboard-life-trend-section {
+  margin-top: 15px;
+
+  padding: 17px;
+
+  background: #fafaff;
+
+  border: 1px solid #eeeeff;
+
+  border-radius: 13px;
+}
+
+
+.dashboard-life-trend-section h4 {
+  margin: 0 0 10px;
+
+  color: #312e81;
+
+  font-size: 14px;
+}
+
+
+.dashboard-life-trend-section p {
+  margin: 6px 0;
+
+  color: #4b5563;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.insight-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  background: #ede9fe;
+
+  font-size: 21px;
+}
+
+.insight-card h3 {
+  margin: 0 0 5px;
+
+  color: #312e81;
+
+  font-size: 16px;
+}
+
+.insight-card p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   PLACEHOLDER PAGES
+========================================================= */
+
+.placeholder-page {
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.8);
+
+  border-radius: 24px;
+
+  padding: 50px;
+
+  animation: fadeUp 0.5s ease;
+}
+
+.placeholder-icon {
+  width: 90px;
+  height: 90px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ede9fe;
+
+  font-size: 43px;
+
+  margin-bottom: 20px;
+}
+
+.placeholder-page h2 {
+  margin: 0 0 10px;
+
+  color: #312e81;
+
+  font-size: 28px;
+}
+
+.placeholder-page p {
+  max-width: 500px;
+
+  color: #6b7280;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   TAROT READING PAGE
+========================================================= */
+
+.tarot-page,
+.tarot-reading-page {
+  animation: fadeUp 0.5s ease;
+}
+
+
+/* =========================================================
+   TAROT PAGE HEADER
+========================================================= */
+
+.tarot-page-header {
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+
+  padding: 30px 34px;
+
+  margin-bottom: 25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #312e81,
+      #5b21b6,
+      #4f46e5
+    );
+
+  border-radius: 22px;
+
+  color: white;
+
+  box-shadow:
+    0 18px 40px rgba(79, 70, 229, 0.2);
+}
+
+.tarot-page-icon {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  font-size: 38px;
+}
+
+.tarot-page-header h2 {
+  margin: 7px 0 6px;
+
+  font-size: 29px;
+}
+
+.tarot-page-header p {
+  margin: 0;
+
+  max-width: 650px;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   TAROT SETUP CARD
+========================================================= */
+
+.tarot-setup-card {
+  padding: 32px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 15px 35px rgba(67, 56, 202, 0.08);
+}
+
+.tarot-section-heading {
+  margin-bottom: 27px;
+}
+
+.tarot-section-heading h3 {
+  margin: 0 0 6px;
+
+  color: #312e81;
+
+  font-size: 21px;
+}
+
+.tarot-section-heading p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   TAROT FORM GROUP
+========================================================= */
+
+.tarot-form-group {
+  margin-bottom: 25px;
+}
+
+.tarot-form-group label {
+  display: block;
+
+  margin-top: 0;
+  margin-bottom: 9px;
+
+  color: #374151;
+
+  font-size: 14px;
+  font-weight: 650;
+}
+
+
+/* =========================================================
+   TAROT SPREAD OPTIONS
+========================================================= */
+
+.spread-options {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.spread-option {
+  min-height: 125px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 17px;
+
+  border: 1px solid #dedcf4;
+
+  border-radius: 14px;
+
+  background: #fafaff;
+
+  color: #374151;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.spread-option:hover {
+  transform: translateY(-2px);
+
+  border-color: #a78bfa;
+
+  background: #f8f7ff;
+}
+
+.spread-option.active {
+  border-color: #7c3aed;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f5f3ff,
+      #eef2ff
+    );
+
+  box-shadow:
+    0 8px 20px rgba(124, 58, 237, 0.12);
+
+  color: #5b21b6;
+}
+
+.spread-icon {
+  font-size: 20px;
+
+  letter-spacing: -5px;
+}
+
+.spread-option strong {
+  font-size: 14px;
+}
+
+.spread-option small {
+  color: #8b91a1;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   TAROT QUESTION
+========================================================= */
+
+.tarot-form-group textarea {
+  width: 100%;
+
+  resize: vertical;
+
+  min-height: 110px;
+
+  padding: 13px 14px;
+
+  border: 1px solid #d8d5f3;
+
+  border-radius: 10px;
+
+  background: #fafaff;
+
+  color: #1f2937;
+
+  font-size: 14px;
+
+  transition:
+    border 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.tarot-form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+.tarot-form-group textarea:hover {
+  background: white;
+}
+
+.tarot-form-group textarea:focus {
+  border-color: #6366f1;
+
+  background: white;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.11);
+}
+
+.input-hint {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #9ca3af;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   TAROT START BUTTON
+========================================================= */
+
+.tarot-start-button {
+  width: 100%;
+
+  margin-top: 5px;
+
+  padding: 15px;
+}
+
+
+/* =========================================================
+   TAROT INFORMATION CARD
+========================================================= */
+
+.tarot-info-card {
+  margin-top: 22px;
+
+  padding: 21px 24px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 16px;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 17px;
+}
+
+.tarot-info-icon {
+  width: 43px;
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  background: #ede9fe;
+
+  font-size: 20px;
+}
+
+.tarot-info-card h3 {
+  margin: 0 0 5px;
+
+  color: #312e81;
+
+  font-size: 15px;
+}
+
+.tarot-info-card p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   TAROT BACK BUTTON
+========================================================= */
+
+.tarot-back-dashboard,
+.tarot-back-button {
+  width: auto;
+
+  display: block;
+
+  margin: 20px auto 0;
+}
+
+
+/* =========================================================
+   TAROT RESULT HEADER
+========================================================= */
+
+.tarot-reading-header {
+  padding: 30px;
+
+  margin-bottom: 22px;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #312e81,
+      #5b21b6,
+      #4f46e5
+    );
+
+  color: white;
+
+  text-align: center;
+
+  box-shadow:
+    0 18px 40px rgba(79, 70, 229, 0.2);
+}
+
+.tarot-reading-header h2 {
+  margin: 8px 0;
+
+  font-size: 28px;
+}
+
+.tarot-reading-header p {
+  margin: 0;
+
+  font-size: 14px;
+
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   TAROT RESULT CARD
+========================================================= */
+
+.tarot-result-card {
+  padding: 45px 30px;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 15px 35px rgba(67, 56, 202, 0.08);
+}
+
+.tarot-card-placeholder {
+  width: 110px;
+  height: 150px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 25px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #312e81,
+      #7c3aed
+    );
+
+  color: white;
+
+  font-size: 43px;
+
+  box-shadow:
+    0 15px 30px rgba(79, 70, 229, 0.2);
+}
+
+.tarot-result-card h3 {
+  margin: 0 0 10px;
+
+  color: #312e81;
+
+  font-size: 21px;
+}
+
+.tarot-result-card p {
+  max-width: 550px;
+
+  margin: 0 auto;
+
+  color: #6b7280;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   PALM READING PAGE
+========================================================= */
+
+.palm-page,
+.palm-result-page {
+  animation: fadeUp 0.5s ease;
+}
+
+
+/* =========================================================
+   PALM PAGE HEADER
+========================================================= */
+
+.palm-page-header {
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+
+  padding: 30px 34px;
+
+  margin-bottom: 25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #312e81,
+      #5b21b6,
+      #4f46e5
+    );
+
+  border-radius: 22px;
+
+  color: white;
+
+  box-shadow:
+    0 18px 40px rgba(79, 70, 229, 0.2);
+}
+
+.palm-page-icon {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  font-size: 38px;
+}
+
+.palm-page-header h2 {
+  margin: 7px 0 6px;
+
+  font-size: 29px;
+}
+
+.palm-page-header p {
+  margin: 0;
+
+  max-width: 650px;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   PALM UPLOAD CARD
+========================================================= */
+
+.palm-upload-card {
+  padding: 32px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 15px 35px rgba(67, 56, 202, 0.08);
+}
+
+.palm-section-heading {
+  margin-bottom: 25px;
+}
+
+.palm-section-heading h3 {
+  margin: 0 0 6px;
+
+  color: #312e81;
+
+  font-size: 21px;
+}
+
+.palm-section-heading p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   PALM UPLOAD AREA
+========================================================= */
+
+.palm-upload-area {
+  min-height: 260px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px;
+
+  border: 2px dashed #c4b5fd;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fafaff,
+      #f5f3ff
+    );
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.palm-upload-area:hover {
+  border-color: #7c3aed;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f5f3ff,
+      #eef2ff
+    );
+
+  transform: translateY(-2px);
+}
+
+.palm-upload-icon {
+  width: 72px;
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ede9fe,
+      #e0e7ff
+    );
+
+  font-size: 36px;
+
+  box-shadow:
+    0 10px 25px rgba(79, 70, 229, 0.12);
+}
+
+.palm-upload-area h3 {
+  margin: 0 0 7px;
+
+  color: #312e81;
+
+  font-size: 18px;
+}
+
+.palm-upload-area p {
+  margin: 0 0 8px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+.palm-upload-area span {
+  color: #9ca3af;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   PALM FILE INPUT
+========================================================= */
+
+.palm-file-input {
+  display: none;
+}
+
+
+/* =========================================================
+   PALM IMAGE PREVIEW
+========================================================= */
+
+.palm-preview-container {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 25px;
+
+  border-radius: 18px;
+
+  background: #f8f7ff;
+
+  border: 1px solid #e4e0fa;
+}
+
+.palm-preview {
+  max-width: 100%;
+
+  width: 360px;
+
+  max-height: 420px;
+
+  object-fit: contain;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 15px 35px rgba(31, 41, 55, 0.12);
+}
+
+.remove-image-button {
+  margin-top: 18px;
+
+  padding: 9px 16px;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 9px;
+
+  background: white;
+
+  color: #dc2626;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.remove-image-button:hover {
+  background: #fef2f2;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   PALM GUIDELINES
+========================================================= */
+
+.palm-guidelines {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin-top: 25px;
+}
+
+.guideline-item {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 15px;
+
+  border-radius: 13px;
+
+  background: #fafaff;
+
+  border: 1px solid #eeeeff;
+}
+
+.guideline-item > span {
+  font-size: 20px;
+}
+
+.guideline-item strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #312e81;
+
+  font-size: 13px;
+}
+
+.guideline-item p {
+  margin: 0;
+
+  color: #8b91a1;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   PALM ANALYZE BUTTON
+========================================================= */
+
+.palm-analyze-button {
+  width: 100%;
+
+  margin-top: 25px;
+
+  padding: 15px;
+}
+
+.palm-analyze-button:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   PALM RESULT HEADER
+========================================================= */
+
+.palm-result-header {
+  padding: 30px;
+
+  margin-bottom: 22px;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #312e81,
+      #5b21b6,
+      #4f46e5
+    );
+
+  color: white;
+
+  text-align: center;
+
+  box-shadow:
+    0 18px 40px rgba(79, 70, 229, 0.2);
+}
+
+.palm-result-header h2 {
+  margin: 8px 0;
+
+  font-size: 28px;
+}
+
+.palm-result-header p {
+  margin: 0;
+
+  font-size: 14px;
+
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   PALM RESULT CARD
+========================================================= */
+
+.palm-result-card {
+  display: grid;
+
+  grid-template-columns: 320px minmax(0, 1fr);
+
+  gap: 35px;
+
+  padding: 32px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 15px 35px rgba(67, 56, 202, 0.08);
+}
+
+
+/* =========================================================
+   PALM RESULT IMAGE
+========================================================= */
+
+.palm-result-image-container {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 350px;
+
+  padding: 15px;
+
+  border-radius: 17px;
+
+  background: #f8f7ff;
+}
+
+.palm-result-image {
+  width: 100%;
+
+  max-height: 400px;
+
+  object-fit: contain;
+
+  border-radius: 12px;
+}
+
+
+/* =========================================================
+   PALM RESULT CONTENT
+========================================================= */
+
+.palm-result-content {
+  padding: 10px 5px;
+}
+
+.palm-results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.palm-results-column {
+  min-width: 0;
+}
+
+.result-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 15px;
+
+  border-radius: 13px;
+
+  background: #ede9fe;
+
+  font-size: 22px;
+}
+
+.palm-result-content h3 {
+  margin: 0 0 10px;
+
+  color: #312e81;
+
+  font-size: 21px;
+}
+
+.palm-result-content > p {
+  margin: 0 0 25px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   PALM ANALYSIS PLACEHOLDER
+========================================================= */
+
+.analysis-placeholder {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.analysis-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background: #fafaff;
+
+  border: 1px solid #eeeeff;
+}
+
+.analysis-item > span {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background: #ede9fe;
+
+  font-size: 18px;
+}
+
+.analysis-item strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #312e81;
+
+  font-size: 13px;
+}
+
+.analysis-item small {
+  color: #9ca3af;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   PALM RESULT BUTTONS
+========================================================= */
+
+.palm-new-reading-button,
+.palm-back-dashboard {
+  width: auto;
+
+  display: block;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.palm-new-reading-button {
+  margin-top: 22px;
+}
+
+.palm-back-dashboard {
+  margin-top: 12px;
+}
+
+
+/* =========================================================
+   READING HISTORY PAGE
+========================================================= */
+
+.history-page {
+  animation: fadeUp 0.5s ease;
+}
+
+
+/* =========================================================
+   HISTORY PAGE HEADER
+========================================================= */
+
+.history-page-header {
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+
+  padding: 30px 34px;
+
+  margin-bottom: 25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #312e81,
+      #5b21b6,
+      #4f46e5
+    );
+
+  border-radius: 22px;
+
+  color: white;
+
+  box-shadow:
+    0 18px 40px rgba(79, 70, 229, 0.2);
+}
+
+.history-page-icon {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  font-size: 38px;
+}
+
+.history-page-header h2 {
+  margin: 7px 0 6px;
+
+  font-size: 29px;
+}
+
+.history-page-header p {
+  margin: 0;
+
+  max-width: 650px;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   HISTORY CONTENT
+========================================================= */
+
+.history-content {
+  padding: 30px;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border: 1px solid rgba(99, 102, 241, 0.1);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 15px 35px rgba(67, 56, 202, 0.08);
+}
+
+
+/* =========================================================
+   HISTORY SECTION HEADING
+========================================================= */
+
+.history-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 22px;
+}
+
+.history-section-heading h3 {
+  margin: 0 0 5px;
+
+  color: #312e81;
+
+  font-size: 21px;
+}
+
+.history-section-heading p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+.history-count {
+  padding: 7px 12px;
+
+  border-radius: 20px;
+
+  background: #ede9fe;
+
+  color: #5b21b6;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   HISTORY LIST
+========================================================= */
+
+.history-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+
+/* =========================================================
+   HISTORY CARD ITEM
+========================================================= */
+
+.history-card-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 20px;
+
+  border: 1px solid #e7e5f5;
+
+  border-radius: 16px;
+
+  background: #fafaff;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border 0.2s ease;
+}
+
+.history-card-item:hover {
+  transform: translateY(-3px);
+
+  border-color: #c4b5fd;
+
+  box-shadow:
+    0 10px 25px rgba(79, 70, 229, 0.1);
+}
+
+
+/* =========================================================
+   HISTORY ICON
+========================================================= */
+
+.history-card-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 15px;
+
+  font-size: 27px;
+}
+
+.tarot-history-icon {
+  background: #ede9fe;
+}
+
+.palm-history-icon {
+  background: #e0e7ff;
+}
+
+
+/* =========================================================
+   HISTORY DETAILS
+========================================================= */
+
+.history-card-details {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.history-card-top {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.history-card-details h3 {
+  margin: 0 0 4px;
+
+  color: #312e81;
+
+  font-size: 16px;
+}
+
+.history-date {
+  color: #9ca3af;
+
+  font-size: 11px;
+}
+
+.history-card-details p {
+  margin: 8px 0;
+
+  color: #6b7280;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   HISTORY TYPE
+========================================================= */
+
+.history-type {
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.tarot-type {
+  background: #ede9fe;
+
+  color: #6d28d9;
+}
+
+.palm-type {
+  background: #e0e7ff;
+
+  color: #4338ca;
+}
+
+
+/* =========================================================
+   HISTORY META
+========================================================= */
+
+.history-card-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.history-card-meta span {
+  padding: 5px 8px;
+
+  border-radius: 7px;
+
+  background: white;
+
+  border: 1px solid #eeeeff;
+
+  color: #6b7280;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   HISTORY VIEW BUTTON
+========================================================= */
+
+.history-view-button {
+  padding: 9px 13px;
+
+  border: 1px solid #8b5cf6;
+
+  border-radius: 9px;
+
+  background: white;
+
+  color: #6d28d9;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.history-view-button:hover {
+  background: #f5f3ff;
+
+  transform: translateX(2px);
+}
+
+
+/* =========================================================
+   HISTORY INFORMATION CARD
+========================================================= */
+
+.history-info-card {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 15px;
+
+  margin-top: 20px;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  background: #f8f7ff;
+
+  border: 1px solid #eeeeff;
+}
+
+.history-info-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 11px;
+
+  background: #ede9fe;
+
+  font-size: 19px;
+}
+
+.history-info-card h3 {
+  margin: 0 0 5px;
+
+  color: #312e81;
+
+  font-size: 14px;
+}
+
+.history-info-card p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   HISTORY BACK BUTTON
+========================================================= */
+
+.history-back-button {
+  width: auto;
+
+  margin-top: 20px;
+}
+
+
+/* =========================================================
+   ROLE PICKER — CLICK TO OPEN MODAL
+========================================================= */
+
+.role-picker-trigger {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 12px 13px;
+
+  border: 1px solid #d8d5f3;
+  border-radius: 12px;
+
+  background: #fafaff;
+  color: #1f2937;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.role-picker-trigger:hover {
+  background: white;
+  border-color: #a78bfa;
+  transform: translateY(-1px);
+}
+
+.role-picker-trigger:focus-visible {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.11);
+}
+
+.role-picker-trigger-icon {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+
+  font-size: 24px;
+}
+
+.role-picker-trigger-content {
+  min-width: 0;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.role-picker-trigger-content strong {
+  color: #312e81;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.role-picker-trigger-content small {
+  overflow: hidden;
+
+  color: #8b91a1;
+  font-size: 11px;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.role-picker-arrow {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #ede9fe;
+  color: #6d28d9;
+
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Modal overlay */
+
+.role-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(31, 24, 62, 0.58);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  animation: fadeIn 0.2s ease;
+}
+
+.role-picker-modal {
+  width: min(900px, 100%);
+  max-height: min(760px, calc(100vh - 48px));
+  overflow-y: auto;
+
+  padding: 30px;
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 26px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  box-shadow:
+    0 30px 80px rgba(31, 24, 62, 0.28),
+    0 10px 30px rgba(67, 56, 202, 0.14);
+
+  animation: rolePickerPop 0.28s ease;
+}
+
+.role-picker-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.role-picker-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #7c3aed;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.role-picker-header h2 {
+  margin: 0 0 7px;
+
+  color: #312e81;
+  font-size: 27px;
+  font-weight: 750;
+}
+
+.role-picker-header p {
+  margin: 0;
+
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.role-picker-close {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid #e5e1f6;
+  border-radius: 50%;
+
+  background: #fafaff;
+  color: #6b7280;
+
+  font-size: 25px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.role-picker-close:hover {
+  background: #f5f3ff;
+  color: #5b21b6;
+  transform: rotate(90deg);
+}
+
+.role-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.role-picker-card {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  padding: 18px;
+
+  border: 1px solid #e4e0f5;
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #ffffff, #fafaff);
+  color: #1f2937;
+
+  text-align: left;
+  cursor: pointer;
+
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease;
+}
+
+.role-picker-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+
+  background: linear-gradient(180deg, #7c3aed, #4f46e5);
+
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.role-picker-card:hover {
+  transform: translateY(-4px);
+  border-color: #a78bfa;
+
+  background: linear-gradient(135deg, #ffffff, #f7f5ff);
+
+  box-shadow:
+    0 14px 30px rgba(79, 70, 229, 0.13);
+}
+
+.role-picker-card:hover::before,
+.role-picker-card.selected::before {
+  opacity: 1;
+}
+
+.role-picker-card.selected {
+  border-color: #8b5cf6;
+
+  background: linear-gradient(135deg, #f8f5ff, #eef2ff);
+
+  box-shadow:
+    0 12px 28px rgba(124, 58, 237, 0.13);
+}
+
+.role-card-visual {
+  width: 76px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  position: relative;
+
+  border-radius: 20px;
+
+  background:
+    radial-gradient(circle at 30% 25%, #ffffff 0 8%, transparent 9%),
+    linear-gradient(135deg, #ede9fe, #e0e7ff);
+
+  border: 1px solid #ddd6fe;
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.role-card-picture {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 17px;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  font-size: 35px;
+
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.1);
+}
+
+.role-card-check {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+
+  width: 25px;
+  height: 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 3px solid white;
+  border-radius: 50%;
+
+  background: #7c3aed;
+  color: white;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.role-card-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.role-card-tag {
+  display: inline-block;
+  margin-bottom: 4px;
+
+  color: #8b5cf6;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
+
+.role-card-copy h3 {
+  margin: 0 0 6px;
+
+  color: #312e81;
+
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.role-card-copy p {
+  margin: 0;
+
+  color: #6b7280;
+
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.role-card-action {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+
+  color: #7c3aed;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+
+  opacity: 0;
+  transform: translateY(3px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.role-picker-card:hover .role-card-action,
+.role-picker-card.selected .role-card-action {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes rolePickerPop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Role picker on smaller screens */
+
+@media (max-width: 700px) {
+  .role-picker-overlay {
+    padding: 15px;
+  }
+
+  .role-picker-modal {
+    padding: 22px 18px;
+    max-height: calc(100vh - 30px);
+    border-radius: 21px;
+  }
+
+  .role-picker-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 450px) {
+  .role-picker-header h2 {
+    font-size: 23px;
+  }
+
+  .role-picker-card {
+    align-items: flex-start;
+    padding: 14px;
+  }
+
+  .role-card-visual {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+  }
+
+  .role-card-picture {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    font-size: 29px;
+  }
+
+  .role-card-copy h3 {
+    font-size: 15px;
+  }
+
+  .role-card-copy p {
+    font-size: 10px;
+  }
+
+  .role-card-action {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 900px
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .sidebar {
+    width: 200px;
+  }
+
+  .dashboard-main {
+    padding: 25px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-hero {
+    padding: 30px;
+  }
+
+  .palm-result-card {
+    grid-template-columns: 1fr;
+  }
+
+  .palm-result-image-container {
+    min-height: 280px;
+  }
+
+  .palm-guidelines {
+    grid-template-columns: 1fr;
+  }
+
+  .palm-results-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 750px
+========================================================= */
+
+@media (max-width: 750px) {
+
+  /* Tarot */
+
+  .tarot-page-header {
+    padding: 25px;
+
+    align-items: flex-start;
+  }
+
+  .tarot-page-icon {
+    width: 60px;
+    height: 60px;
+
+    font-size: 29px;
+  }
+
+  .tarot-page-header h2 {
+    font-size: 25px;
+  }
+
+  .spread-options {
+    grid-template-columns: 1fr;
+  }
+
+  .spread-option {
+    min-height: 95px;
+  }
+
+
+  /* History */
+
+  .history-page-header {
+    padding: 25px;
+
+    align-items: flex-start;
+  }
+
+  .history-page-icon {
+    width: 60px;
+    height: 60px;
+
+    font-size: 29px;
+  }
+
+  .history-page-header h2 {
+    font-size: 25px;
+  }
+
+  .history-content {
+    padding: 22px 18px;
+  }
+
+  .history-card-item {
+    align-items: flex-start;
+  }
+
+  .history-card-top {
+    flex-direction: column;
+
+    gap: 7px;
+  }
+
+  .history-view-button {
+    align-self: center;
+  }
+
+
+  /* Palm */
+
+  .palm-page-header {
+    padding: 25px;
+
+    align-items: flex-start;
+  }
+
+  .palm-page-icon {
+    width: 60px;
+    height: 60px;
+
+    font-size: 29px;
+  }
+
+  .palm-page-header h2 {
+    font-size: 25px;
+  }
+
+  .palm-upload-card {
+    padding: 23px 18px;
+  }
+
+  .palm-upload-area {
+    min-height: 220px;
+
+    padding: 25px 15px;
+  }
+
+  .palm-result-card {
+    padding: 20px;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 650px
+========================================================= */
+
+@media (max-width: 650px) {
+
+  /* Dashboard Header */
+
+  .dashboard-header {
+    padding: 0 15px;
+  }
+
+  .dashboard-header .logo-section p {
+    display: none;
+  }
+
+  .user-header-info {
+    display: none;
+  }
+
+
+  /* Dashboard Layout */
+
+  .dashboard-layout {
+    display: block;
+  }
+
+
+  /* Sidebar */
+
+  .sidebar {
+    width: 100%;
+
+    flex-direction: row;
+
+    overflow-x: auto;
+
+    padding: 10px;
+  }
+
+  .sidebar-title,
+  .sidebar-divider {
+    display: none;
+  }
+
+  .nav-item {
+    width: auto;
+
+    white-space: nowrap;
+  }
+
+  .logout-item {
+    margin-top: 0;
+  }
+
+
+  /* Main */
+
+  .dashboard-main {
+    padding: 18px;
+  }
+
+
+  /* Hero */
+
+  .dashboard-hero {
+    min-height: auto;
+
+    padding: 25px;
+  }
+
+  .dashboard-hero h2 {
+    font-size: 25px;
+  }
+
+  .hero-symbol {
+    display: none;
+  }
+
+
+  /* Feature Cards */
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 600px
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .header {
+    height: 75px;
+
+    padding: 0 18px;
+  }
+
+  .logo {
+    width: 44px;
+    height: 44px;
+
+    font-size: 23px;
+  }
+
+  .logo-section h1 {
+    font-size: 18px;
+  }
+
+  .logo-section p {
+    font-size: 11px;
+  }
+
+  .auth-container {
+    padding: 35px 15px;
+  }
+
+  .auth-card,
+  .profile-section {
+    width: 100%;
+
+    padding: 28px 22px;
+
+    border-radius: 20px;
+  }
+
+  .welcome h2,
+  .profile-section h2 {
+    font-size: 25px;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — 500px
+========================================================= */
+
+@media (max-width: 500px) {
+
+  /* Tarot */
+
+  .tarot-page-header {
+    flex-direction: column;
+
+    padding: 23px;
+  }
+
+  .tarot-setup-card {
+    padding: 23px 18px;
+  }
+
+  .tarot-reading-header {
+    padding: 25px 18px;
+  }
+
+
+  /* Palm */
+
+  .palm-page-header {
+    flex-direction: column;
+  }
+
+  .palm-result-header {
+    padding: 25px 18px;
+  }
+
+  .palm-result-header h2 {
+    font-size: 24px;
+  }
+
+  .palm-preview {
+    width: 100%;
+  }
+
+
+  /* History */
+
+  .history-page-header {
+    flex-direction: column;
+
+    padding: 23px;
+  }
+
+  .history-card-item {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .history-card-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .history-view-button {
+    width: 100%;
+  }
+
+  .history-section-heading {
+    align-items: flex-start;
+
+    gap: 12px;
+
+    flex-direction: column;
+  }
+}
+
+
+/* =========================================================
+   TAROT BLIND SELECTION EXPERIENCE
+   ========================================================= */
+
+.tarot-selection-page { animation: fadeUp 0.5s ease; }
+
+.tarot-selection-header {
+  position: relative;
+  overflow: hidden;
+}
+
+.tarot-selection-header::after {
+  content: "✦";
+  position: absolute;
+  right: 8%;
+  top: 18px;
+  font-size: 95px;
+  opacity: 0.07;
+}
+
+.tarot-selection-progress {
+  margin-bottom: 18px;
+  padding: 18px 20px;
+  background: rgba(255,255,255,0.94);
+  border: 1px solid rgba(99,102,241,0.11);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(67,56,202,0.07);
+}
+
+.tarot-selection-progress > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tarot-selection-progress span,
+.tarot-selection-progress small {
+  color: #6b7280;
+  font-size: 10px;
+}
+
+.tarot-selection-progress span {
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.tarot-selection-progress strong {
+  color: #5b21b6;
+  font-size: 20px;
+}
+
+.tarot-progress-track {
+  height: 8px;
+  margin: 12px 0 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eeeafc;
+}
+
+.tarot-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7c3aed, #ec4899);
+  transition: width 0.3s ease;
+}
+
+.tarot-shuffle-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 0 18px;
+}
+
+.tarot-shuffle-button {
+  padding: 11px 22px;
+  border: 1px solid #ddd6fe;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #6d28d9;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(67, 56, 202, 0.08);
+  transition: all 0.2s ease;
+}
+
+.tarot-shuffle-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #faf8ff;
+  border-color: #c4b5fd;
+  box-shadow: 0 9px 22px rgba(67, 56, 202, 0.12);
+}
+
+.tarot-shuffle-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tarot-shuffle-action small {
+  color: #6b7280;
+  font-size: 10px;
+  text-align: center;
+}
+
+.tarot-selected-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.tarot-selected-chips span {
+  padding: 7px 10px;
+  border: 1px solid #ddd6fe;
+  border-radius: 999px;
+  background: #faf8ff;
+  color: #6d28d9;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.blind-tarot-deck {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(55px, 1fr));
+  gap: 13px;
+  padding: 25px;
+  border-radius: 22px;
+  background: radial-gradient(circle at 50% 20%, rgba(124,58,237,0.09), transparent 38%), linear-gradient(135deg, #f8f7ff, #eef2ff);
+  border: 1px solid rgba(99,102,241,0.1);
+}
+
+.blind-tarot-card {
+  position: relative;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.tarot-shuffle-action + .error-message {
+  margin-top: 0;
+}
+
+.blind-tarot-card {
+  animation: tarotCardShuffle 0.45s ease;
+}
+
+@keyframes tarotCardShuffle {
+  0% {
+    opacity: 0.65;
+    transform: translateY(8px) rotate(-2deg) scale(0.96);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-5px) rotate(1deg) scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0) scale(1);
+  }
+}
+
+.blind-tarot-card:hover { transform: translateY(-7px); }
+.blind-tarot-card.selected { transform: translateY(-9px); }
+
+.tarot-card-back {
+  aspect-ratio: 2 / 3;
+  padding: 5px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #312e81, #7c3aed, #312e81);
+  box-shadow: 0 9px 18px rgba(49,46,129,0.2), inset 0 0 0 1px rgba(255,255,255,0.2);
+}
+
+.tarot-card-back-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 7px;
+  color: white;
+  background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 55%), rgba(30,27,75,0.45);
+}
+
+.tarot-card-back-inner span { font-size: 11px; opacity: 0.8; }
+.tarot-card-back-inner strong { font-size: 12px; letter-spacing: 1px; }
+.tarot-card-back-inner small { font-size: 6px; letter-spacing: 1.2px; opacity: 0.7; }
+
+.blind-tarot-card.selected .tarot-card-back {
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.25), 0 15px 25px rgba(124,58,237,0.24);
+}
+
+.blind-card-selected-badge {
+  position: absolute;
+  top: -8px;
+  right: -7px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.tarot-selection-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.tarot-selection-actions .primary-button,
+.tarot-selection-actions .secondary-button { margin-top: 0; }
+
+.tarot-selection-note {
+  margin-top: 13px;
+  padding: 11px 14px;
+  border: 1px solid rgba(99,102,241,0.1);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.75);
+  color: #6b7280;
+  text-align: center;
+  font-size: 10px;
+}
+
+.tarot-feature-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.tarot-feature-strip > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  padding: 15px;
+  border: 1px solid rgba(99,102,241,0.1);
+  border-radius: 15px;
+  background: rgba(255,255,255,0.78);
+}
+
+.tarot-feature-strip span { grid-row: span 2; font-size: 22px; }
+.tarot-feature-strip strong { color: #312e81; font-size: 11px; }
+.tarot-feature-strip small { margin-top: 3px; color: #6b7280; font-size: 9px; line-height: 1.4; }
+
+.tarot-reading-meta-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.tarot-reading-meta-card > div {
+  padding: 15px;
+  border: 1px solid rgba(99,102,241,0.1);
+  border-radius: 15px;
+  background: rgba(255,255,255,0.94);
+  box-shadow: 0 8px 22px rgba(67,56,202,0.06);
+}
+
+.tarot-reading-meta-card span,
+.tarot-question-card > span {
+  display: block;
+  color: #8b5cf6;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.tarot-reading-meta-card strong { display: block; margin-top: 5px; color: #312e81; font-size: 12px; }
+
+.tarot-question-card {
+  margin-bottom: 18px;
+  padding: 15px 17px;
+  border-left: 3px solid #7c3aed;
+  border-radius: 13px;
+  background: rgba(255,255,255,0.82);
+}
+
+.tarot-question-card p { margin: 6px 0 0; color: #4b5563; font-size: 12px; line-height: 1.55; }
+
+.tarot-revealed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tarot-revealed-card {
+  padding: 18px;
+  text-align: center;
+  border: 1px solid rgba(99,102,241,0.11);
+  border-radius: 19px;
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 13px 30px rgba(67,56,202,0.08);
+  animation: tarotReveal 0.5s ease both;
+}
+
+.tarot-revealed-position {
+  margin-bottom: 10px;
+  color: #7c3aed;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.tarot-card-face {
+  width: min(100%, 155px);
+  aspect-ratio: 2 / 3;
+  margin: 0 auto 13px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f5f3ff;
+  box-shadow: 0 10px 25px rgba(49,46,129,0.16);
+}
+
+.tarot-card-face img { width: 100%; height: 100%; object-fit: cover; }
+.tarot-card-symbol { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 42px; }
+
+.tarot-revealed-card h3 { margin: 0 0 6px; color: #312e81; font-size: 16px; }
+
+.tarot-orientation {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f5f3ff;
+  color: #6d28d9;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.tarot-card-category { margin: 7px 0; color: #6b7280; font-size: 10px; }
+
+.tarot-card-interpretation {
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid #eeeef8;
+  text-align: left;
+}
+
+.tarot-card-interpretation strong { color: #5b21b6; font-size: 10px; }
+.tarot-card-interpretation p { margin: 5px 0 0; color: #4b5563; font-size: 10px; line-height: 1.55; }
+
+.tarot-overall-card {
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.09), rgba(236,72,153,0.05));
+  border: 1px solid rgba(124,58,237,0.12);
+}
+
+.tarot-overall-card > span { color: #7c3aed; font-size: 9px; font-weight: 800; letter-spacing: 0.7px; }
+.tarot-overall-card h3 { margin: 7px 0; color: #312e81; font-size: 17px; }
+.tarot-overall-card p { margin: 0; color: #4b5563; font-size: 12px; line-height: 1.65; }
+
+.tarot-empty-state { padding: 45px 20px; text-align: center; border-radius: 18px; background: rgba(255,255,255,0.9); }
+.tarot-empty-state span { font-size: 40px; }
+.tarot-empty-state h3 { margin: 10px 0 5px; color: #312e81; }
+.tarot-empty-state p { margin: 0; color: #6b7280; font-size: 12px; }
+
+.tarot-action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.tarot-action-buttons .tarot-report-button,
+.tarot-action-buttons .tarot-back-button {
+  margin: 0;
+}
+.tarot-report-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  background: #6d28d9;
+  color: white;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.palm-action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.palm-action-buttons .palm-report-button,
+.palm-action-buttons .palm-new-reading-button,
+.palm-action-buttons .palm-back-dashboard {
+  margin: 0;
+}
+
+.palm-report-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  background: #6d28d9;
+  color: white;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.palm-report-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+@keyframes tarotReveal {
+  from { opacity: 0; transform: translateY(15px) rotateY(-10deg); }
+  to { opacity: 1; transform: translateY(0) rotateY(0); }
+}
+
+@media (max-width: 1000px) {
+  .blind-tarot-deck { grid-template-columns: repeat(7, minmax(55px, 1fr)); }
+  .tarot-revealed-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 750px) {
+  .blind-tarot-deck { grid-template-columns: repeat(5, minmax(48px, 1fr)); gap: 10px; padding: 17px; }
+  .tarot-feature-strip, .tarot-reading-meta-card { grid-template-columns: 1fr; }
+  .tarot-selection-actions { grid-template-columns: 1fr; }
+  .tarot-revealed-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 450px) {
+  .blind-tarot-deck { grid-template-columns: repeat(4, minmax(48px, 1fr)); }
+  .tarot-card-back-inner strong { font-size: 9px; }
+  .tarot-card-back-inner small { font-size: 5px; }
+}
+
+/* =========================================================
+   AI PERSONALIZED INTERPRETATION
+   ========================================================= */
+
+.ai-interpretation-card {
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(111, 63, 218, 0.16);
+  background: linear-gradient(
+    145deg,
+    rgba(111, 63, 218, 0.055),
+    rgba(255, 255, 255, 0.98)
+  );
+  box-shadow: 0 8px 28px rgba(70, 45, 120, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Small decorative line at the top */
+
+.ai-interpretation-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    #6f3fda,
+    #9b6cff,
+    #d8c8ff
+  );
+}
+
+/* Main heading */
+
+.ai-interpretation-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #4b238f;
+  letter-spacing: -0.2px;
+}
+
+/* Introduction text */
+
+.ai-intro {
+  margin: 0 0 18px 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #666;
+}
+
+/* =========================================================
+   AI CATEGORY SECTIONS
+   ========================================================= */
+
+.ai-section {
+  margin-top: 12px;
+  padding: 15px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(111, 63, 218, 0.09);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ai-section:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(70, 45, 120, 0.07);
+}
+
+/* Category heading */
+
+.ai-section h4 {
+  margin: 0 0 9px 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: #4b238f;
+}
+
+/* Individual AI insight */
+
+.ai-section p {
+  margin: 7px 0 0 0;
+  font-size: 11px;
+  line-height: 1.65;
+  color: #454545;
+}
+
+/* =========================================================
+   DISCLAIMER
+   ========================================================= */
+
+.ai-disclaimer {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(245, 158, 11, 0.065);
+  border: 1px solid rgba(245, 158, 11, 0.14);
+  color: #6b5a35;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.ai-disclaimer strong {
+  color: #8a6515;
+}
+
+/* =========================================================
+   AI LOADING / ERROR
+   ========================================================= */
+
+.ai-interpretation-card p:not(.ai-intro) {
+  line-height: 1.6;
+}
+
+/* =========================================================
+   TECHNICAL DETAILS
+   ========================================================= */
+
+.ai-interpretation-card + details {
+  margin-top: 14px;
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .ai-interpretation-card {
+    padding: 16px;
+    border-radius: 15px;
+  }
+
+  .ai-interpretation-card h3 {
+    font-size: 15px;
+  }
+
+  .ai-intro {
+    font-size: 11px;
+  }
+
+  .ai-section {
+    padding: 13px;
+  }
+
+  .ai-section h4 {
+    font-size: 11px;
+  }
+
+  .ai-section p {
+    font-size: 10px;
+  }
+
+  .ai-disclaimer {
+    font-size: 9px;
+  }
+}
+
+
+/* ==========================================================
+   PREMIUM AI INTERPRETATION OVERRIDE
+   ========================================================== */
+
+.ai-interpretation-card {
+  width: 100% !important;
+  box-sizing: border-box;
+
+  margin-top: 24px !important;
+  padding: 30px !important;
+
+  border-radius: 26px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #faf7ff 50%,
+      #fff8fc 100%
+    ) !important;
+
+  border: 1px solid rgba(124, 58, 237, 0.16) !important;
+
+  box-shadow:
+    0 20px 50px rgba(76, 29, 149, 0.10),
+    0 5px 18px rgba(0, 0, 0, 0.04) !important;
+}
+
+
+/* Main heading */
+
+.ai-interpretation-card > h3 {
+  margin: 0 0 8px !important;
+
+  font-size: 24px !important;
+  font-weight: 800 !important;
+
+  color: #32105f !important;
+}
+
+
+/* Introduction */
+
+.ai-interpretation-card .ai-intro {
+  margin: 0 0 24px !important;
+
+  color: #756d82 !important;
+
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+}
+
+
+/* ==========================================================
+   EVERY AI SECTION
+   ========================================================== */
+
+.ai-interpretation-card .ai-section {
+  margin: 18px 0 0 !important;
+
+  padding: 20px !important;
+
+  border-radius: 18px !important;
+
+  background: rgba(255, 255, 255, 0.88) !important;
+
+  border: 1px solid rgba(124, 58, 237, 0.12) !important;
+
+  box-shadow:
+    0 7px 22px rgba(76, 29, 149, 0.055) !important;
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease !important;
+}
+
+.ai-interpretation-card .ai-section:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(124, 58, 237, 0.25) !important;
+
+  box-shadow:
+    0 14px 30px rgba(76, 29, 149, 0.10) !important;
+}
+
+
+/* ==========================================================
+   AI SECTION HEADINGS
+   ========================================================== */
+
+.ai-interpretation-card .ai-section > h4 {
+  margin: 0 0 15px !important;
+
+  font-size: 16px !important;
+  font-weight: 800 !important;
+
+  color: #3b176d !important;
+}
+
+
+/* ==========================================================
+   AI TEXT
+   ========================================================== */
+
+.ai-interpretation-card .ai-section p {
+  margin: 8px 0 !important;
+
+  color: #554d61 !important;
+
+  font-size: 13px !important;
+
+  line-height: 1.75 !important;
+}
+
+.ai-interpretation-card .ai-section p:last-child {
+  margin-bottom: 0 !important;
+}
+
+
+/* ==========================================================
+   PERSONALITY INTELLIGENCE INTERNAL BLOCKS
+   ========================================================== */
+
+.ai-interpretation-card .ai-section > div {
+  margin-top: 18px !important;
+
+  padding-top: 14px !important;
+
+  border-top: 1px solid rgba(124, 58, 237, 0.09);
+}
+
+.ai-interpretation-card .ai-section > div > p:first-child {
+  margin-bottom: 9px !important;
+
+  color: #3d2461 !important;
+
+  font-weight: 800 !important;
+
+  font-size: 12px !important;
+}
+
+
+/* Profile */
+
+.ai-interpretation-card .ai-section > p:first-of-type {
+  line-height: 1.8 !important;
+}
+
+
+/* ==========================================================
+   DISCLAIMER
+   ========================================================== */
+
+.ai-interpretation-card .ai-disclaimer {
+  margin-top: 20px !important;
+
+  padding: 16px 18px !important;
+
+  border-radius: 15px !important;
+
+  background: rgba(245, 158, 11, 0.07) !important;
+
+  border: 1px solid rgba(245, 158, 11, 0.18) !important;
+
+  color: #685936 !important;
+
+  font-size: 11px !important;
+
+  line-height: 1.7 !important;
+}
+
+.ai-interpretation-card .ai-disclaimer strong {
+  color: #875900 !important;
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 768px) {
+
+  .ai-interpretation-card {
+    padding: 18px !important;
+    border-radius: 20px !important;
+  }
+
+  .ai-interpretation-card > h3 {
+    font-size: 20px !important;
+  }
+
+  .ai-interpretation-card .ai-section {
+    padding: 16px !important;
+    border-radius: 15px !important;
+  }
+
+  .ai-interpretation-card .ai-section > h4 {
+    font-size: 14px !important;
+  }
+
+  .ai-interpretation-card .ai-section p {
+    font-size: 12px !important;
+  }
+}
+
+
+/* Tarot Reader Dashboard Header */
+
+.tarot-reader-dashboard-header {
+  border-left: 5px solid #7c3aed;
+  padding-left: 24px;
+}
+
+.tarot-reader-dashboard-header h2 {
+  margin-bottom: 6px;
+}
+
+.tarot-reader-dashboard-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+/* =========================================================
+   ADMIN SYSTEM REPORTS - FINAL VISUAL DESIGN
+========================================================= */
+
+.system-reports-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 4px 40px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.system-reports-header {
+  margin-bottom: 28px;
+  padding: 24px 26px;
+
+  background: linear-gradient(
+    135deg,
+    #ffffff,
+    #faf9ff
+  );
+
+  border: 1px solid #ebe8f7;
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 20px rgba(31, 41, 55, 0.05);
+}
+
+.system-reports-label {
+  display: inline-block;
+
+  margin-bottom: 7px;
+
+  color: #7c3aed;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.system-reports-header h2 {
+  margin: 0;
+
+  color: #1f2937;
+
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.system-reports-header p {
+  margin: 7px 0 0;
+
+  color: #6b7280;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   ADMIN USER MANAGEMENT
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   USER STATISTICS
+--------------------------------------------------------- */
+
+.admin-user-stats-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin-bottom: 28px;
+}
+
+
+.admin-user-stat-card {
+  min-height: 125px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e8e5f2;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 5px 18px rgba(31, 41, 55, 0.06);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.admin-user-stat-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 9px 24px rgba(31, 41, 55, 0.09);
+}
+
+
+/* ---------------------------------------------------------
+   STAT ICON
+--------------------------------------------------------- */
+
+.admin-user-stat-icon {
+  width: 48px;
+  height: 48px;
+
+  min-width: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #f3efff;
+
+  border-radius: 13px;
+
+  font-size: 21px;
+}
+
+
+/* ---------------------------------------------------------
+   STAT CONTENT
+--------------------------------------------------------- */
+
+.admin-user-stat-content {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 3px;
+}
+
+
+.admin-user-stat-content span {
+  color: #6b7280;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+
+.admin-user-stat-content strong {
+  color: #1f2937;
+
+  font-size: 29px;
+
+  font-weight: 700;
+
+  line-height: 1.1;
+}
+
+
+.admin-user-stat-content small {
+  color: #9ca3af;
+
+  font-size: 10px;
+
+  line-height: 1.3;
+}
+
+
+/* ---------------------------------------------------------
+   USER PANELS
+--------------------------------------------------------- */
+
+.admin-users-panel {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  margin-bottom: 26px;
+
+  padding: 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #e8e5f2;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 5px 18px rgba(31, 41, 55, 0.05);
+}
+
+
+/* ---------------------------------------------------------
+   PANEL HEADER
+--------------------------------------------------------- */
+
+.admin-panel-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid #eeeef4;
+}
+
+
+.admin-panel-header h3 {
+  margin: 0;
+
+  color: #25233a;
+
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+.admin-panel-header p {
+  margin: 5px 0 0;
+
+  color: #85899a;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+/* ---------------------------------------------------------
+   ALL USERS TABLE
+--------------------------------------------------------- */
+
+.admin-users-panel table {
+  width: 100% !important;
+
+  border-collapse: separate !important;
+
+  border-spacing: 0 !important;
+
+  overflow: hidden;
+
+  border: 1px solid #ecebf2;
+
+  border-radius: 12px;
+}
+
+
+.admin-users-panel table thead {
+  background: #f8f7fc;
+}
+
+
+.admin-users-panel table th {
+  padding: 13px 15px !important;
+
+  color: #707487;
+
+  border-bottom: 1px solid #e7e5ee;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+
+.admin-users-panel table td {
+  padding: 14px 15px !important;
+
+  color: #555b6e;
+
+  border-bottom: 1px solid #f0eff4;
+
+  font-size: 12px;
+
+  vertical-align: middle;
+
+  white-space: nowrap;
+}
+
+
+.admin-users-panel table tbody tr {
+  transition: background 0.15s ease;
+}
+
+
+.admin-users-panel table tbody tr:hover {
+  background: #faf9ff;
+}
+
+
+.admin-users-panel table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* ---------------------------------------------------------
+   ROLE COLUMN
+--------------------------------------------------------- */
+
+.admin-users-panel table td:nth-child(5) {
+  font-weight: 600;
+
+  color: #6535b7;
+}
+
+
+/* ---------------------------------------------------------
+   RECENT USERS
+--------------------------------------------------------- */
+
+.admin-users-panel > div:not(.admin-panel-header) {
+  box-sizing: border-box;
+}
+
+
+.admin-users-panel strong {
+  color: #2f3342;
+
+  font-size: 12px;
+}
+
+
+.admin-users-panel small {
+  color: #8b91a1;
+
+  font-size: 10px;
+}
+
+
+.admin-users-panel > div[style] {
+  padding: 13px 0 !important;
+
+  border-bottom: 1px solid #eeeef4 !important;
+}
+
+
+.admin-users-panel > div[style]:last-child {
+  border-bottom: none !important;
+}
+
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+--------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+
+  .admin-user-stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .admin-user-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-users-panel {
+    padding: 16px;
+  }
+
+  .admin-users-panel table {
+    min-width: 800px;
+  }
+
+}
+
+/* =========================================================
+   SUMMARY CARDS
+========================================================= */
+
+.system-summary-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin-bottom: 28px;
+}
+
+.system-summary-card {
+  min-height: 108px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #ebe8f7;
+  border-radius: 16px;
+
+  box-shadow:
+    0 5px 18px rgba(31, 41, 55, 0.05);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.system-summary-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #ddd6fe;
+
+  box-shadow:
+    0 9px 25px rgba(31, 41, 55, 0.08);
+}
+
+.system-summary-icon {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #f3f0ff;
+
+  font-size: 21px;
+}
+
+.system-summary-card span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #6b7280;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.system-summary-card strong {
+  display: block;
+
+  color: #1f2937;
+
+  font-size: 27px;
+  font-weight: 700;
+
+  line-height: 1.1;
+}
+
+
+/* =========================================================
+   REPORT SECTIONS
+========================================================= */
+
+.system-reports-section {
+  margin-bottom: 26px;
+
+  padding: 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #ebe8f7;
+  border-radius: 18px;
+
+  box-shadow:
+    0 5px 18px rgba(31, 41, 55, 0.045);
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.system-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 17px;
+}
+
+.system-section-heading h3 {
+  margin: 0;
+
+  color: #1f2937;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.system-section-heading p {
+  margin: 5px 0 0;
+
+  color: #8b91a1;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   TABLE CARD
+========================================================= */
+
+.system-activity-card {
+  width: 100%;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #eeeef4;
+  border-radius: 13px;
+}
+
+.system-activity-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.system-activity-table {
+  width: 100%;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  table-layout: auto;
+}
+
+.system-activity-table th {
+  padding: 14px 17px;
+
+  background: #f8f7fc;
+
+  color: #6b7280;
+
+  border-bottom: 1px solid #e8e6ef;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.3px;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+.system-activity-table td {
+  padding: 15px 17px;
+
+  color: #4b5563;
+
+  border-bottom: 1px solid #f0eff4;
+
+  font-size: 12px;
+
+  vertical-align: middle;
+
+  white-space: nowrap;
+}
+
+.system-activity-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.system-activity-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.system-activity-table tbody tr:hover {
+  background: #fafaff;
+}
+
+
+/* =========================================================
+   TABLE COLUMN SPACING
+========================================================= */
+
+.system-activity-table th:first-child,
+.system-activity-table td:first-child {
+  padding-left: 20px;
+}
+
+.system-activity-table th:last-child,
+.system-activity-table td:last-child {
+  padding-right: 20px;
+}
+
+
+/* =========================================================
+   VALUE BADGES
+========================================================= */
+
+.report-value-badge {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 28px;
+
+  padding: 5px 10px;
+
+  background: #f5f3ff;
+
+  color: #5b21b6;
+
+  border: 1px solid #e9e2ff;
+
+  border-radius: 8px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   VIEW REPORT BUTTON
+========================================================= */
+
+.report-view-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 100px;
+
+  padding: 8px 13px;
+
+  background: #7c3aed;
+
+  color: #ffffff;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.report-view-button:hover {
+  background: #6d28d9;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 5px 12px rgba(124, 58, 237, 0.2);
+}
+
+.report-view-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+  padding: 30px 20px !important;
+
+  color: #9ca3af !important;
+
+  font-size: 12px !important;
+
+  text-align: center !important;
+}
+
+
+/* =========================================================
+   LOADING / ERROR
+========================================================= */
+
+.system-reports-message {
+  padding: 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #ebe8f7;
+  border-radius: 14px;
+
+  color: #6b7280;
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+.system-reports-error {
+  margin-bottom: 20px;
+
+  padding: 13px 16px;
+
+  background: #fff5f5;
+
+  color: #b91c1c;
+
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .system-summary-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .system-reports-page {
+    padding: 5px 0 30px;
+  }
+
+  .system-reports-header {
+    padding: 20px;
+  }
+
+  .system-reports-header h2 {
+    font-size: 23px;
+  }
+
+  .system-summary-grid {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .system-reports-section {
+    padding: 15px;
+  }
+
+  .system-section-heading h3 {
+    font-size: 15px;
+  }
+
+  .system-activity-table {
+    min-width: 760px;
+  }
+
+}
+
+/* =========================================================
+   SYSTEM REPORTS - HEADER
+========================================================= */
+
+.system-reports-header {
+  width: 100%;
+  box-sizing: border-box;
+
+  margin-bottom: 24px;
+  padding: 22px 24px;
+
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #faf8ff 100%
+  );
+
+  border: 1px solid #e8e5f2;
+  border-radius: 18px;
+
+  box-shadow:
+    0 5px 18px rgba(31, 41, 55, 0.05);
+}
+
+
+.system-reports-title-area {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+
+/* ICON BOX */
+
+.system-reports-title-icon {
+  width: 50px;
+  height: 50px;
+
+  min-width: 50px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #f1ecff;
+
+  border: 1px solid #e4dcff;
+
+  border-radius: 14px;
+
+  font-size: 22px;
+
+  box-shadow:
+    0 3px 10px rgba(124, 58, 237, 0.08);
+}
+
+
+/* SMALL LABEL */
+
+.system-reports-header .system-reports-label {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #7c3aed;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+
+  text-transform: uppercase;
+}
+
+
+/* TITLE */
+
+.system-reports-header h2 {
+  margin: 0;
+
+  color: #242333;
+
+  font-size: 25px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+
+/* DESCRIPTION */
+
+.system-reports-header p {
+  margin: 5px 0 0;
+
+  color: #85899a;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   SYSTEM REPORTS - SUMMARY CARDS
+   FINAL OVERRIDE
+========================================================= */
+
+.system-summary-grid {
+  width: 100%;
+
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr)) !important;
+
+  gap: 18px !important;
+
+  margin: 0 0 30px 0 !important;
+
+  padding: 0 !important;
+}
+
+
+.system-summary-card {
+  width: 100% !important;
+  min-height: 125px !important;
+
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  flex-direction: row !important;
+
+  align-items: center !important;
+
+  gap: 15px !important;
+
+  padding: 20px !important;
+
+  background: #ffffff !important;
+
+  border: 1px solid #e8e5f2 !important;
+
+  border-radius: 16px !important;
+
+  box-shadow:
+    0 5px 18px rgba(31, 41, 55, 0.06) !important;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease !important;
+}
+
+
+.system-summary-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 9px 24px rgba(31, 41, 55, 0.09) !important;
+}
+
+
+/* ICON */
+
+.system-summary-icon {
+  width: 48px !important;
+  height: 48px !important;
+
+  min-width: 48px !important;
+
+  display: flex !important;
+
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 13px !important;
+
+  background: #f3efff !important;
+
+  font-size: 21px !important;
+}
+
+
+/* TEXT AREA */
+
+.system-summary-content {
+  min-width: 0 !important;
+
+  display: flex !important;
+
+  flex-direction: column !important;
+
+  justify-content: center !important;
+
+  gap: 3px !important;
+}
+
+
+.system-summary-content span {
+  display: block !important;
+
+  margin: 0 !important;
+
+  color: #6b7280 !important;
+
+  font-size: 12px !important;
+
+  font-weight: 600 !important;
+}
+
+
+.system-summary-content strong {
+  display: block !important;
+
+  margin: 1px 0 0 !important;
+
+  color: #1f2937 !important;
+
+  font-size: 29px !important;
+
+  font-weight: 700 !important;
+
+  line-height: 1.1 !important;
+}
+
+
+.system-summary-content small {
+  display: block !important;
+
+  margin: 2px 0 0 !important;
+
+  color: #9ca3af !important;
+
+  font-size: 10px !important;
+
+  line-height: 1.3 !important;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+
+  .system-summary-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .system-summary-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+}
+
+.ai-interpretation-full-width {
+  grid-column: 1 / -1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tarot chat layout only */
+.tarot-chat-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.tarot-chat-container input {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.tarot-chat-container button {
+  white-space: normal;
+}
