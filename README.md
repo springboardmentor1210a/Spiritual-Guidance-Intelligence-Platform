@@ -117,4 +117,5 @@ docker logs -f palmistry_tarot_platform
 Once running, access the platform at:
 - **Web App**: http://localhost:8000
 - **Interactive Swagger Docs**: http://localhost:8000/docs
-
+- **Live link** : https://ai-palmistry-tarot-latest.onrender.com/
+- 
