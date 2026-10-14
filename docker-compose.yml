@@ -1,0 +1,27 @@
+services:
+  palmistry-tarot-platform:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mystic-palmistry-tarot:latest
+    container_name: palmistry_tarot_platform
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/data
+      - ./static:/app/static
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+networks:
+  default:
+    name: mystic_network
