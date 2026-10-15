@@ -1,0 +1,94 @@
+version: '3.8'
+
+# ============================================================
+# AWS EC2 / Azure VM Production Docker Compose
+# Multi-container Architecture with Let's Encrypt SSL
+# ============================================================
+
+services:
+  # 1. PostgreSQL Database Service with Persistent Volume
+  db:
+    image: postgres:15-alpine
+    container_name: mystic_prod_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password123}
+      POSTGRES_DB: ${POSTGRES_DB:-mystic_portal}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mystic_portal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mystic_internal
+
+  # 2. FastAPI Intelligence Engine Backend
+  backend:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile
+    image: mystic-backend:latest
+    container_name: mystic_prod_backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password123}@db:5432/${POSTGRES_DB:-mystic_portal}
+      SECRET_KEY: ${SECRET_KEY:-celestial_super_secret_jwt_key_2026}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-celestial_super_secret_jwt_key_2026}
+      REQUIRE_LOGIN_OTP: "false"
+      ACCESS_TOKEN_EXPIRE_MINUTES: 1440
+      FRONTEND_URL: ${FRONTEND_URL:-https://yourdomain.com}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-https://yourdomain.com/auth/google/callback}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      SMTP_EMAIL: ${SMTP_EMAIL}
+      SMTP_APP_PASSWORD: ${SMTP_APP_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - mystic_internal
+
+  # 3. React Frontend Web Application + Nginx SSL Reverse Proxy
+  frontend:
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile
+    image: mystic-frontend:latest
+    container_name: mystic_prod_frontend
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
+      - certbot_certs:/etc/letsencrypt:ro
+      - certbot_challenge:/var/www/certbot:ro
+    depends_on:
+      - backend
+    networks:
+      - mystic_internal
+
+  # 4. Certbot for Automated Let's Encrypt TLS/SSL Renewal
+  certbot:
+    image: certbot/certbot:latest
+    container_name: mystic_prod_certbot
+    restart: unless-stopped
+    volumes:
+      - certbot_certs:/etc/letsencrypt
+      - certbot_challenge:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - mystic_internal
+
+volumes:
+  postgres_prod_data:
+  certbot_certs:
+  certbot_challenge:
+
+networks:
+  mystic_internal:
+    driver: bridge

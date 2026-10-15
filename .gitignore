@@ -1,0 +1,68 @@
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/venv/
+venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Node & Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+.npm
+.eslintcache
+
+# Databases & Local state
+*.db
+*.sqlite
+*.sqlite3
+postgres_data/
+
+# Environment Variables & Secrets
+.env
+*.env
+backend/.env
+frontend/.env
+.env.local
+.env.*.local
+
+# IDE & OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & Temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+.system_generated/
+scratch/
+
+# Large Datasets & Frame Dumps
+data/palm_images/
+data/hand_landmarks/

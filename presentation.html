@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mystic Insights — Infosys Springboard Virtual Internship 7.0 Presentation</title>
+  <style>
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-card: rgba(26, 32, 53, 0.85);
+      --border-card: rgba(147, 112, 219, 0.35);
+      --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
+      --accent-purple: #a855f7;
+      --accent-cyan: #38bdf8;
+      --accent-green: #34d399;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-primary);
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 40%);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Header Bar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 28px;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-card);
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--accent-gold-light);
+    }
+
+    .brand-badge {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      background: rgba(168, 85, 247, 0.25);
+      color: #e9d5ff;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent-purple);
+      border-color: var(--accent-purple);
+    }
+
+    .slide-counter {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+      min-width: 65px;
+      text-align: center;
+    }
+
+    /* Main Slides Container */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1150px;
+      height: 86vh;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      padding: 36px 44px;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.6);
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Slide Typography */
+    .slide-header {
+      border-bottom: 2px solid rgba(245, 158, 11, 0.3);
+      padding-bottom: 14px;
+      margin-bottom: 22px;
+    }
+
+    .slide-tag {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .slide-title {
+      font-size: 1.95rem;
+      color: var(--accent-gold-light);
+      font-weight: 800;
+    }
+
+    .slide-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .slide-body {
+      flex: 1;
+      font-size: 1.02rem;
+      line-height: 1.6;
+    }
+
+    /* Grid Layouts & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .feature-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 10px;
+      padding: 16px 18px;
+      transition: border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent-gold);
+    }
+
+    .feature-card h4 {
+      color: var(--accent-gold-light);
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-card p, .feature-card li {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+    }
+
+    ul.styled-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    ul.styled-list li {
+      position: relative;
+      padding-left: 22px;
+      margin-bottom: 10px;
+      font-size: 0.98rem;
+    }
+
+    ul.styled-list li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--accent-gold);
+      font-size: 0.85rem;
+    }
+
+    /* Tables */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 0.92rem;
+    }
+
+    table.data-table th, table.data-table td {
+      border: 1px solid rgba(147, 112, 219, 0.25);
+      padding: 9px 14px;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background: rgba(168, 85, 247, 0.2);
+      color: var(--accent-gold-light);
+      font-weight: 700;
+    }
+
+    table.data-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .badge-pass {
+      background: rgba(52, 211, 153, 0.2);
+      color: var(--accent-green);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    /* Code / Formula Boxes */
+    .formula-box {
+      background: rgba(15, 23, 42, 0.85);
+      border-left: 4px solid var(--accent-gold);
+      padding: 12px 18px;
+      border-radius: 4px 8px 8px 4px;
+      font-family: "Courier New", Courier, monospace;
+      color: var(--accent-cyan);
+      margin: 12px 0;
+      font-size: 1.02rem;
+    }
+
+    /* Speaker Notes Panel */
+    .speaker-notes-toggle {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .speaker-notes {
+      display: none;
+      margin-top: 14px;
+      background: rgba(0, 0, 0, 0.5);
+      border-left: 3px solid var(--accent-purple);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .speaker-notes.visible {
+      display: block;
+    }
+
+    /* Footer Progress Bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 7.14%;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-gold));
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <span>🔮 Mystic Insights</span>
+      <span class="brand-badge">Infosys Springboard 7.0 • Batch 3</span>
+    </div>
+    <div class="nav-controls">
+      <button class="speaker-notes-toggle" id="notesToggle" title="Toggle Speaker Script (Key: N)">Notes [N]</button>
+      <button class="nav-btn" id="prevBtn" title="Previous Slide (Key: ←)">❮ Prev</button>
+      <div class="slide-counter" id="slideCounter">1 / 14</div>
+      <button class="nav-btn" id="nextBtn" title="Next Slide (Key: →)">Next ❯</button>
+      <button class="nav-btn" id="fullScreenBtn" title="Fullscreen (Key: F)">⛶</button>
+    </div>
+  </header>
+
+  <!-- Slides -->
+  <main>
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" data-slide="1">
+      <div class="slide-header">
+        <div class="slide-tag">Infosys Springboard Virtual Internship 7.0 • Capstone Defense</div>
+        <h1 class="slide-title">AI-Powered Palmistry, Tarot & Vedic Astrology Intelligence Platform</h1>
+        <div class="slide-subtitle">Mystic Insights — Engineering Multi-Modal Spiritual Intelligence with Computer Vision & Astrophysics</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2" style="margin-top: 25px;">
+          <div class="feature-card">
+            <h4>📋 Internship & Project Details</h4>
+            <ul class="styled-list" style="margin-top: 10px;">
+              <li><strong>Program</strong>: Infosys Springboard Virtual Internship 7.0</li>
+              <li><strong>Cohort</strong>: Batch 3 (Start: 20 July 2026 | Duration: 8 Weeks)</li>
+              <li><strong>Project Type</strong>: Individual Project</li>
+              <li><strong>Candidate</strong>: <strong>Navya Parchuri</strong> (Lead Architect & Developer)</li>
+              <li><strong>Domain</strong>: Full-Stack AI, Computer Vision, Astrophysics & Cloud DevOps</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>⚡ Technology Highlights</h4>
+            <ul class="styled-list" style="margin-top: 10px;">
+              <li><strong>Computer Vision</strong>: Google MediaPipe (21 3D landmarks) + Bézier Morphometry</li>
+              <li><strong>Astrophysics</strong>: Swiss Ephemeris (<code>pyswisseph</code>) Sidereal Engine</li>
+              <li><strong>Backend</strong>: FastAPI, SQLAlchemy 2.0, WebSockets, APScheduler</li>
+              <li><strong>Frontend</strong>: React 19, Vite 8, Tailwind CSS, HTML5 Canvas</li>
+              <li><strong>DevOps & Security</strong>: Docker Multi-Stage, AWS EC2, Azure Apps, Gmail SMTP</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "Good morning, respected mentors and evaluation panel. Today, I present Mystic Insights, an enterprise-grade spiritual intelligence platform engineered during my 8-week Infosys Springboard Virtual Internship 7.0 in Batch 3 as an individual project. My objective was to elevate ancient metaphysical traditions into a mathematically grounded, verifiable, and secure full-stack software application."
+      </div>
+    </section>
+
+    <!-- Slide 2: Problem Statement -->
+    <section class="slide" data-slide="2">
+      <div class="slide-header">
+        <div class="slide-tag">Motivation & Market Need</div>
+        <h1 class="slide-title">Problem Statement & Industry Gaps</h1>
+        <div class="slide-subtitle">Addressing Subjectivity, Hallucinations, and Approximation in Spiritual Guidance Systems</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="feature-card" style="border-color: rgba(239, 68, 68, 0.4);">
+            <h4 style="color: #f87171;">⚠️ Existing Limitations in Spiritual Apps</h4>
+            <ul class="styled-list">
+              <li><strong>Subjective Human Error</strong>: Manual palm readings vary widely and lack repeatable geometric metrics.</li>
+              <li><strong>Simplified Astrology Approximations</strong>: Commercial apps use generic Sun-sign tables, ignoring geographic coordinates and true ascendant degrees.</li>
+              <li><strong>Disconnected Modalities</strong>: Palmistry, tarot, and astrology remain isolated with zero cross-domain synthesis.</li>
+              <li><strong>LLM Hallucinations</strong>: Generic chatbots invent arbitrary, ungrounded mystical claims without verified domain backing.</li>
+              <li><strong>Lack of Practitioner Tools</strong>: No dedicated tools for reader queues, consultation rescheduling, or client progress.</li>
+            </ul>
+          </div>
+          <div class="feature-card" style="border-color: rgba(52, 211, 153, 0.4);">
+            <h4 style="color: #34d399;">💡 The Mystic Insights Solution</h4>
+            <ul class="styled-list">
+              <li><strong>Biometric 3D Hand Mesh</strong>: Automated extraction of 21 3D landmarks and quadratic Bézier curve analysis.</li>
+              <li><strong>Ephemeris Astrophysics</strong>: Sidereal zodiac calculations backed by the Swiss Ephemeris with latitude/longitude accuracy.</li>
+              <li><strong>Grounded RAG Knowledge Base</strong>: In-memory TF-IDF semantic chunking preventing AI hallucinations.</li>
+              <li><strong>5-Factor Guidance Formula</strong>: Transparent, deterministic scoring model across all modalities.</li>
+              <li><strong>4-Tier Practitioner Portals</strong>: Tailored environments for Seekers, Readers, Consultants, and Admins.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "My research revealed that current digital spiritual tools suffer from deep inconsistencies: palmistry relies on human guesswork, astrology apps use simplified tropical horoscopes, and chatbots hallucinate guidance. Mystic Insights bridges these gaps by anchoring AI interpretations in physical 3D landmarks, Swiss Ephemeris astrophysics, and grounded RAG knowledge."
+      </div>
+    </section>
+
+    <!-- Slide 3: Project Objectives -->
+    <section class="slide" data-slide="3">
+      <div class="slide-header">
+        <div class="slide-tag">Engineering Roadmap</div>
+        <h1 class="slide-title">Project Objectives & 4-Milestone Architecture</h1>
+        <div class="slide-subtitle">Structured Execution Across the 8-Week Internship Lifecycle</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-4">
+          <div class="feature-card">
+            <h4>M1: Identity & Security</h4>
+            <p style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 6px;">Weeks 1 – 2</p>
+            <ul class="styled-list">
+              <li>FastAPI Auth & JWT</li>
+              <li>Gmail SMTP OTP (TLS 587)</li>
+              <li>Google OAuth 2.0 SSO</li>
+              <li>4-Tier RBAC & PostgreSQL</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>M2: Perception & Math</h4>
+            <p style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 6px;">Weeks 3 – 4</p>
+            <ul class="styled-list">
+              <li>MediaPipe 3D Hand Mesh</li>
+              <li>Bézier Line Morphometry</li>
+              <li>78-Card Rider-Waite Deck</li>
+              <li>Swiss Ephemeris Kundali</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>M3: Synthesis & Scoring</h4>
+            <p style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 6px;">Weeks 5 – 6</p>
+            <ul class="styled-list">
+              <li>TF-IDF Grounded RAG</li>
+              <li>5-Factor Scoring Formula</li>
+              <li>4 Resonance Tiers</li>
+              <li>WebSocket Synchronizer</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>M4: Portals & DevOps</h4>
+            <p style="color: var(--accent-cyan); font-weight: 600; margin-bottom: 6px;">Weeks 7 – 8</p>
+            <ul class="styled-list">
+              <li>4 Practitioner Portals</li>
+              <li>AI Reschedule Assistant</li>
+              <li>ReportLab PDF Blueprints</li>
+              <li>Docker, AWS & Azure</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "I organized the 8-week timeline into 4 concrete milestones. Rather than creating isolated prototypes, each milestone directly empowered the next: M1 built the secure authentication and database layer; M2 developed the computer vision and astrophysics engines; M3 unified them via multi-modal synthesis and guidance scoring; and M4 delivered the 4 practitioner portals, scheduling automation, and cloud containerization."
+      </div>
+    </section>
+
+    <!-- Slide 4: Architecture -->
+    <section class="slide" data-slide="4">
+      <div class="slide-header">
+        <div class="slide-tag">System Design</div>
+        <h1 class="slide-title">Full-Stack Decoupled Architecture</h1>
+        <div class="slide-subtitle">High-Performance Integration of Microservices and Cloud Deployments</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="feature-card">
+            <h4>🌐 Frontend SPA Tier</h4>
+            <ul class="styled-list">
+              <li><strong>Framework</strong>: React 19 + Vite 8</li>
+              <li><strong>UI Engine</strong>: Tailwind CSS, Lucide icons</li>
+              <li><strong>Interactive Canvas</strong>: Dynamic celestial starfield with cursor reactivity</li>
+              <li><strong>Web Audio</strong>: 4-frequency polyphonic ambient synthesizer (108Hz, 216Hz, 432Hz, 648Hz)</li>
+              <li><strong>State Control</strong>: 1-click practitioner suite switcher</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>⚡ Backend & AI Engines</h4>
+            <ul class="styled-list">
+              <li><strong>Framework</strong>: FastAPI (Python 3.9+) with async thread pools</li>
+              <li><strong>Vision AI</strong>: Google MediaPipe + OpenCV</li>
+              <li><strong>Astrophysics</strong>: Swiss Ephemeris (<code>pyswisseph</code>)</li>
+              <li><strong>Grounding</strong>: In-memory TF-IDF knowledge corpus</li>
+              <li><strong>Real-Time</strong>: WebSocket connection managers</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>💾 Persistence & DevOps</h4>
+            <ul class="styled-list">
+              <li><strong>Database</strong>: PostgreSQL 15 (Docker / Azure) & SQLite local dual-mode</li>
+              <li><strong>Enterprise Mail</strong>: Google SMTP (TLS port 587)</li>
+              <li><strong>PDF Engine</strong>: ReportLab Celestial Blueprints</li>
+              <li><strong>Containers</strong>: Multi-stage Docker (<98MB UI, <420MB API)</li>
+              <li><strong>Cloud</strong>: AWS EC2 (Certbot SSL) & Azure Container Apps</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "The architecture utilizes a decoupled full-stack design. The frontend is built on React 19 and Vite 8 with custom canvas particle systems and ambient audio oscillators. The backend runs on FastAPI, housing our specialized perception and astrophysics engines. Data persistence is managed by PostgreSQL 15, while multi-stage Docker builds ensure lightweight, secure deployment."
+      </div>
+    </section>
+
+    <!-- Slide 5: Milestone 1 -->
+    <section class="slide" data-slide="5">
+      <div class="slide-header">
+        <div class="slide-tag">Milestone 1</div>
+        <h1 class="slide-title">Identity, Security & 4-Tier RBAC</h1>
+        <div class="slide-subtitle">Enterprise Onboarding, JWT Tokens, Gmail SMTP OTP & Google OAuth2 SSO</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="feature-card">
+            <h4>🔒 Authentication & Authorization Stack</h4>
+            <ul class="styled-list">
+              <li><strong>Bcrypt Hashing</strong>: Strong cryptographic salt-and-hash storage.</li>
+              <li><strong>Signed JWT Bearer</strong>: 30-minute token expiration via <code>python-jose</code>.</li>
+              <li><strong>Real Gmail SMTP Delivery</strong>: Direct TLS connection to <code>smtp.gmail.com:587</code> with 16-character App Passwords delivering genuine 6-digit OTP codes.</li>
+              <li><strong>Google OAuth2 SSO</strong>: Authlib integration with <code>prompt="select_account"</code> and dual-tier exchange fallback.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>👥 4-Tier Role-Based Access Control (RBAC)</h4>
+            <ul class="styled-list">
+              <li><strong>Seeker / User</strong>: Personalized readings, transit notifications, PDF blueprint downloads, and appointment booking.</li>
+              <li><strong>Tarot Reader</strong>: Live reading queues, custom spread configurations, and client consultation records.</li>
+              <li><strong>Spiritual Consultant</strong>: Client analytics, comparative Kundali matchmaking (36-point Guna Milan), and trend curves.</li>
+              <li><strong>Administrator</strong>: Platform telemetry, database connection health, and user role allocation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "In Milestone 1, I established the security layer. I implemented real Gmail SMTP delivery on port 587 for 6-digit OTP activation, avoiding mock auth. I also built Google OAuth2 SSO with account switcher support. The custom dependency guard, require_roles, strictly enforces RBAC across our four practitioner roles."
+      </div>
+    </section>
+
+    <!-- Slide 6: Milestone 2 - Palm Vision -->
+    <section class="slide" data-slide="6">
+      <div class="slide-header">
+        <div class="slide-tag">Milestone 2 • Part 1</div>
+        <h1 class="slide-title">Biometric Palm Vision AI</h1>
+        <div class="slide-subtitle">Google MediaPipe 3D Landmark Extraction & Quadratic Bézier Morphometry</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="feature-card">
+            <h4>✋ 21 3D Anatomical Landmarks</h4>
+            <ul class="styled-list">
+              <li>Dual input capture: Static photo upload (JPG/PNG) or live webcam video stream.</li>
+              <li>Extracts coordinates across wrist, metacarpal joints, and finger articulations.</li>
+              <li>Surface mount classification: Jupiter, Saturn, Apollo, Venus, and Luna.</li>
+              <li>Mudra & gesture classification: Open Palm, Mudras, Fist, Peace Sign.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>📐 Bézier Line Curve Morphometry</h4>
+            <p>Traces the 4 primary lines using quadratic Bézier curve arc-length integration:</p>
+            <div class="formula-box">
+              Arc Length = ∑ ||p[i] - p[i-1]|| along Bézier curve
+            </div>
+            <ul class="styled-list">
+              <li><strong>Heart Line</strong>: Empathy & emotional openness.</li>
+              <li><strong>Head Line</strong>: Analytical focus & intellectual clarity.</li>
+              <li><strong>Life Line</strong>: Vitality, energy flow & stamina.</li>
+              <li><strong>Fate Line</strong>: Sense of purpose & career direction.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feature-card" style="margin-top: 14px;">
+          <h4>🎯 Scale-Invariant Relative Scoring Innovation</h4>
+          <p style="font-size: 0.95rem;">To eliminate camera zoom variance, each line score is calibrated against the hand's own internal aspect ratio and finger proportions: 
+          <code>Baseline = 75 + 10*(Aspect Ratio - 1.15) + 10*(Finger Ratio - 0.9)</code></p>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "Milestone 2 introduced the computer vision pipeline. Using Google MediaPipe, I extracted 21 3D hand landmarks and computed quadratic Bézier curves for the Heart, Head, Life, and Fate lines. Crucially, I invented a relative scoring formula that measures lines against the hand's own anatomical ratios, ensuring scores remain consistent regardless of camera distance."
+      </div>
+    </section>
+
+    <!-- Slide 7: Milestone 2 - Astrophysics & Tarot -->
+    <section class="slide" data-slide="7">
+      <div class="slide-header">
+        <div class="slide-tag">Milestone 2 • Part 2</div>
+        <h1 class="slide-title">Astrophysics & 78-Card Tarot Engines</h1>
+        <div class="slide-subtitle">Swiss Ephemeris (pyswisseph) Vedic Kundali & Complete Rider-Waite Logic</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="feature-card">
+            <h4>🌌 Swiss Ephemeris Vedic Engine</h4>
+            <ul class="styled-list">
+              <li><strong>Sidereal Zodiac</strong>: Native support for Lahiri (Chitrapaksha), Raman, and KP ayanamsas.</li>
+              <li><strong>True Ascendant (Lagna) & 12 Bhavas</strong>: Derived from exact geographic coordinates and Julian Day UT transformations.</li>
+              <li><strong>100+ City Hierarchy</strong>: Built-in coordinates for Indian tier-1/2/3 cities with OpenStreetMap geocoding fallback.</li>
+              <li><strong>9 Navagrahas</strong>: Calculates precise ecliptic longitudes, speeds, house placements, and retrograde flags (<em>Vakri (R)</em>).</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>🃏 78-Card Rider-Waite Tarot Engine</h4>
+            <ul class="styled-list">
+              <li><strong>Complete Deck</strong>: 22 Major Arcana + 56 Minor Arcana (Wands, Cups, Swords, Pentacles).</li>
+              <li><strong>Stochastic Dynamics</strong>: Randomized card shuffling with upright and reversed archetypal states.</li>
+              <li><strong>5 Standardized Spreads</strong>:
+                <br>• 1-Card Instant Guidance
+                <br>• 3-Card Timeline (Past / Present / Future)
+                <br>• 5-Card Cross of Guidance
+                <br>• 10-Card Traditional Celtic Cross
+                <br>• Relationship & Career Crossroads
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "I also engineered the computational astrophysics and tarot engines in Milestone 2. Driven by the Swiss Ephemeris, the platform calculates sidereal planetary positions with astronomical precision, accounting for True Ascendant degrees and retrograde flags across 100+ cities. The tarot engine implements the full 78 Rider-Waite cards with upright and inverted interpretations across 5 spread types."
+      </div>
+    </section>
+
+    <!-- Slide 8: Milestone 3 -->
+    <section class="slide" data-slide="8">
+      <div class="slide-header">
+        <div class="slide-tag">Milestone 3</div>
+        <h1 class="slide-title">Multi-Modal AI Synthesis & Guidance Scoring</h1>
+        <div class="slide-subtitle">Grounded TF-IDF Knowledge Corpus, Mathematical Scoring & Live WebSockets</div>
+      </div>
+      <div class="slide-body">
+        <div class="feature-card">
+          <h4>⚖️ Deterministic 5-Factor Weighted Scoring Model</h4>
+          <div class="formula-box">
+            Insight Score = 0.30(Palm) + 0.25(Tarot) + 0.20(Personality) + 0.15(Context) + 0.10(Consistency)
+          </div>
+          <div class="grid-4" style="margin-top: 10px;">
+            <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 6px; text-align: center;">
+              <strong style="color: #34d399;">High Alignment</strong><br><span style="font-size: 0.85rem;">≥ 80% Resonance</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 6px; text-align: center;">
+              <strong style="color: #38bdf8;">Steady Resonance</strong><br><span style="font-size: 0.85rem;">65% – 79%</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 6px; text-align: center;">
+              <strong style="color: #fbbf24;">Developing Insight</strong><br><span style="font-size: 0.85rem;">45% – 64%</span>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 6px; text-align: center;">
+              <strong style="color: #f87171;">Early Insight</strong><br><span style="font-size: 0.85rem;">&lt; 45%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 14px;">
+          <div class="feature-card">
+            <h4>📚 In-Memory TF-IDF Grounded RAG</h4>
+            <p style="font-size: 0.92rem;">Metaphysical knowledge is indexed into semantic chunks. Context-aware prompt injection ensures that the generative AI Oracle is <strong>strictly grounded in verified cards and palm metrics</strong>, eliminating hallucinations.</p>
+          </div>
+          <div class="feature-card">
+            <h4>📈 Trend Trajectory & WebSockets</h4>
+            <p style="font-size: 0.92rem;">Least-squares linear regression slope calculations monitor seeker growth over time. Real-time WebSocket rooms allow clients and readers to collaborate during live synchronized tarot draws.</p>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "Milestone 3 is where synthesis takes place. To prevent generative hallucinations, I built an in-memory TF-IDF RAG pipeline that retrieves validated literature for active palm lines and cards. I also formulated a 5-factor weighted mathematical scoring algorithm that categorizes seekers into four calibrated resonance tiers."
+      </div>
+    </section>
+
+    <!-- Slide 9: Milestone 4 - Portals -->
+    <section class="slide" data-slide="9">
+      <div class="slide-header">
+        <div class="slide-tag">Milestone 4 • Part 1</div>
+        <h1 class="slide-title">4 Specialized Practitioner Portals</h1>
+        <div class="slide-subtitle">Tailored Workspaces with 1-Click Suite Switcher & Reschedule Chat Assistant</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="feature-card">
+            <h4>🌟 Seeker / User Portal</h4>
+            <ul class="styled-list">
+              <li>Daily transit and cosmic horoscope notifications.</li>
+              <li>Interactive webcam palm capture with real-time landmark mesh overlay.</li>
+              <li>3D card flipping animations and celestial guidance synthesis.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>🔮 Tarot Reader Suite</h4>
+            <ul class="styled-list">
+              <li>Active consultation queue management.</li>
+              <li>Custom spread configurations and archetypal reference dictionaries.</li>
+              <li>WebSocket-synchronized live reading sessions.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>🕉️ Spiritual Consultant Hub</h4>
+            <ul class="styled-list">
+              <li>Ashtakoota 36-point Guna Milan relationship compatibility matrices.</li>
+              <li>Client historical trend curves and guidance effectiveness monitoring.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>🤖 AI Reschedule Chat Assistant</h4>
+            <ul class="styled-list">
+              <li>Interactive conversational rescheduling modal.</li>
+              <li>Automated database calendar updates and instant Gmail confirmation dispatch.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "In Milestone 4, I engineered 4 dedicated portals for all platform stakeholders, supported by a 1-click suite switcher. In addition, I created an interactive Reschedule Chat Assistant that allows clients to reschedule consultations with automatic real-time Gmail confirmations."
+      </div>
+    </section>
+
+    <!-- Slide 10: DevOps & Cloud -->
+    <section class="slide" data-slide="10">
+      <div class="slide-header">
+        <div class="slide-tag">Milestone 4 • Part 2</div>
+        <h1 class="slide-title">Enterprise Reporting & Multi-Cloud DevOps</h1>
+        <div class="slide-subtitle">ReportLab PDF Blueprints, Multi-Stage Docker, AWS EC2 & Azure Container Apps</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="feature-card">
+            <h4>📄 ReportLab PDF Generator</h4>
+            <ul class="styled-list">
+              <li>Server-side dynamic PDF compilation.</li>
+              <li>Formats palm metrics, tarot draws, and astrology charts into high-contrast Celestial Blueprints.</li>
+              <li>CSV export for consultation records.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>🐳 Multi-Stage Docker Builds</h4>
+            <ul class="styled-list">
+              <li><strong>UI Image</strong>: Node 22 build into Alpine Nginx (<strong>&lt; 98 MB</strong>).</li>
+              <li><strong>API Image</strong>: Python 3.9-slim with OpenCV and Swiss Ephemeris (<strong>&lt; 420 MB</strong>).</li>
+              <li><strong>Database</strong>: PostgreSQL 15 Alpine.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>☁️ Multi-Cloud Deployment</h4>
+            <ul class="styled-list">
+              <li><strong>AWS</strong>: 1-click EC2 script with Let's Encrypt automated Certbot SSL.</li>
+              <li><strong>Azure</strong>: Azure Container Apps with auto-scaling and PostgreSQL Flexible Server.</li>
+              <li><strong>CI/CD</strong>: GitHub Actions workflow.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "To support enterprise reporting, the ReportLab engine generates downloadable Celestial PDF Blueprints. For operations, the stack is fully containerized using Docker multi-stage builds—keeping image sizes under 98 MB for the frontend and 420 MB for the backend. I also prepared automated deployment scripts for both AWS EC2 and Azure Container Apps."
+      </div>
+    </section>
+
+    <!-- Slide 11: Validation & Audit -->
+    <section class="slide" data-slide="11">
+      <div class="slide-header">
+        <div class="slide-tag">Quality Assurance</div>
+        <h1 class="slide-title">Validation & System Deployment Audit</h1>
+        <div class="slide-subtitle">Automated TestClient Execution Across All 9 Core Backend Engines: 100% Pass Rate</div>
+      </div>
+      <div class="slide-body">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Intelligence Engine</th>
+              <th>Endpoint Tested</th>
+              <th>HTTP Status</th>
+              <th>Audit Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TC-01</td>
+              <td>Health Check & API Liveness</td>
+              <td><code>GET /</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td>TC-02</td>
+              <td>MediaPipe Palm & Aura Vision</td>
+              <td><code>POST /vision/aura</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td>TC-03</td>
+              <td>78-Card Tarot Spread Engine</td>
+              <td><code>POST /tarot/draw?spread_type=three_card</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td>TC-04</td>
+              <td>Swiss Ephemeris Vedic Kundali</td>
+              <td><code>POST /astrology/kundali</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td>TC-05</td>
+              <td>Multi-Modal Guidance Synthesis</td>
+              <td><code>GET /guidance/synthesis</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td>TC-06</td>
+              <td>Tarot Reader Queue Analytics</td>
+              <td><code>GET /reader/analytics</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td>TC-07</td>
+              <td>Consultant Matchmaking Trends</td>
+              <td><code>GET /consultant/trends</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td>TC-08</td>
+              <td>Administrator Platform Stats</td>
+              <td><code>GET /admin/platform-stats</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+            <tr>
+              <td>TC-09</td>
+              <td>Multi-Modal AI Oracle Chat</td>
+              <td><code>POST /oracle/chat</code></td>
+              <td>200 OK</td>
+              <td><span class="badge-pass">PASS</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "To prove system stability, I created run_audit.py, an automated FastAPI TestClient audit script. As seen on this slide, all 9 core backend intelligence engines—from computer vision and ephemeris calculations to tarot draws, synthesis, and oracle chat—passed with a 100% success rate."
+      </div>
+    </section>
+
+    <!-- Slide 12: Challenges -->
+    <section class="slide" data-slide="12">
+      <div class="slide-header">
+        <div class="slide-tag">Engineering Rigor</div>
+        <h1 class="slide-title">Challenges Faced & Technical Solutions</h1>
+        <div class="slide-subtitle">Overcoming Real-World Computer Vision, Astrophysics, and Generative AI Hurdles</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="feature-card">
+            <h4>1. Palm Image Scale Variance</h4>
+            <p><strong>Challenge</strong>: Raw pixel line lengths fluctuated depending on camera distance and angle.</p>
+            <p><strong>Solution</strong>: Invented relative Bézier scoring that normalizes lengths against the hand's own internal palm aspect ratio and finger proportions.</p>
+          </div>
+          <div class="feature-card">
+            <h4>2. Astronomical Precision in Astrology</h4>
+            <p><strong>Challenge</strong>: Standard astro packages calculate Western tropical zodiacs rather than Vedic sidereal charts.</p>
+            <p><strong>Solution</strong>: Integrated <code>pyswisseph</code> with explicit sidereal and Lahiri ayanamsa modes, computing Julian Day UT shifts and true house cusps.</p>
+          </div>
+          <div class="feature-card">
+            <h4>3. Preventing AI Hallucinations</h4>
+            <p><strong>Challenge</strong>: Unconstrained LLMs often produce contradictory or invented spiritual claims.</p>
+            <p><strong>Solution</strong>: Built an in-memory TF-IDF knowledge base that injects validated card and palmline definitions directly into the prompt context.</p>
+          </div>
+          <div class="feature-card">
+            <h4>4. Vision Inference Latency</h4>
+            <p><strong>Challenge</strong>: Deep vision models on the backend risked blocking the FastAPI async event loop.</p>
+            <p><strong>Solution</strong>: Offloaded image processing into FastAPI thread pools (<code>run_in_threadpool</code>) with OpenCV pre-scaling for sub-second responses.</p>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "During development, I tackled significant technical hurdles: I eliminated camera distance distortion through anatomical ratio normalization, achieved arc-second astrological precision with the Swiss Ephemeris, prevented AI hallucinations using TF-IDF grounded RAG, and ensured sub-second vision response times with FastAPI thread pools."
+      </div>
+    </section>
+
+    <!-- Slide 13: Learnings -->
+    <section class="slide" data-slide="13">
+      <div class="slide-header">
+        <div class="slide-tag">Individual Growth</div>
+        <h1 class="slide-title">Key Learnings & Skills Acquired</h1>
+        <div class="slide-subtitle">Full-Stack AI, Mathematical Modeling & Cloud DevOps Competencies</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="feature-card">
+            <h4>🧠 Applied AI & CV</h4>
+            <ul class="styled-list">
+              <li>MediaPipe 3D landmark mesh extraction.</li>
+              <li>OpenCV image processing & Bézier calculus.</li>
+              <li>In-memory TF-IDF vector retrieval.</li>
+              <li>Hallucination-resistant RAG prompt design.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>⚙️ Full-Stack & Systems</h4>
+            <ul class="styled-list">
+              <li>FastAPI async microservice architecture.</li>
+              <li>React 19, Vite 8 & Web Audio synthesis.</li>
+              <li>4-tier RBAC & JWT bearer flows.</li>
+              <li>Real Gmail SMTP TLS 587 dispatch.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>🚀 Cloud & Reliability</h4>
+            <ul class="styled-list">
+              <li>Multi-stage Docker builds (<98MB UI).</li>
+              <li>AWS EC2 & Azure Container Apps deployment.</li>
+              <li>Automated TestClient audit suites.</li>
+              <li>GitHub Actions CI/CD automation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "This internship provided practical experience across the complete engineering lifecycle: from applied computer vision and computational astrophysics to full-stack React 19 development, mathematical scoring models, and multi-cloud containerization."
+      </div>
+    </section>
+
+    <!-- Slide 14: Conclusion -->
+    <section class="slide" data-slide="14">
+      <div class="slide-header">
+        <div class="slide-tag">Capstone Defense</div>
+        <h1 class="slide-title">Conclusion & Acknowledgements</h1>
+        <div class="slide-subtitle">Transforming Ancient Metaphysics into an Enterprise-Grade Software Platform</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="feature-card">
+            <h4>✨ Deliverables Summary</h4>
+            <ul class="styled-list">
+              <li><strong>13 Specification Modules</strong> delivered across 4 integrated milestones independently.</li>
+              <li><strong>Scientific Grounding</strong>: 21 3D landmarks, Swiss Ephemeris astrophysics, and 5-factor scoring formula.</li>
+              <li><strong>Enterprise Ready</strong>: Docker multi-stage containers, AWS/Azure templates, and ReportLab PDF Blueprints.</li>
+              <li><strong>Audit Verified</strong>: <strong>100% Pass Rate</strong> across all 9 core engines.</li>
+            </ul>
+          </div>
+          <div class="feature-card">
+            <h4>🙏 Sincere Acknowledgements</h4>
+            <p style="font-size: 0.95rem; margin-bottom: 10px;">I express my deepest gratitude to:</p>
+            <ul class="styled-list">
+              <li><strong>Infosys Springboard</strong> for providing this virtual internship platform.</li>
+              <li>My <strong>Project Mentor & Technical Reviewers</strong> for their invaluable guidance throughout all milestones.</li>
+              <li>Domain advisors and evaluators for supporting the synthesis of computer vision with ancient metaphysical systems.</li>
+            </ul>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 24px; padding: 12px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px;">
+          <h3 style="color: var(--accent-gold-light); font-size: 1.3rem;">Thank You! I Welcome Any Questions.</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Candidate: <strong>Navya Parchuri</strong> | Batch 3 | Individual Project</p>
+          <p style="color: var(--accent-cyan); font-size: 0.85rem; margin-top: 2px;">Live API Swagger: <code>http://localhost:8000/docs</code> | Frontend Portal: <code>http://localhost:5173</code></p>
+        </div>
+      </div>
+      <div class="speaker-notes">
+        <strong>Speaker Script:</strong> "In conclusion, Mystic Insights proves that centuries-old spiritual traditions can be transformed into reliable, mathematically validated software systems. I sincerely thank Infosys Springboard and my mentors for their guidance throughout this journey. I am now open for your questions and discussion."
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slideCounter = document.getElementById('slideCounter');
+    const progressBar = document.getElementById('progressBar');
+    const notesToggle = document.getElementById('notesToggle');
+    const fullScreenBtn = document.getElementById('fullScreenBtn');
+
+    let currentSlide = 1;
+    const totalSlides = slides.length;
+    let showNotes = false;
+
+    function updateSlide(newIndex) {
+      if (newIndex < 1 || newIndex > totalSlides) return;
+      
+      slides.forEach((slide) => {
+        slide.classList.remove('active');
+        if (parseInt(slide.getAttribute('data-slide')) === newIndex) {
+          slide.classList.add('active');
+        }
+      });
+
+      currentSlide = newIndex;
+      slideCounter.textContent = `${currentSlide} / ${totalSlides}`;
+      progressBar.style.width = `${(currentSlide / totalSlides) * 100}%`;
+    }
+
+    prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        updateSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        updateSlide(currentSlide - 1);
+      } else if (e.key.toLowerCase() === 'n') {
+        toggleNotes();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      }
+    });
+
+    // Notes Toggle
+    function toggleNotes() {
+      showNotes = !showNotes;
+      document.querySelectorAll('.speaker-notes').forEach((note) => {
+        note.classList.toggle('visible', showNotes);
+      });
+      notesToggle.style.color = showNotes ? 'var(--accent-gold)' : 'var(--text-muted)';
+      notesToggle.style.borderColor = showNotes ? 'var(--accent-gold)' : 'rgba(255,255,255,0.2)';
+    }
+    notesToggle.addEventListener('click', toggleNotes);
+
+    // Fullscreen
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+    fullScreenBtn.addEventListener('click', toggleFullScreen);
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+
+services:
+  # 1. PostgreSQL Database Service
+  db:
+    image: postgres:15-alpine
+    container_name: mystic_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: mystic_portal
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. FastAPI Backend Service
+  backend:
+    image: mystic-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mystic_backend_api
+    restart: always
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql://postgres:password123@db:5432/mystic_portal
+      SECRET_KEY: ${SECRET_KEY:-celestial_super_secret_jwt_key_2026}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-celestial_super_secret_jwt_key_2026}
+      REQUIRE_LOGIN_OTP: "false"
+      ACCESS_TOKEN_EXPIRE_MINUTES: 1440
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI:-http://localhost:8000/auth/google/callback}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      SMTP_EMAIL: ${SMTP_EMAIL:-}
+      SMTP_APP_PASSWORD: ${SMTP_APP_PASSWORD:-}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  # 3. React Frontend Service
+  frontend:
+    image: mystic-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mystic_frontend_ui
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

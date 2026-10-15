@@ -1,0 +1,7 @@
+WARNING:tensorflow:From C:\Users\NAVYA\OneDrive\Documents\Palmistry_Tarot_Project\backend\venv\lib\site-packages\keras\src\losses.py:2976: The name tf.losses.sparse_softmax_cross_entropy is deprecated. Please use tf.compat.v1.losses.sparse_softmax_cross_entropy instead.
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\Users\NAVYA\OneDrive\Documents\Palmistry_Tarot_Project\backend\app\main.py", line 48, in <module>
+    from app.services.scoring_service import compute_score_inputs, weighted_insight_score
+ImportError: cannot import name 'weighted_insight_score' from 'app.services.scoring_service' (C:\Users\NAVYA\OneDrive\Documents\Palmistry_Tarot_Project\backend\app\services\scoring_service.py)

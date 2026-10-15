@@ -1,0 +1,21 @@
+OK   - import cv2
+OK   - import numpy
+OK   - import mediapipe
+OK   - import authlib
+OK   - import fastapi
+OK   - import sqlalchemy
+OK   - import apscheduler
+OK   - app.core.config
+OK   - app.core.database
+OK   - app.core.security
+OK   - app.core.rbac
+OK   - app.models.postgres_models
+OK   - app.models.schemas
+OK   - app.services.tarot_service
+OK   - app.services.vision_service
+OK   - app.services.report_service
+OK   - app.services.scoring_service
+OK   - app.services.vedic_astrology_engine
+OK   - app.main (full app)
+
+DONE
