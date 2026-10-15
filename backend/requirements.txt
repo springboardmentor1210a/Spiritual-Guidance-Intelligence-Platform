@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+pydantic[email]
+SQLAlchemy
+asyncpg
+motor
+pymongo
+groq
+Pillow
+opencv-python-headless
+numpy
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt<4.1

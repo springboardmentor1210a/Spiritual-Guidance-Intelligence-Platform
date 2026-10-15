@@ -1,0 +1,796 @@
+/* =========================================================
+   LUNARA APPLICATION STYLES
+   Ancient Scroll Theme + Futuristic Motion
+   ========================================================= */
+
+.counter {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+
+  color: var(--deep-walnut);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--parchment-highlight),
+      var(--parchment)
+    );
+
+  border: 1px solid var(--burnt-umber);
+
+  box-shadow:
+    0 5px 15px var(--shadow-soft),
+    inset 0 1px 0 rgba(255, 235, 166, 0.55);
+
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease;
+}
+
+.counter:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 25px var(--shadow-medium),
+    0 0 18px rgba(229, 189, 91, 0.25);
+}
+
+/* =========================================================
+   MAIN LUNARA PAGE
+   ========================================================= */
+
+.lunara-page {
+  width: 100%;
+  min-height: 100vh;
+
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(245, 207, 119, 0.48),
+      transparent 40%
+    ),
+    linear-gradient(
+      135deg,
+      #9c5d20 0%,
+      #c98a32 35%,
+      #dba94e 50%,
+      #a86622 75%,
+      #633014 100%
+    );
+
+  color: var(--deep-walnut);
+}
+
+/* =========================================================
+   ANCIENT CARD
+   ========================================================= */
+
+.lunara-card {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 1.5rem;
+
+  border: 2px solid var(--burnt-umber);
+  border-radius: 14px;
+
+  background:
+    radial-gradient(
+      circle at 25% 20%,
+      rgba(255, 224, 142, 0.45),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      #e4b45b,
+      #c98a32 48%,
+      #b87524
+    );
+
+  box-shadow:
+    0 12px 30px rgba(58, 28, 13, 0.32),
+    inset 0 1px 0 rgba(255, 231, 157, 0.65),
+    inset 0 -10px 30px rgba(107, 53, 24, 0.13);
+
+  transition:
+    transform 350ms ease,
+    box-shadow 350ms ease,
+    border-color 350ms ease;
+}
+
+.lunara-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 7px;
+
+  pointer-events: none;
+
+  border: 1px solid rgba(107, 53, 24, 0.38);
+  border-radius: 9px;
+}
+
+.lunara-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 120%;
+  height: 2px;
+
+  left: -130%;
+  top: 50%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 224, 137, 0.8),
+      transparent
+    );
+
+  transform: rotate(-8deg);
+
+  transition: left 800ms ease;
+
+  pointer-events: none;
+}
+
+.lunara-card:hover {
+  transform: translateY(-8px);
+
+  border-color: var(--old-gold);
+
+  box-shadow:
+    0 20px 45px rgba(58, 28, 13, 0.42),
+    0 0 25px rgba(229, 189, 91, 0.26),
+    inset 0 1px 0 rgba(255, 237, 173, 0.7);
+}
+
+.lunara-card:hover::after {
+  left: 130%;
+}
+
+/* =========================================================
+   TEXT EFFECTS
+   ========================================================= */
+
+.lunara-glow-text {
+  color: var(--deep-walnut);
+
+  text-shadow:
+    0 2px 0 rgba(255, 219, 125, 0.5),
+    0 0 14px rgba(229, 189, 91, 0.35);
+}
+
+.lunara-purple-text {
+  color: var(--mystic-purple);
+
+  text-shadow:
+    0 0 12px rgba(74, 40, 88, 0.25);
+}
+
+.lunara-gold-text {
+  color: var(--old-gold);
+
+  text-shadow:
+    0 1px 0 rgba(255, 231, 159, 0.7),
+    0 0 10px rgba(229, 189, 91, 0.35);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.lunara-button {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+
+  min-height: 46px;
+
+  padding: 0.75rem 1.4rem;
+
+  overflow: hidden;
+
+  border: 2px solid var(--old-gold);
+  border-radius: 8px;
+
+  color: #f7df9b;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4a2412,
+      #6b3518
+    );
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 7px 18px rgba(58, 28, 13, 0.35),
+    inset 0 1px 0 rgba(229, 189, 91, 0.25);
+
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    color 220ms ease,
+    border-color 220ms ease;
+}
+
+.lunara-button::before {
+  content: "";
+
+  position: absolute;
+
+  width: 60%;
+  height: 200%;
+
+  top: -50%;
+  left: -90%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 224, 137, 0.28),
+      transparent
+    );
+
+  transform: rotate(20deg);
+
+  transition: left 550ms ease;
+}
+
+.lunara-button:hover {
+  transform: translateY(-3px);
+
+  color: #fff1c4;
+
+  border-color: var(--bright-gold);
+
+  box-shadow:
+    0 12px 28px rgba(58, 28, 13, 0.45),
+    0 0 20px rgba(229, 189, 91, 0.28);
+}
+
+.lunara-button:hover::before {
+  left: 140%;
+}
+
+.lunara-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.lunara-button-secondary {
+  color: var(--deep-walnut);
+
+  background:
+    linear-gradient(
+      135deg,
+      #e7bd65,
+      #c98a32
+    );
+
+  border-color: var(--burnt-umber);
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.lunara-input {
+  width: 100%;
+
+  min-height: 46px;
+
+  padding: 0.75rem 1rem;
+
+  color: var(--deep-walnut);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(244, 209, 126, 0.9),
+      rgba(205, 143, 48, 0.86)
+    );
+
+  border: 2px solid rgba(107, 53, 24, 0.72);
+  border-radius: 8px;
+
+  outline: none;
+
+  box-shadow:
+    inset 0 2px 8px rgba(58, 28, 13, 0.12);
+
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.lunara-input::placeholder {
+  color: rgba(58, 28, 13, 0.62);
+}
+
+.lunara-input:focus {
+  border-color: var(--old-gold);
+
+  box-shadow:
+    0 0 0 3px rgba(200, 155, 60, 0.18),
+    0 0 20px rgba(229, 189, 91, 0.22),
+    inset 0 2px 8px rgba(58, 28, 13, 0.12);
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+  position: relative;
+
+  min-height: 70vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(240, 198, 106, 0.55),
+      transparent 55%
+    ),
+    linear-gradient(
+      135deg,
+      #6b3518,
+      #b87524 35%,
+      #d9a64b 55%,
+      #8b4d1c
+    );
+
+  border-bottom: 2px solid var(--burnt-umber);
+
+  box-shadow:
+    inset 0 -30px 60px rgba(58, 28, 13, 0.2);
+}
+
+.hero .base {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 15% 25%,
+      rgba(255, 225, 139, 0.3),
+      transparent 18%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(74, 40, 88, 0.14),
+      transparent 22%
+    );
+
+  pointer-events: none;
+}
+
+.hero .framework {
+  position: relative;
+  z-index: 2;
+
+  max-width: 1000px;
+  width: 92%;
+
+  margin: auto;
+
+  text-align: center;
+}
+
+.hero .vite {
+  color: var(--old-gold);
+}
+
+/* =========================================================
+   CENTER CONTENT
+   ========================================================= */
+
+#center {
+  position: relative;
+
+  width: min(1100px, 92%);
+
+  margin: 0 auto;
+  padding: 4rem 0;
+
+  text-align: center;
+}
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+#next-steps,
+#docs {
+  position: relative;
+
+  width: min(1100px, 92%);
+
+  margin: 0 auto 3rem;
+
+  padding: 2rem;
+
+  border: 2px solid var(--burnt-umber);
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(232, 201, 130, 0.88),
+      rgba(201, 138, 50, 0.9)
+    );
+
+  box-shadow:
+    0 15px 35px rgba(58, 28, 13, 0.26),
+    inset 0 1px 0 rgba(255, 235, 166, 0.55);
+}
+
+#next-steps ul {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 1rem;
+
+  padding: 0;
+
+  list-style: none;
+}
+
+#next-steps li {
+  padding: 1rem;
+
+  border: 1px solid rgba(107, 53, 24, 0.6);
+  border-radius: 9px;
+
+  background:
+    rgba(240, 198, 106, 0.45);
+
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease;
+}
+
+#next-steps li:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 10px 20px rgba(58, 28, 13, 0.25);
+}
+
+/* =========================================================
+   DECORATIVE ELEMENTS
+   ========================================================= */
+
+.lunara-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 1.4rem;
+
+  width: 100%;
+}
+
+.lunara-feature-card {
+  position: relative;
+
+  min-height: 200px;
+
+  padding: 1.6rem;
+
+  overflow: hidden;
+
+  border: 2px solid var(--burnt-umber);
+  border-radius: 12px;
+
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(255, 225, 139, 0.3),
+      transparent 25%
+    ),
+    linear-gradient(
+      145deg,
+      #e2ad52,
+      #c78930
+    );
+
+  box-shadow:
+    0 10px 25px rgba(58, 28, 13, 0.28);
+
+  transition:
+    transform 350ms ease,
+    box-shadow 350ms ease;
+}
+
+.lunara-feature-card:hover {
+  transform:
+    translateY(-8px)
+    scale(1.015);
+
+  box-shadow:
+    0 18px 35px rgba(58, 28, 13, 0.38),
+    0 0 25px rgba(229, 189, 91, 0.24);
+}
+
+.lunara-icon {
+  width: 54px;
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 1rem;
+
+  border: 2px solid var(--old-gold);
+  border-radius: 50%;
+
+  color: var(--bright-gold);
+
+  background:
+    linear-gradient(
+      145deg,
+      #4a2412,
+      #6b3518
+    );
+
+  box-shadow:
+    0 0 18px rgba(229, 189, 91, 0.22);
+
+  transition:
+    transform 350ms ease,
+    box-shadow 350ms ease;
+}
+
+.lunara-feature-card:hover .lunara-icon {
+  transform:
+    rotate(8deg)
+    scale(1.1);
+
+  box-shadow:
+    0 0 25px rgba(229, 189, 91, 0.4);
+}
+
+.lunara-divider {
+  width: 100%;
+  height: 1px;
+
+  margin: 1.5rem 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--old-gold),
+      transparent
+    );
+}
+
+.lunara-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+
+  padding: 0.4rem 0.75rem;
+
+  color: var(--deep-walnut);
+
+  border: 1px solid var(--old-gold);
+  border-radius: 999px;
+
+  background:
+    rgba(239, 198, 106, 0.55);
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lunara-section-title {
+  margin-bottom: 0.5rem;
+
+  color: var(--deep-walnut);
+
+  text-align: center;
+
+  text-shadow:
+    0 2px 0 rgba(255, 224, 137, 0.45);
+}
+
+.lunara-section-subtitle {
+  max-width: 680px;
+
+  margin: 0 auto 2rem;
+
+  color: rgba(58, 28, 13, 0.8);
+
+  text-align: center;
+}
+
+.lunara-pulse-dot {
+  width: 8px;
+  height: 8px;
+
+  display: inline-block;
+
+  border-radius: 50%;
+
+  background: var(--bright-gold);
+
+  box-shadow:
+    0 0 0 0 rgba(229, 189, 91, 0.6);
+
+  animation:
+    lunaraDotPulse 2s infinite;
+}
+
+@keyframes lunaraDotPulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(229, 189, 91, 0.55);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 9px rgba(229, 189, 91, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(229, 189, 91, 0);
+  }
+}
+
+.lunara-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.lunara-shimmer::after {
+  content: "";
+
+  position: absolute;
+
+  top: -50%;
+  left: -100%;
+
+  width: 50%;
+  height: 200%;
+
+  transform: rotate(25deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 235, 166, 0.35),
+      transparent
+    );
+
+  animation:
+    lunaraShimmer 5s ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+@keyframes lunaraShimmer {
+  0%,
+  60% {
+    left: -100%;
+  }
+
+  100% {
+    left: 180%;
+  }
+}
+
+/* =========================================================
+   SPACER / ORIGINAL VITE ELEMENTS
+   ========================================================= */
+
+#spacer {
+  height: 3rem;
+}
+
+.ticks {
+  position: relative;
+
+  display: inline-block;
+
+  color: var(--old-gold);
+
+  letter-spacing: 0.25em;
+
+  opacity: 0.85;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  #center {
+    width: 94%;
+    padding: 3rem 0;
+  }
+
+  #next-steps,
+  #docs {
+    width: 94%;
+    padding: 1.3rem;
+  }
+
+  .hero {
+    min-height: 60vh;
+  }
+
+  .lunara-card {
+    padding: 1.2rem;
+  }
+
+  .lunara-feature-card {
+    min-height: 170px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lunara-button {
+    width: 100%;
+  }
+
+  .lunara-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #next-steps ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .lunara-card,
+  .lunara-feature-card,
+  .lunara-button,
+  .lunara-icon,
+  .counter,
+  #next-steps li {
+    transition: none;
+  }
+
+  .lunara-shimmer::after,
+  .lunara-pulse-dot {
+    animation: none;
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "lunara-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Lunara - an interactive palmistry and tarot reading experience.",
+  "type": "module",
+
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+
+  "dependencies": {
+    "axios": "^1.20.0",
+    "firebase": "^12.19.0",
+    "framer-motion": "^13.3.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.3",
+    "recharts": "^3.10.1"
+  },
+
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "eslint": "^10.10.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.6",
+    "globals": "^17.12.0",
+    "vite": "^5.4.21"
+  },
+
+  "optionalDependencies": {
+    "@rolldown/binding-win32-x64-msvc": "^1.2.8"
+  }
+}

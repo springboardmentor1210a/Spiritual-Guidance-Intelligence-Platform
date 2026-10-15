@@ -1,0 +1,449 @@
+/* =========================================================
+   LUNARA — ANCIENT SCROLL FOUNDATION
+   Ancient parchment theme + futuristic interaction system
+   ========================================================= */
+
+:root {
+  font-family: Georgia, "Times New Roman", serif;
+
+  /* Original/general variables */
+  --text: #29160b;
+  --text-h: #3a1c0d;
+  --bg: #d9a64b;
+  --border: #6b3518;
+  --code-bg: #ead09a;
+  --accent: #8b571d;
+  --accent-bg: #efd18c;
+  --accent-border: #9a6b20;
+  --social-bg: #c98a32;
+  --shadow: rgba(58, 28, 13, 0.35);
+
+  /* Lunara parchment palette */
+  --parchment: #c98a32;
+  --parchment-light: #e0ad52;
+  --parchment-highlight: #f0c66a;
+  --parchment-deep: #b87524;
+  --parchment-cream: #e8c982;
+
+  --burnt-umber: #6b3518;
+  --dark-brown: #3a1c0d;
+  --walnut: #4a2412;
+  --deep-walnut: #29160b;
+
+  --antique-gold: #c89b3c;
+  --old-gold: #9a6b20;
+  --bright-gold: #e5bd5b;
+
+  --mystic-purple: #4a2858;
+  --mystic-purple-soft: #69426f;
+
+  /* Surfaces */
+  --surface: rgba(226, 171, 79, 0.94);
+  --surface-light: rgba(239, 198, 106, 0.88);
+  --surface-dark: rgba(91, 43, 17, 0.94);
+
+  /* Shadows */
+  --shadow-soft: rgba(58, 28, 13, 0.22);
+  --shadow-medium: rgba(58, 28, 13, 0.38);
+  --shadow-heavy: rgba(41, 22, 11, 0.58);
+
+  /* Effects */
+  --gold-glow: rgba(229, 189, 91, 0.55);
+  --purple-glow: rgba(74, 40, 88, 0.28);
+  --parchment-glow: rgba(240, 198, 106, 0.5);
+
+  /* Radius */
+  --radius-small: 6px;
+  --radius-medium: 12px;
+  --radius-large: 18px;
+
+  /* Animation */
+  --transition-fast: 180ms ease;
+  --transition-medium: 320ms ease;
+  --transition-slow: 600ms ease;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+  background: #6b3518;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  color: var(--text);
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 198, 106, 0.7),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #7b401b 0%,
+      #a96823 24%,
+      #c98a32 52%,
+      #9b5b1e 78%,
+      #542812 100%
+    );
+
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* =========================================================
+   ROOT
+   ========================================================= */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  isolation: isolate;
+
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 10%,
+      rgba(247, 210, 123, 0.28),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(232, 201, 130, 0.12),
+      rgba(74, 36, 18, 0.15)
+    );
+}
+
+/* =========================================================
+   ANCIENT PAPER GRAIN
+   ========================================================= */
+
+#root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: -1;
+
+  opacity: 0.16;
+
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(41, 22, 11, 0.35) 0 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(41, 22, 11, 0.25) 0 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 40% 80%,
+      rgba(255, 230, 155, 0.5) 0 1px,
+      transparent 2px
+    );
+
+  background-size:
+    31px 37px,
+    47px 53px,
+    61px 71px;
+
+  mix-blend-mode: multiply;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: var(--deep-walnut);
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  line-height: 1.05;
+}
+
+h2 {
+  font-size: clamp(1.7rem, 3.5vw, 3rem);
+  line-height: 1.12;
+}
+
+p {
+  line-height: 1.7;
+}
+
+strong {
+  color: var(--deep-walnut);
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+a {
+  color: var(--dark-brown);
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    color var(--transition-fast),
+    text-shadow var(--transition-fast);
+}
+
+a:hover {
+  color: var(--mystic-purple);
+  text-shadow:
+    0 0 10px rgba(74, 40, 88, 0.28);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  color: var(--deep-walnut);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--bright-gold);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #6b3518;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--bright-gold),
+      var(--old-gold)
+    );
+
+  border: 2px solid #6b3518;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--parchment-highlight);
+}
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  color: #fff1c4;
+  background: var(--mystic-purple);
+}
+
+/* =========================================================
+   LUNARA UTILITY CLASSES
+   ========================================================= */
+
+.lunara-glass {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(239, 198, 106, 0.88),
+      rgba(185, 117, 36, 0.9)
+    );
+
+  border: 1px solid rgba(107, 53, 24, 0.7);
+
+  box-shadow:
+    0 10px 30px rgba(58, 28, 13, 0.25),
+    inset 0 1px 0 rgba(255, 226, 145, 0.45);
+}
+
+.lunara-glow {
+  box-shadow:
+    0 0 18px rgba(229, 189, 91, 0.3),
+    0 12px 35px rgba(58, 28, 13, 0.3);
+}
+
+.lunara-gold-glow {
+  text-shadow:
+    0 0 8px rgba(229, 189, 91, 0.55),
+    0 0 22px rgba(229, 189, 91, 0.25);
+}
+
+/* =========================================================
+   FUTURISTIC ANIMATIONS
+   ========================================================= */
+
+@keyframes lunaraFloat {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes lunaraPulse {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes lunaraGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 rgba(229, 189, 91, 0);
+  }
+
+  50% {
+    box-shadow:
+      0 0 28px rgba(229, 189, 91, 0.32);
+  }
+}
+
+@keyframes lunaraGoldSweep {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 0.6;
+  }
+
+  70% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+@keyframes lunaraInkReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.lunara-float {
+  animation: lunaraFloat 5s ease-in-out infinite;
+}
+
+.lunara-pulse {
+  animation: lunaraPulse 2.8s ease-in-out infinite;
+}
+
+.lunara-animate-in {
+  animation: lunaraInkReveal 700ms ease both;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  #root {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 15px;
+  }
+
+  #root {
+    min-height: 100svh;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

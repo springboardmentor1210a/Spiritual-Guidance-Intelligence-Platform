@@ -1,0 +1,18 @@
+.env
+backend/.env
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Local Python environments and generated files
+.venv/
+**/__pycache__/
+*.py[cod]
+
+# Palm model training/evaluation data (runtime uses the vision API)
+backend/data/hand-keypoints/
+backend/data/hands-and-palms/
+backend/data/palm-dataset/
+
+# Duplicate tarot image archive; the active runtime cards live in data/cards/
+backend/data/tarot-json/
