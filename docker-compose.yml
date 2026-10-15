@@ -9,7 +9,7 @@ services:
       MONGO_URL: ${MONGO_URL:-mongodb://mongo:27017}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       GROQ_API_KEY: ${GROQ_API_KEY:-}
-      SECRET_KEY: ${SECRET_KEY:-change-me-before-production}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in the root .env file or deployment environment}
     expose:
       - "8000"
     depends_on:

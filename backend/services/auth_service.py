@@ -11,7 +11,9 @@ from models import User
 from database import get_db
 
 # Security Configuration
-SECRET_KEY = os.environ.get("JWT_SECRET", "super-secret-key-change-this-in-production")
+SECRET_KEY = os.environ.get("JWT_SECRET")
+if not SECRET_KEY:
+    raise RuntimeError("JWT_SECRET must be set to a strong, private value.")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
