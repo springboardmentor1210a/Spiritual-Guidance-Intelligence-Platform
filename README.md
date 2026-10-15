@@ -7,6 +7,9 @@
 [![Astrology](https://img.shields.io/badge/Astrophysics-Swiss%20Ephemeris%20(pyswisseph)-purple.svg)](https://www.astro.com/swisseph/)
 [![Docker](https://img.shields.io/badge/Deployment-Docker%20%26%20Compose-2496ED.svg)](https://www.docker.com/)
 [![Audit](https://img.shields.io/badge/Specification%20Audit-100%25%20Passed-brightgreen.svg)]()
+[![Internship](https://img.shields.io/badge/Infosys%20Springboard-Virtual%20Internship%207.0-blueviolet.svg)](INFOSYS_COMPLETION_REPORT.md)
+
+> 🎓 **Official Internship Report**: View the complete [**Infosys Springboard Virtual Internship 7.0 Completion Report**](INFOSYS_COMPLETION_REPORT.md) (Batch 3, Group 3, Navya Parchuri) detailing all 4 milestones, technical architecture, validation results, and engineering achievements.
 
 ---
 
