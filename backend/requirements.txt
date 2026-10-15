@@ -3,7 +3,7 @@ uvicorn[standard]
 python-multipart
 python-dotenv
 pydantic[email]
-SQLAlchemy
+SQLAlchemy[asyncio]
 asyncpg
 motor
 pymongo
