@@ -1,0 +1,6 @@
+{
+  "name": "Palmistry & Tarot Intelligence Platform",
+  "description": "AI-powered palmistry and tarot readings with computer vision line detection, symbolic analysis, multi-role dashboards, and personalized spiritual insights.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

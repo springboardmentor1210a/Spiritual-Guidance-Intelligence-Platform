@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # -------------------------------------------------------------
+  # Web Application & Express API Server
+  # -------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: celestial_intelligence_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=postgresql://celestial_user:celestial_pass@postgres:5432/palmistry_tarot_db?schema=public
+      - MONGODB_URI=mongodb://celestial_user:celestial_pass@mongodb:27017/palmistry_tarot_db?authSource=admin
+      - JWT_SECRET=celestial_production_super_secure_jwt_secret_key_2026
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    networks:
+      - celestial_net
+
+  # -------------------------------------------------------------
+  # PostgreSQL 16 (Relational Database)
+  # -------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: celestial_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: celestial_user
+      POSTGRES_PASSWORD: celestial_pass
+      POSTGRES_DB: palmistry_tarot_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U celestial_user -d palmistry_tarot_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - celestial_net
+
+  # -------------------------------------------------------------
+  # MongoDB 7 (Document Database)
+  # -------------------------------------------------------------
+  mongodb:
+    image: mongo:7.0
+    container_name: celestial_mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: celestial_user
+      MONGO_INITDB_ROOT_PASSWORD: celestial_pass
+      MONGO_INITDB_DATABASE: palmistry_tarot_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - celestial_net
+
+volumes:
+  pgdata:
+    driver: local
+  mongodata:
+    driver: local
+
+networks:
+  celestial_net:
+    driver: bridge
