@@ -1,27 +1,54 @@
-# Python
+﻿# Python cache
 __pycache__/
 *.py[cod]
 *.pyo
 
-# Virtual environment
+# Virtual environments
 .venv/
 venv/
 env/
 
-# Environment variables
+# Environment variables and secrets
 .env
+.env.*
+!.env.example
 
-# IDE
+# IDE files
 .vscode/
 .idea/
 
-# Node
+# Node dependencies
 node_modules/
 
-# Build files
+# Build outputs
 dist/
 build/
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
+
+# Uploaded user palm images
+/backend/storage/palms/
+
+# Generated YOLO cache files
+*.cache
+
+# YOLO training outputs and local dataset
+/runs/
+/Palm lines recognition-5/
+/yolo11n-pose.pt
+*.cache
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+/backend/yolo11n-pose.pt
+
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example

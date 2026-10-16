@@ -1,242 +1,76 @@
 import { useEffect, useState } from "react";
+import { Save, UserRound } from "lucide-react";
+import { createProfile, getProfile, updateProfile } from "../api/profile";
 
-import {
-  getProfile,
-  createProfile,
-  updateProfile,
-} from "../api/profile";
+const LOCAL_KEY = "profile_preferences";
 
-
-function Profile() {
-  const [profile, setProfile] = useState(null);
-
-  const [name, setName] = useState("");
-  const [ageGroup, setAgeGroup] = useState("");
-  const [profileImage, setProfileImage] = useState("");
-
+export default function Profile() {
+  const [profile, setProfile] = useState({ name: "", age_group: "", profile_image: "" });
+  const [extras, setExtras] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || '{"interests":[],"goal":"","readingType":"Tarot","spread":"Three Card","language":"English"}'); } catch { return {}; }
+  });
+  const [exists, setExists] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    loadProfile();
+    getProfile()
+      .then(data => { setProfile(data); setExists(true); })
+      .catch(err => { if (!err.message.includes("Profile not found")) setMessage(err.message); })
+      .finally(() => setLoading(false));
   }, []);
 
-
-  const loadProfile = async () => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const data = await getProfile();
-
-      setProfile(data);
-
-      setName(data.name || "");
-      setAgeGroup(data.age_group || "");
-      setProfileImage(data.profile_image || "");
-
-    } catch (error) {
-
-      if (error.response?.status === 404) {
-        setProfile(null);
-      } else {
-        setError(
-          error.response?.data?.detail ||
-          "Unable to load profile."
-        );
-      }
-
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    setSaving(true);
-    setError("");
-    setSuccess("");
-
-    const profileData = {
-      name: name || null,
-      age_group: ageGroup || null,
-      profile_image: profileImage || null,
-    };
-
-
-    try {
-      let data;
-
-      if (profile) {
-        data = await updateProfile(
-          profileData
-        );
-      } else {
-        data = await createProfile(
-          profileData
-        );
-      }
-
-      setProfile(data);
-
-      setName(data.name || "");
-      setAgeGroup(data.age_group || "");
-      setProfileImage(data.profile_image || "");
-
-      setSuccess(
-        "Profile saved successfully."
-      );
-
-    } catch (error) {
-
-      setError(
-        error.response?.data?.detail ||
-        "Unable to save profile."
-      );
-
-    } finally {
-      setSaving(false);
-    }
-  };
-
-
-  if (loading) {
-    return (
-      <div>
-        <h1>Profile</h1>
-        <p>Loading profile...</p>
-      </div>
-    );
+  function toggleInterest(item) {
+    const current = extras.interests || [];
+    setExtras({ ...extras, interests: current.includes(item) ? current.filter(x => x !== item) : [...current, item] });
   }
 
+  async function save(e) {
+    e.preventDefault();
+    setSaving(true); setMessage("");
+    try {
+      const data = exists ? await updateProfile(profile) : await createProfile(profile);
+      setProfile(data); setExists(true);
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(extras));
+      setMessage("Profile saved successfully.");
+    } catch (err) {
+      setMessage(err.message || "Unable to save profile.");
+    } finally { setSaving(false); }
+  }
+
+  if (loading) return <div className="loading-screen">Loading profile…</div>;
 
   return (
-    <div>
-
-      <h1>My Profile</h1>
-
-      {error && (
-        <p>{error}</p>
-      )}
-
-      {success && (
-        <p>{success}</p>
-      )}
-
-
-      <form onSubmit={handleSubmit}>
-
-        <div>
-          <label>
-            Name
-          </label>
-
-          <br />
-
-          <input
-            type="text"
-            value={name}
-            onChange={(event) =>
-              setName(event.target.value)
-            }
-            placeholder="Enter your name"
-          />
+    <div className="page-container narrow">
+      <div className="page-title"><div className="page-title-icon"><UserRound /></div><div><span className="section-kicker">ACCOUNT</span><h1>Your profile</h1><p>Keep your personal reading context organized.</p></div></div>
+      <form className="panel form-panel" onSubmit={save}>
+        <h2>Basic information</h2>
+        <div className="form-grid">
+          <Field label="Name" value={profile.name || ""} onChange={v => setProfile({ ...profile, name: v })} placeholder="Your name" />
+          <div><label>Age group</label><select value={profile.age_group || ""} onChange={e => setProfile({ ...profile, age_group: e.target.value })}><option value="">Select</option><option>Under 18</option><option>18–24</option><option>25–34</option><option>35–44</option><option>45–54</option><option>55+</option></select></div>
         </div>
 
+        <h2>Spiritual interests</h2>
+        <div className="chip-grid">{["Tarot","Palmistry","Meditation","Astrology","Self-reflection","Personal growth"].map(x => <button type="button" className={`chip ${extras.interests?.includes(x) ? "active" : ""}`} key={x} onClick={() => toggleInterest(x)}>{x}</button>)}</div>
 
-        <br />
-
-
-        <div>
-          <label>
-            Age Group
-          </label>
-
-          <br />
-
-          <select
-            value={ageGroup}
-            onChange={(event) =>
-              setAgeGroup(event.target.value)
-            }
-          >
-            <option value="">
-              Select age group
-            </option>
-
-            <option value="Under 18">
-              Under 18
-            </option>
-
-            <option value="18-24">
-              18-24
-            </option>
-
-            <option value="25-34">
-              25-34
-            </option>
-
-            <option value="35-44">
-              35-44
-            </option>
-
-            <option value="45-54">
-              45-54
-            </option>
-
-            <option value="55+">
-              55+
-            </option>
-          </select>
+        <h2>Reading preferences</h2>
+        <div className="form-grid">
+          <div><label>Reading type</label><select value={extras.readingType} onChange={e => setExtras({ ...extras, readingType: e.target.value })}><option>Tarot</option><option>Palm</option><option>Both</option></select></div>
+          <div><label>Preferred spread</label><select value={extras.spread} onChange={e => setExtras({ ...extras, spread: e.target.value })}><option>Single Card</option><option>Three Card</option><option>Relationship</option><option>Career</option><option>Celtic Cross</option><option>Life Path</option></select></div>
         </div>
 
+        <h2>Spiritual goal</h2>
+        <textarea rows="4" value={extras.goal || ""} onChange={e => setExtras({ ...extras, goal: e.target.value })} placeholder="What would you like your readings to help you reflect on?" />
 
-        <br />
-
-
-        <div>
-          <label>
-            Profile Image URL
-          </label>
-
-          <br />
-
-          <input
-            type="text"
-            value={profileImage}
-            onChange={(event) =>
-              setProfileImage(event.target.value)
-            }
-            placeholder="Optional image URL"
-          />
-        </div>
-
-
-        <br />
-
-
-        <button
-          type="submit"
-          disabled={saving}
-        >
-          {saving
-            ? "Saving..."
-            : profile
-              ? "Update Profile"
-              : "Create Profile"}
-        </button>
-
+        <div className="info-box"></div>
+        {message && <div className={message.includes("success") ? "success-box" : "error-box"}>{message}</div>}
+        <button className="button primary" disabled={saving}><Save size={17} /> {saving ? "Saving…" : "Save profile"}</button>
       </form>
-
     </div>
   );
 }
 
-
-export default Profile;
+function Field({ label, value, onChange, placeholder }) {
+  return <div><label>{label}</label><input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} /></div>;
+}

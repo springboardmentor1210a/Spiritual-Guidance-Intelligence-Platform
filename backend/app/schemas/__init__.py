@@ -13,3 +13,7 @@ from app.schemas.profile import (
     UserSpiritualInterestResponse,
     ReadingSessionResponse,
 )
+from app.schemas.reading_report import (
+    ReadingReportCreate,
+    ReadingReportResponse,
+)

@@ -1,21 +1,15 @@
-import apiClient from "./client";
+import { apiRequest } from "./client";
 
-
-export async function registerUser(userData) {
-  const response = await apiClient.post(
-    "/auth/register",
-    userData
-  );
-
-  return response.data;
+export function registerUser(payload) {
+  return apiRequest("/api/v1/auth/register", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 }
 
-
-export async function loginUser(credentials) {
-  const response = await apiClient.post(
-    "/auth/login",
-    credentials
-  );
-
-  return response.data;
+export function loginUser(payload) {
+  return apiRequest("/api/v1/auth/login", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 }

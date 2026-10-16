@@ -41,12 +41,14 @@ def create_reading_session(
     user_id: int,
     reading_type: str,
     summary: str | None,
+    source_image_path: str | None = None,
 ) -> ReadingSession:
 
     reading_session = ReadingSession(
         user_id=user_id,
         reading_type=reading_type,
         summary=summary,
+        source_image_path=source_image_path,
     )
 
     db.add(reading_session)

@@ -1,81 +1,47 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+import AppRoutes from "./routes/AppRoutes";
+import Navbar from "./components/Navbar";
+import AIChatWidget from "./components/AIChatWidget";
 
-import ProtectedRoute from "./components/ProtectedRoute";
-import Profile from "./pages/Profile";
+import { ThemeProvider } from "./context/ThemeContext";
 
 
-function App() {
+export default function App() {
+
+  const location = useLocation();
+
+  const publicRoutes = [
+    "/",
+    "/login",
+    "/register",
+  ];
+
+  const showNavbar =
+    !publicRoutes.includes(location.pathname);
+
+
   return (
-    <BrowserRouter>
+    <ThemeProvider>
 
-      <Routes>
+      <div className="app-shell">
 
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to="/login"
-              replace
-            />
+        {showNavbar && <Navbar />}
+
+        <main
+          className={
+            showNavbar
+              ? "main-with-nav"
+              : ""
           }
-        />
+        >
+          <AppRoutes />
+        </main>
 
+        {showNavbar && <AIChatWidget />}
 
-        <Route
-          path="/login"
-          element={<Login />}
-        />
+      </div>
 
-
-        <Route
-          path="/register"
-          element={<Register />}
-        />
-
-
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-
-
-        <Route
-          path="*"
-          element={
-            <Navigate
-              to="/login"
-              replace
-            />
-          }
-        />
-
-      </Routes>
-
-    </BrowserRouter>
+    </ThemeProvider>
   );
 }
-
-
-export default App;

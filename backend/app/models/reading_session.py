@@ -11,32 +11,43 @@ class ReadingSession(Base):
 
     id: Mapped[int] = mapped_column(
         primary_key=True,
-        index=True
+        index=True,
     )
 
     user_id: Mapped[int] = mapped_column(
         ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
-        index=True
+        index=True,
     )
 
     reading_type: Mapped[str] = mapped_column(
         String(50),
-        nullable=False
+        nullable=False,
+    )
+
+    source_image_path: Mapped[str | None] = mapped_column(
+        String(500),
+        nullable=True,
     )
 
     summary: Mapped[str | None] = mapped_column(
         Text,
-        nullable=True
+        nullable=True,
     )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow,
-        nullable=False
+        nullable=False,
     )
 
     user = relationship(
         "User",
-        back_populates="reading_sessions"
+        back_populates="reading_sessions",
+    )
+
+    report = relationship(
+        "ReadingReport",
+        back_populates="reading_session",
+        uselist=False,
     )

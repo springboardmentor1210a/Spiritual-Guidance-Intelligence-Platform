@@ -1,122 +1,75 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-
-import { loginUser } from "../api/auth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, LockKeyhole, Mail, Sparkles } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
+const roles = [
+  ["user", "User", "Personal readings and self-reflection"],
+  ["tarot_reader", "Tarot Reader", "Reader workspace access"],
+  ["spiritual_consultant", "Spiritual Consultant", "Consultation workflows"],
+  ["administrator", "Administrator", "Administrative workspace"],
+];
 
-function Login() {
+export default function Login() {
+  const { login, loading } = useAuth();
   const navigate = useNavigate();
-
-  const { login } = useAuth();
-
-  const [email, setEmail] = useState("");
-
-  const [password, setPassword] = useState("");
-
+  const location = useLocation();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [role, setRole] = useState("user");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
-  const [loading, setLoading] = useState(false);
-
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  async function submit(e) {
+    e.preventDefault();
     setError("");
-    setLoading(true);
-
     try {
-      const response = await loginUser({
-        email,
-        password,
-      });
-
-      login(
-        response.access_token,
-        response.user
-      );
-
-      navigate("/dashboard");
-
-    } catch (error) {
-
-      if (error.response?.data?.detail) {
-        setError(error.response.data.detail);
-      } else {
-        setError(
-          "Unable to connect to the server."
-        );
-      }
-
-    } finally {
-      setLoading(false);
+      await login(form.email, form.password, role);
+      navigate(location.state?.from?.pathname || "/dashboard", { replace: true });
+    } catch (err) {
+      setError(err.message || "Unable to sign in.");
     }
-  };
-
+  }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <AuthLayout title="Welcome back" subtitle="Sign in to continue your reading journey.">
+      <form onSubmit={submit} className="auth-form">
+        <label>Email address</label>
+        <div className="input-wrap"><Mail size={17} /><input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" /></div>
 
-      <form onSubmit={handleSubmit}>
+        <label>Password</label>
+        <div className="input-wrap"><LockKeyhole size={17} /><input required type={showPassword ? "text" : "password"} value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} placeholder="Your password" /><button type="button" className="input-action" onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button></div>
 
-        <div>
-          <label>Email</label>
-
-          <input
-            type="email"
-            value={email}
-            onChange={(event) =>
-              setEmail(event.target.value)
-            }
-            required
-          />
+        <label>Access role</label>
+        <div className="role-grid compact">
+          {roles.map(([value, title, text]) => (
+            <button type="button" key={value} className={`role-option ${role === value ? "selected" : ""}`} onClick={() => setRole(value)}>
+              <strong>{title}</strong><span>{text}</span>
+            </button>
+          ))}
         </div>
 
+        {error && <div className="error-box">{error}</div>}
 
-        <div>
-          <label>Password</label>
-
-          <input
-            type="password"
-            value={password}
-            onChange={(event) =>
-              setPassword(event.target.value)
-            }
-            required
-          />
-        </div>
-
-
-        {error && (
-          <p>
-            {error}
-          </p>
-        )}
-
-
-        <button
-          type="submit"
-          disabled={loading}
-        >
-          {loading
-            ? "Logging in..."
-            : "Login"}
-        </button>
-
+        <button className="button primary full" disabled={loading}>{loading ? "Signing in…" : "Sign in"}</button>
+        <p className="auth-foot">New here? <Link to="/register">Create an account</Link></p>
       </form>
-
-
-      <p>
-        Don't have an account?{" "}
-        <Link to="/register">
-          Register
-        </Link>
-      </p>
-
-    </div>
+    </AuthLayout>
   );
 }
 
-
-export default Login;
+export function AuthLayout({ title, subtitle, children }) {
+  return (
+    <div className="auth-page">
+      <div className="auth-decoration">
+        <div className="auth-symbol"><Sparkles size={31} /></div>
+        <h2>Arcana Intelligence</h2>
+        <p>Structured readings. Personal context. Meaningful reflection.</p>
+      </div>
+      <div className="auth-panel">
+        <Link to="/" className="mini-brand"><span>✦</span> Arcana</Link>
+        <div className="auth-heading"><h1>{title}</h1><p>{subtitle}</p></div>
+        {children}
+      </div>
+    </div>
+  );
+}

@@ -61,6 +61,11 @@ class User(Base):
         uselist=False,
         cascade="all, delete-orphan"
     )
+    reading_reports = relationship(
+        "ReadingReport",
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
 
     spiritual_goals = relationship(
         "SpiritualGoal",

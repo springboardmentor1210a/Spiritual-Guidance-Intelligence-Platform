@@ -1,30 +1,19 @@
-import apiClient from "./client";
+import { apiRequest } from "./client";
 
-
-export async function getProfile() {
-  const response = await apiClient.get(
-    "/profile"
-  );
-
-  return response.data;
+export function getProfile() {
+  return apiRequest("/api/v1/profile");
 }
 
-
-export async function createProfile(profileData) {
-  const response = await apiClient.post(
-    "/profile",
-    profileData
-  );
-
-  return response.data;
+export function createProfile(payload) {
+  return apiRequest("/api/v1/profile", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 }
 
-
-export async function updateProfile(profileData) {
-  const response = await apiClient.put(
-    "/profile",
-    profileData
-  );
-
-  return response.data;
+export function updateProfile(payload) {
+  return apiRequest("/api/v1/profile", {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
 }
