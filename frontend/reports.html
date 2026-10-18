@@ -1,0 +1,2711 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | Palmistry & Tarot AI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f3fa;
+            color: #292333;
+            min-height: 100vh;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================== */
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: linear-gradient(
+                180deg,
+                #4b176f 0%,
+                #6d2491 55%,
+                #42145f 100%
+            );
+            color: white;
+            padding: 24px 16px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 20;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 5px 10px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            margin-bottom: 20px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+        }
+
+        .brand-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            opacity: 0.72;
+            margin-top: 3px;
+        }
+
+        .user-box {
+            background: rgba(255,255,255,0.10);
+            border-radius: 14px;
+            padding: 13px;
+            margin-bottom: 24px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .user-role {
+            font-size: 11px;
+            opacity: 0.75;
+            margin-top: 4px;
+        }
+
+        .menu-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.55;
+            margin: 20px 10px 9px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: rgba(255,255,255,0.82);
+            padding: 12px 13px;
+            border-radius: 11px;
+            margin-bottom: 5px;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: rgba(255,255,255,0.17);
+            color: white;
+            box-shadow: inset 3px 0 0 #ffffff;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .logout {
+            margin-top: 28px;
+            color: #ffd7df;
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: #30223d;
+            margin-bottom: 6px;
+        }
+
+        .page-subtitle {
+            color: #766b80;
+            font-size: 14px;
+        }
+
+        .refresh-btn {
+            border: none;
+            background: linear-gradient(
+                135deg,
+                #6d2491,
+                #9b4dcc
+            );
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(109,36,145,0.20);
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           SUMMARY CARDS
+        ========================== */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 17px;
+            padding: 20px;
+            border: 1px solid #ebe5f0;
+            box-shadow: 0 6px 20px rgba(40,20,55,0.05);
+        }
+
+        .summary-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            background: #f0e4f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .summary-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #54206f;
+            margin-top: 14px;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #766b80;
+            margin-top: 4px;
+        }
+
+        /* =========================
+           REPORT SECTION
+        ========================== */
+
+        .report-container {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid #ebe5f0;
+            box-shadow: 0 7px 24px rgba(40,20,55,0.05);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid #eee8f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #382743;
+        }
+
+        .section-description {
+            font-size: 12px;
+            color: #857a8d;
+            margin-top: 4px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        th {
+            background: #faf7fc;
+            color: #6b5c73;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 15px 18px;
+            border-bottom: 1px solid #eee8f1;
+        }
+
+        td {
+            padding: 17px 18px;
+            border-bottom: 1px solid #f0ebf3;
+            font-size: 13px;
+            color: #4e4355;
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background: #fcf9fd;
+        }
+
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            background: #f1e6f7;
+            color: #68258a;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #e8f7ed;
+            color: #24763f;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .report-name {
+            font-weight: bold;
+            color: #3e2d49;
+        }
+
+        .report-id {
+            color: #978c9d;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 11px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .view-btn {
+            background: #eee4f5;
+            color: #642280;
+        }
+
+        .download-btn {
+            background: #54206f;
+            color: white;
+        }
+
+        .action-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* =========================
+           LOADING / EMPTY / ERROR
+        ========================== */
+
+        .message-cell {
+            text-align: center;
+            padding: 55px 20px;
+            color: #817688;
+        }
+
+        .loading-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #eadff0;
+            border-top-color: #702792;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 14px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-box {
+            margin: 20px;
+            background: #fff1f1;
+            border: 1px solid #f1cccc;
+            color: #a43a3a;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MODAL
+        ========================== */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(25,15,35,0.65);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            width: min(760px, 100%);
+            max-height: 88vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 70px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            padding: 20px 23px;
+            background: linear-gradient(
+                135deg,
+                #4b176f,
+                #7d329f
+            );
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            border: none;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .detail-card {
+            background: #faf7fc;
+            border: 1px solid #eee6f2;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .detail-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #887b91;
+            margin-bottom: 6px;
+        }
+
+        .detail-value {
+            font-size: 13px;
+            color: #3f3049;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        .content-block {
+            margin-top: 18px;
+        }
+
+        .content-title {
+            font-size: 14px;
+            color: #54206f;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .content-text {
+            background: #faf8fb;
+            border-radius: 12px;
+            border: 1px solid #eee7f2;
+            padding: 15px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #514656;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .card-item {
+            background: #ffffff;
+            border: 1px solid #eee6f2;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .card-name {
+            font-weight: bold;
+            color: #54206f;
+            margin-bottom: 5px;
+        }
+
+        .card-position {
+            font-size: 11px;
+            color: #887b91;
+            margin-bottom: 6px;
+        }
+
+        .card-meaning {
+            font-size: 13px;
+            color: #514656;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 215px;
+            }
+
+            .main {
+                margin-left: 215px;
+                width: calc(100% - 215px);
+                padding: 20px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .app {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 16px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 23px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                âœ¨
+            </div>
+
+            <div>
+                <div class="brand-title">
+                    Palmistry & Tarot
+                </div>
+
+                <div class="brand-subtitle">
+                    AI Intelligence Platform
+                </div>
+            </div>
+
+        </div>
+
+        <div class="user-box">
+
+            <div class="user-name" id="sidebarUserName">
+                User
+            </div>
+
+            <div class="user-role">
+                âœ¦ User
+            </div>
+
+        </div>
+
+        <div class="menu-title">
+            Platform Navigation
+        </div>
+
+        <a href="dashboard.html" class="nav-link">
+            <span class="nav-icon">ðŸ </span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="palmistry.html" class="nav-link">
+            <span class="nav-icon">âœ‹</span>
+            <span>Palmistry Reading</span>
+        </a>
+
+        <a href="tarot.html" class="nav-link">
+            <span class="nav-icon">ðŸƒ</span>
+            <span>Tarot Reading</span>
+        </a>
+
+        <a href="insights.html" class="nav-link">
+            <span class="nav-icon">ðŸ’¡</span>
+            <span>Insights</span>
+        </a>
+
+        <a href="reports.html" class="nav-link active">
+            <span class="nav-icon">ðŸ“„</span>
+            <span>Reports</span>
+        </a>
+
+        <a href="reading-history.html" class="nav-link">
+            <span class="nav-icon">ðŸ•˜</span>
+            <span>Reading History</span>
+        </a>
+
+        <a href="profile.html" class="nav-link">
+            <span class="nav-icon">ðŸ‘¤</span>
+            <span>Profile</span>
+        </a>
+
+        <div class="menu-title">
+            Account
+        </div>
+
+        <a href="#" class="nav-link logout"
+           onclick="logout(); return false;">
+
+            <span class="nav-icon">ðŸšª</span>
+            <span>Logout</span>
+
+        </a>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1 class="page-title">
+                    Saved Reports
+                </h1>
+
+                <p class="page-subtitle">
+                    View and download your Palmistry and Tarot reading reports.
+                </p>
+
+            </div>
+
+            <button
+                class="refresh-btn"
+                onclick="loadReports()"
+            >
+                â†» Refresh Reports
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             SUMMARY
+        ========================== -->
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div>
+
+                        <div class="summary-label">
+                            Total Reports
+                        </div>
+
+                        <div
+                            class="summary-number"
+                            id="totalReports"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        ðŸ“„
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div>
+
+                        <div class="summary-label">
+                            Palmistry Reports
+                        </div>
+
+                        <div
+                            class="summary-number"
+                            id="palmReports"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        âœ‹
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div>
+
+                        <div class="summary-label">
+                            Tarot Reports
+                        </div>
+
+                        <div
+                            class="summary-number"
+                            id="tarotReports"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+                    <div class="summary-icon">
+                        ðŸƒ
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             REPORT TABLE
+        ========================== -->
+
+        <section class="report-container">
+
+            <div class="section-header">
+
+                <div>
+
+                    <div class="section-title">
+                        My Reports
+                    </div>
+
+                    <div class="section-description">
+                        Your generated reading reports are listed below.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Type</th>
+                            <th>Report</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="reportsBody">
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="message-cell"
+                            >
+
+                                <div class="loading-spinner"></div>
+
+                                Loading reports...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================
+     REPORT MODAL
+========================== -->
+
+<div
+    class="modal-overlay"
+    id="reportModal"
+    onclick="closeModal(event)"
+>
+
+    <div
+        class="modal"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="modal-header">
+
+            <div
+                class="modal-title"
+                id="modalTitle"
+            >
+                Report Details
+            </div>
+
+            <button
+                class="close-btn"
+                onclick="closeReportModal()"
+            >
+                Ã—
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div
+                class="detail-grid"
+                id="modalDetails"
+            ></div>
+
+            <div id="modalContent"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================
+       CONFIGURATION
+    ========================== */
+
+    const API_URL = "http://127.0.0.1:8001";
+
+    let allReports = [];
+
+
+    /* =========================
+       TOKEN
+    ========================== */
+
+    function getToken() {
+
+        return (
+            localStorage.getItem("access_token") ||
+            localStorage.getItem("token")
+        );
+
+    }
+
+
+    /* =========================
+       LOGIN CHECK
+    ========================== */
+
+    function checkLogin() {
+
+        const token = getToken();
+
+        if (!token) {
+
+            window.location.href = "login.html";
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+
+    /* =========================
+       USER NAME
+    ========================== */
+
+    function showUserName() {
+
+        const username =
+            localStorage.getItem("username") ||
+            localStorage.getItem("name") ||
+            "User";
+
+        document.getElementById(
+            "sidebarUserName"
+        ).textContent = username;
+
+    }
+
+
+    /* =========================
+       ESCAPE HTML
+    ========================== */
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* =========================
+       FORMAT DATE
+    ========================== */
+
+    function formatDate(value) {
+
+        if (!value) {
+
+            return "N/A";
+
+        }
+
+        const date = new Date(value);
+
+        if (isNaN(date.getTime())) {
+
+            return String(value);
+
+        }
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =========================
+       GET REPORT DATE
+    ========================== */
+
+    function getReportDate(report) {
+
+        return (
+            report.created_at ||
+            report.date ||
+            report.updated_at ||
+            ""
+        );
+
+    }
+
+
+    /* =========================
+       REPORT TYPE
+    ========================== */
+
+    function getReportType(report) {
+
+        const type =
+            String(
+                report.report_type ||
+                report.type ||
+                ""
+            ).toLowerCase();
+
+
+        if (
+            type.includes("palmistry") &&
+            type.includes("tarot")
+        ) {
+
+            return "Palmistry + Tarot";
+
+        }
+
+
+        if (type.includes("palm")) {
+
+            return "Palmistry";
+
+        }
+
+
+        if (type.includes("tarot")) {
+
+            return "Tarot";
+
+        }
+
+
+        if (
+            report.palm_reading_id &&
+            report.tarot_reading_id
+        ) {
+
+            return "Palmistry + Tarot";
+
+        }
+
+
+        if (report.palm_reading_id) {
+
+            return "Palmistry";
+
+        }
+
+
+        if (report.tarot_reading_id) {
+
+            return "Tarot";
+
+        }
+
+
+        return "Reading";
+
+    }
+
+
+    /* =========================
+       REPORT TITLE
+    ========================== */
+
+    function getReportName(report) {
+
+        return (
+            report.title ||
+            report.report_name ||
+            report.report_type ||
+            "AI Reading Report"
+        );
+
+    }
+
+
+    /* =========================
+       TYPE ICON
+    ========================== */
+
+    function getTypeIcon(type) {
+
+        if (type === "Palmistry") {
+
+            return "âœ‹";
+
+        }
+
+        if (type === "Tarot") {
+
+            return "ðŸƒ";
+
+        }
+
+        if (type === "Palmistry + Tarot") {
+
+            return "âœ¨";
+
+        }
+
+        return "ðŸ“„";
+
+    }
+
+
+    /* =========================
+       CREATE TABLE ROW
+    ========================== */
+
+    function createReportRow(report, index) {
+
+        const row =
+            document.createElement("tr");
+
+        const type =
+            getReportType(report);
+
+        const reportId =
+            report.report_id ||
+            report.id ||
+            "";
+
+
+        row.innerHTML = `
+
+            <td>
+
+                <span class="type-badge">
+
+                    ${getTypeIcon(type)}
+
+                    ${escapeHtml(type)}
+
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <div class="report-name">
+
+                    ${escapeHtml(
+                        getReportName(report)
+                    )}
+
+                </div>
+
+                ${
+                    reportId
+                    ?
+                    `<div class="report-id">
+                        Report ID: ${escapeHtml(reportId)}
+                    </div>`
+                    :
+                    ""
+                }
+
+            </td>
+
+
+            <td>
+
+                ${escapeHtml(
+                    formatDate(
+                        getReportDate(report)
+                    )
+                )}
+
+            </td>
+
+
+            <td>
+
+                <span class="status">
+                    Completed
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <div class="actions">
+
+                    <button
+                        class="action-btn view-btn"
+                        onclick="viewReport(${index})"
+                    >
+                        ðŸ‘ï¸ View
+                    </button>
+
+
+                    <button
+                        class="action-btn download-btn"
+                        onclick="downloadReport(${index})"
+                    >
+                        â¬‡ï¸ Download
+                    </button>
+
+                </div>
+
+            </td>
+
+        `;
+
+
+        return row;
+
+    }
+
+
+    /* =========================
+       LOAD REPORTS
+    ========================== */
+
+    async function loadReports() {
+
+        const body =
+            document.getElementById(
+                "reportsBody"
+            );
+
+
+        body.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="5"
+                    class="message-cell"
+                >
+
+                    <div class="loading-spinner"></div>
+
+                    Loading reports...
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        try {
+
+            const token = getToken();
+
+
+            if (!token) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            const response =
+                await fetch(
+                    API_URL + "/reports",
+                    {
+                        method: "GET",
+
+                        headers: {
+
+                            "Accept":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " + token
+
+                        }
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                let message =
+                    "Unable to load reports.";
+
+                try {
+
+                    const errorData =
+                        await response.json();
+
+                    message =
+                        errorData.detail ||
+                        errorData.message ||
+                        message;
+
+                }
+                catch (error) {
+
+                    console.error(error);
+
+                }
+
+                throw new Error(message);
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Reports API response:",
+                data
+            );
+
+
+            if (
+                data &&
+                Array.isArray(data.reports)
+            ) {
+
+                allReports =
+                    data.reports;
+
+            }
+            else if (
+                Array.isArray(data)
+            ) {
+
+                allReports =
+                    data;
+
+            }
+            else {
+
+                allReports = [];
+
+            }
+
+
+            renderReports();
+
+        }
+        catch (error) {
+
+            console.error(
+                "Reports loading error:",
+                error
+            );
+
+
+            body.innerHTML = `
+
+                <tr>
+
+                    <td colspan="5">
+
+                        <div class="error-box">
+
+                            <strong>
+                                Unable to load reports
+                            </strong>
+
+                            <br><br>
+
+                            ${escapeHtml(
+                                error.message
+                            )}
+
+                            <br><br>
+
+                            Make sure your FastAPI backend
+                            is running at
+                            <strong>
+                                127.0.0.1:8001
+                            </strong>.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =========================
+       RENDER REPORTS
+    ========================== */
+
+    function renderReports() {
+
+        const body =
+            document.getElementById(
+                "reportsBody"
+            );
+
+
+        body.innerHTML = "";
+
+
+        document.getElementById(
+            "totalReports"
+        ).textContent =
+            allReports.length;
+
+
+        let palmCount = 0;
+        let tarotCount = 0;
+
+
+        allReports.forEach(
+            function(report) {
+
+                const type =
+                    getReportType(report);
+
+
+                if (
+                    type === "Palmistry" ||
+                    type === "Palmistry + Tarot"
+                ) {
+
+                    palmCount++;
+
+                }
+
+
+                if (
+                    type === "Tarot" ||
+                    type === "Palmistry + Tarot"
+                ) {
+
+                    tarotCount++;
+
+                }
+
+            }
+        );
+
+
+        document.getElementById(
+            "palmReports"
+        ).textContent =
+            palmCount;
+
+
+        document.getElementById(
+            "tarotReports"
+        ).textContent =
+            tarotCount;
+
+
+        if (allReports.length === 0) {
+
+            body.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="5"
+                        class="message-cell"
+                    >
+
+                        <div style="font-size:42px;margin-bottom:12px;">
+                            ðŸ“„
+                        </div>
+
+                        <strong>
+                            No reports found yet.
+                        </strong>
+
+                        <br><br>
+
+                        Complete a Palmistry or Tarot
+                        reading to generate reports.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        /* Newest first */
+
+        allReports.sort(
+            function(a, b) {
+
+                const dateA =
+                    new Date(
+                        getReportDate(a)
+                    ).getTime() || 0;
+
+                const dateB =
+                    new Date(
+                        getReportDate(b)
+                    ).getTime() || 0;
+
+                return dateB - dateA;
+
+            }
+        );
+
+
+        allReports.forEach(
+            function(report, index) {
+
+                body.appendChild(
+                    createReportRow(
+                        report,
+                        index
+                    )
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       VIEW REPORT
+    ========================== */
+
+    async function viewReport(index) {
+
+        const report =
+            allReports[index];
+
+
+        if (!report) {
+
+            return;
+
+        }
+
+
+        const reportId =
+            report.report_id ||
+            report.id;
+
+
+        if (!reportId) {
+
+            alert(
+                "Report ID is not available."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            "Loading Report...";
+
+
+        document.getElementById(
+            "modalDetails"
+        ).innerHTML = "";
+
+
+        document.getElementById(
+            "modalContent"
+        ).innerHTML = `
+
+            <div class="message-cell">
+
+                <div class="loading-spinner"></div>
+
+                Loading report details...
+
+            </div>
+
+        `;
+
+
+        document.getElementById(
+            "reportModal"
+        ).classList.add("show");
+
+
+        try {
+
+            const token = getToken();
+
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/reports/" +
+                    reportId,
+                    {
+                        method: "GET",
+
+                        headers: {
+
+                            "Accept":
+                                "application/json",
+
+                            "Authorization":
+                                "Bearer " + token
+
+                        }
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                let message =
+                    "Unable to load report details.";
+
+                try {
+
+                    const errorData =
+                        await response.json();
+
+                    message =
+                        errorData.detail ||
+                        errorData.message ||
+                        message;
+
+                }
+                catch (error) {
+
+                    console.error(error);
+
+                }
+
+                throw new Error(message);
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "Single report response:",
+                data
+            );
+
+
+            const detailedReport =
+                data.report ||
+                data;
+
+
+            renderReportDetails(
+                detailedReport
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "View report error:",
+                error
+            );
+
+
+            document.getElementById(
+                "modalContent"
+            ).innerHTML = `
+
+                <div class="error-box">
+
+                    <strong>
+                        Unable to load report
+                    </strong>
+
+                    <br><br>
+
+                    ${escapeHtml(
+                        error.message
+                    )}
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =========================
+       RENDER REPORT DETAILS
+    ========================== */
+
+    function renderReportDetails(report) {
+
+        const reportId =
+            report.report_id ||
+            report.id ||
+            "N/A";
+
+
+        const type =
+            getReportType(report);
+
+
+        const title =
+            getReportName(report);
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            title;
+
+
+        document.getElementById(
+            "modalDetails"
+        ).innerHTML = `
+
+            <div class="detail-card">
+
+                <div class="detail-label">
+                    Report Type
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(type)}
+                </div>
+
+            </div>
+
+
+            <div class="detail-card">
+
+                <div class="detail-label">
+                    Report ID
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(reportId)}
+                </div>
+
+            </div>
+
+
+            <div class="detail-card">
+
+                <div class="detail-label">
+                    Date
+                </div>
+
+                <div class="detail-value">
+                    ${escapeHtml(
+                        formatDate(
+                            getReportDate(report)
+                        )
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="detail-card">
+
+                <div class="detail-label">
+                    Status
+                </div>
+
+                <div class="detail-value">
+                    Completed
+                </div>
+
+            </div>
+
+        `;
+
+
+        let content =
+            report.content;
+
+
+        /*
+         * Report.content is stored as JSON.
+         * Convert it into an object if necessary.
+         */
+
+        if (typeof content === "string") {
+
+            try {
+
+                content =
+                    JSON.parse(content);
+
+            }
+            catch (error) {
+
+                /* Keep it as normal text */
+
+            }
+
+        }
+
+
+        let contentHTML = "";
+
+
+        if (
+            typeof content === "string"
+        ) {
+
+            contentHTML += `
+
+                <div class="content-block">
+
+                    <div class="content-title">
+                        âœ¨ Report Content
+                    </div>
+
+                    <div class="content-text">
+                        ${escapeHtml(content)}
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+        else if (
+            content &&
+            typeof content === "object"
+        ) {
+
+            contentHTML =
+                renderContentObject(
+                    content
+                );
+
+        }
+
+
+        /*
+         * Fallback for APIs that return
+         * content inside another property.
+         */
+
+        if (!contentHTML && report.content) {
+
+            contentHTML += `
+
+                <div class="content-block">
+
+                    <div class="content-title">
+                        âœ¨ Report Content
+                    </div>
+
+                    <div class="content-text">
+                        ${escapeHtml(
+                            String(report.content)
+                        )}
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        if (!contentHTML) {
+
+            contentHTML = `
+
+                <div class="content-block">
+
+                    <div class="content-title">
+                        ðŸ“„ Report Information
+                    </div>
+
+                    <div class="content-text">
+
+                        The report was successfully
+                        generated, but no detailed
+                        content is available.
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        document.getElementById(
+            "modalContent"
+        ).innerHTML =
+            contentHTML;
+
+    }
+
+
+    /* =========================
+       RENDER JSON CONTENT
+    ========================== */
+
+    function renderContentObject(content) {
+
+        let html = "";
+
+
+        /*
+         * Palmistry section
+         */
+
+        if (
+            content.palmistry
+        ) {
+
+            const palm =
+                content.palmistry;
+
+
+            html += `
+
+                <div class="content-block">
+
+                    <div class="content-title">
+                        âœ‹ Palmistry Analysis
+                    </div>
+
+                    <div class="content-text">
+            `;
+
+
+            if (
+                palm.palm_detected !== undefined
+            ) {
+
+                html += `
+                    Palm Detected:
+                    ${escapeHtml(
+                        String(
+                            palm.palm_detected
+                        )
+                    )}
+                    \n
+                `;
+
+            }
+
+
+            if (
+                palm.detection_confidence !== undefined
+            ) {
+
+                html += `
+                    Detection Confidence:
+                    ${escapeHtml(
+                        String(
+                            palm.detection_confidence
+                        )
+                    )}%
+                    \n
+                `;
+
+            }
+
+
+            if (
+                palm.analysis_confidence !== undefined
+            ) {
+
+                html += `
+                    Analysis Confidence:
+                    ${escapeHtml(
+                        String(
+                            palm.analysis_confidence
+                        )
+                    )}%
+                    \n
+                `;
+
+            }
+
+
+            if (palm.life_line) {
+
+                html += `
+                    Life Line:
+                    ${escapeHtml(
+                        palm.life_line
+                    )}
+                    \n
+                `;
+
+            }
+
+
+            if (palm.heart_line) {
+
+                html += `
+                    Heart Line:
+                    ${escapeHtml(
+                        palm.heart_line
+                    )}
+                    \n
+                `;
+
+            }
+
+
+            if (palm.head_line) {
+
+                html += `
+                    Head Line:
+                    ${escapeHtml(
+                        palm.head_line
+                    )}
+                    \n
+                `;
+
+            }
+
+
+            if (palm.fate_line) {
+
+                html += `
+                    Fate Line:
+                    ${escapeHtml(
+                        palm.fate_line
+                    )}
+                    \n
+                `;
+
+            }
+
+
+            if (palm.other_features) {
+
+                html += `
+                    Other Features:
+                    ${escapeHtml(
+                        palm.other_features
+                    )}
+                    \n
+                `;
+
+            }
+
+
+            if (palm.interpretation) {
+
+                html += `
+                    Interpretation:
+                    ${escapeHtml(
+                        palm.interpretation
+                    )}
+                    \n
+                `;
+
+            }
+
+
+            if (palm.personalized_guidance) {
+
+                html += `
+                    Personalized Guidance:
+                    ${escapeHtml(
+                        palm.personalized_guidance
+                    )}
+                `;
+
+            }
+
+
+            html += `
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /*
+         * Tarot section
+         */
+
+        if (
+            content.tarot
+        ) {
+
+            const tarot =
+                content.tarot;
+
+
+            html += `
+
+                <div class="content-block">
+
+                    <div class="content-title">
+                        ðŸƒ Tarot Reading
+                    </div>
+
+            `;
+
+
+            if (tarot.reading_type) {
+
+                html += `
+
+                    <div class="content-text">
+
+                        Reading Type:
+                        ${escapeHtml(
+                            tarot.reading_type
+                        )}
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (tarot.question) {
+
+                html += `
+
+                    <div class="content-text">
+
+                        Question:
+                        ${escapeHtml(
+                            tarot.question
+                        )}
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (
+                Array.isArray(
+                    tarot.cards
+                )
+            ) {
+
+                html += `
+
+                    <div class="content-text">
+
+                        <strong>
+                            Selected Cards
+                        </strong>
+
+                        <br><br>
+
+                `;
+
+
+                tarot.cards.forEach(
+                    function(card) {
+
+                        html += `
+
+                            <div class="card-item">
+
+                                <div class="card-name">
+
+                                    ðŸƒ
+                                    ${escapeHtml(
+                                        card.card_name ||
+                                        card.name ||
+                                        "Tarot Card"
+                                    )}
+
+                                </div>
+
+                                ${
+                                    card.position
+                                    ?
+                                    `<div class="card-position">
+                                        Position:
+                                        ${escapeHtml(
+                                            card.position
+                                        )}
+                                    </div>`
+                                    :
+                                    ""
+                                }
+
+                                ${
+                                    card.meaning
+                                    ?
+                                    `<div class="card-meaning">
+                                        ${escapeHtml(
+                                            card.meaning
+                                        )}
+                                    </div>`
+                                    :
+                                    ""
+                                }
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (tarot.interpretation) {
+
+                html += `
+
+                    <div class="content-block">
+
+                        <div class="content-title">
+                            ðŸ“ Tarot Interpretation
+                        </div>
+
+                        <div class="content-text">
+                            ${escapeHtml(
+                                tarot.interpretation
+                            )}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            if (tarot.personalized_guidance) {
+
+                html += `
+
+                    <div class="content-block">
+
+                        <div class="content-title">
+                            ðŸ’¡ Tarot Personalized Guidance
+                        </div>
+
+                        <div class="content-text">
+                            ${escapeHtml(
+                                tarot.personalized_guidance
+                            )}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /*
+         * Overall reading
+         */
+
+        if (
+            content.overall_reading
+        ) {
+
+            html += `
+
+                <div class="content-block">
+
+                    <div class="content-title">
+                        âœ¨ Overall Reading
+                    </div>
+
+                    <div class="content-text">
+                        ${escapeHtml(
+                            content.overall_reading
+                        )}
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /*
+         * Guidance
+         */
+
+        if (
+            content.guidance
+        ) {
+
+            html += `
+
+                <div class="content-block">
+
+                    <div class="content-title">
+                        ðŸ’¡ Guidance
+                    </div>
+
+                    <div class="content-text">
+                        ${escapeHtml(
+                            content.guidance
+                        )}
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /*
+         * Generic JSON fallback
+         */
+
+        if (!html) {
+
+            html = `
+
+                <div class="content-block">
+
+                    <div class="content-title">
+                        âœ¨ Report Content
+                    </div>
+
+                    <div class="content-text">
+                        ${escapeHtml(
+                            JSON.stringify(
+                                content,
+                                null,
+                                2
+                            )
+                        )}
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+        return html;
+
+    }
+
+
+    /* =========================
+       DOWNLOAD PDF
+    ========================== */
+
+    async function downloadReport(index) {
+
+        const report =
+            allReports[index];
+
+
+        if (!report) {
+
+            return;
+
+        }
+
+
+        const reportId =
+            report.report_id ||
+            report.id;
+
+
+        if (!reportId) {
+
+            alert(
+                "Report ID is not available."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const token =
+                getToken();
+
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/reports/download/" +
+                    reportId,
+                    {
+                        method: "GET",
+
+                        headers: {
+
+                            "Authorization":
+                                "Bearer " + token
+
+                        }
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                let message =
+                    "Unable to download report.";
+
+                try {
+
+                    const errorData =
+                        await response.json();
+
+                    message =
+                        errorData.detail ||
+                        errorData.message ||
+                        message;
+
+                }
+                catch (error) {
+
+                    console.error(error);
+
+                }
+
+                throw new Error(message);
+
+            }
+
+
+            const blob =
+                await response.blob();
+
+
+            const url =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            const link =
+                document.createElement("a");
+
+
+            link.href =
+                url;
+
+
+            link.download =
+                "Palmistry_Tarot_Report_" +
+                reportId +
+                ".pdf";
+
+
+            document.body.appendChild(
+                link
+            );
+
+
+            link.click();
+
+
+            document.body.removeChild(
+                link
+            );
+
+
+            URL.revokeObjectURL(
+                url
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Download error:",
+                error
+            );
+
+
+            alert(
+                "Unable to download report: " +
+                error.message
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       CLOSE MODAL
+    ========================== */
+
+    function closeReportModal() {
+
+        document.getElementById(
+            "reportModal"
+        ).classList.remove("show");
+
+    }
+
+
+    function closeModal(event) {
+
+        if (
+            event.target.id ===
+            "reportModal"
+        ) {
+
+            closeReportModal();
+
+        }
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================== */
+
+    function logout() {
+
+        localStorage.removeItem(
+            "access_token"
+        );
+
+        localStorage.removeItem(
+            "token"
+        );
+
+        localStorage.removeItem(
+            "username"
+        );
+
+        localStorage.removeItem(
+            "user_id"
+        );
+
+        localStorage.removeItem(
+            "email"
+        );
+
+        localStorage.removeItem(
+            "role"
+        );
+
+        localStorage.removeItem(
+            "last_palmistry_reading"
+        );
+
+        localStorage.removeItem(
+            "last_tarot_reading"
+        );
+
+        localStorage.removeItem(
+            "last_palm_reading_id"
+        );
+
+        localStorage.removeItem(
+            "last_tarot_reading_id"
+        );
+
+        localStorage.removeItem(
+            "selected_report_id"
+        );
+
+
+        window.location.href =
+            "login.html";
+
+    }
+
+
+    /* =========================
+       PAGE LOAD
+    ========================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            if (!checkLogin()) {
+
+                return;
+
+            }
+
+
+            showUserName();
+
+            loadReports();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

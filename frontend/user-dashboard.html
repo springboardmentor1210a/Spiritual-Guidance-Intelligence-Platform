@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard | Palmistry & Tarot AI</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    --purple: #7027a0;
+    --dark: #321047;
+    --light: #f4ecfb;
+    --bg: #f7f5fa;
+    --white: #fff;
+    --text: #29243a;
+    --muted: #817b91;
+    --border: #ebe6f2;
+    --shadow: 0 5px 22px rgba(40,15,70,.06);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 255px;
+    padding: 24px 14px;
+    background: linear-gradient(180deg,#391250,#251039);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+.brand {
+    padding: 0 12px 24px;
+    border-bottom: 1px solid #ffffff25;
+}
+
+.brand .logo { font-size: 29px; margin-bottom: 8px; }
+.brand h2 { font-size: 18px; margin: 0 0 7px; }
+.brand p {
+    font-size: 12px;
+    color: #d4c4e1;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.nav-label {
+    color: #bfa9ce;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+    padding: 22px 12px 10px;
+}
+
+.nav-btn {
+    border: 0;
+    width: 100%;
+    text-align: left;
+    color: #e4d8ed;
+    background: transparent;
+    border-radius: 9px;
+    padding: 12px;
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 12px;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: #ffffff1c;
+    color: white;
+}
+
+.nav-btn.active { box-shadow: inset 3px 0 #d8a8ff; }
+.nav-icon { width: 22px; text-align: center; font-size: 17px; }
+
+.sidebar-bottom { margin-top: auto; padding-top: 20px; }
+
+.user-mini {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 9px;
+    border-top: 1px solid #ffffff25;
+    font-size: 12px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #8b4bb3;
+    font-weight: bold;
+}
+
+.user-mini small {
+    display: block;
+    margin-top: 4px;
+    color: #c9b6d8;
+}
+
+.main {
+    margin-left: 255px;
+    padding: 26px 30px 45px;
+    min-width: 0;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.topbar h1 { margin: 0 0 7px; font-size: 25px; }
+.topbar p { margin: 0; color: var(--muted); font-size: 12px; }
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    padding: 10px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.btn-primary {
+    background: var(--purple);
+    color: white;
+    border-color: var(--purple);
+}
+
+.btn:disabled { opacity: .6; cursor: wait; }
+.btn:hover { opacity: .88; }
+
+.section { display: none; }
+.section.active { display: block; }
+
+.section-heading { margin-bottom: 19px; }
+.section-heading h2 { margin: 0 0 7px; font-size: 19px; }
+.section-heading p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.status {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 11px 14px;
+    border-radius: 9px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+}
+
+.status.error { color: #b72e49; background: #fff7f8; border-color: #f2c4cc; }
+.status.success { color: #16835e; background: #f3fbf7; }
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.kpi {
+    background: white;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    padding: 18px;
+    min-width: 0;
+}
+
+.kpi-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.kpi-label { font-size: 11px; color: var(--muted); }
+
+.kpi-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    color: var(--purple);
+    background: var(--light);
+    font-size: 18px;
+}
+
+.kpi-value {
+    font-size: 27px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.kpi-note { margin-top: 8px; font-size: 10px; color: var(--muted); }
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 17px;
+}
+
+.panel, .table-panel {
+    background: white;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 18px;
+    min-width: 0;
+}
+
+.panel h3, .table-panel h3 { font-size: 14px; margin: 0 0 7px; }
+
+.subtitle {
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin: 0 0 17px;
+}
+
+.chart-wrap {
+    height: 255px;
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+
+.chart-wrap.tall { height: 315px; }
+
+.chart-empty {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 15px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+    pointer-events: none;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 16px;
+}
+
+.action-card {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+.action-card .symbol {
+    width: 43px;
+    height: 43px;
+    border-radius: 12px;
+    background: var(--light);
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    margin-bottom: 14px;
+}
+
+.action-card h3 { margin: 0 0 8px; font-size: 15px; }
+
+.action-card p {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.table-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.field {
+    min-width: 140px;
+    max-width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px;
+    background: white;
+    color: var(--text);
+    font-size: 12px;
+    outline: none;
+}
+
+.field:focus { border-color: var(--purple); }
+.table-scroll { overflow-x: auto; width: 100%; }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: #faf8fc;
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+td { color: #494258; }
+
+.empty {
+    padding: 26px 10px;
+    text-align: center;
+    color: var(--muted);
+    white-space: normal;
+    line-height: 1.7;
+}
+
+.pill {
+    background: var(--light);
+    color: var(--purple);
+    padding: 5px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+.content-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    min-width: 0;
+}
+
+.content-card h3 { margin: 0 0 12px; font-size: 15px; }
+
+.content-card p {
+    white-space: pre-wrap;
+    line-height: 1.8;
+    font-size: 13px;
+    color: #514a60;
+    overflow-wrap: anywhere;
+}
+
+.muted { color: var(--muted); font-size: 12px; line-height: 1.8; }
+.mobile-menu { display: none; }
+
+.insight-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 14px;
+}
+
+.insight-card {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    min-width: 0;
+}
+
+.insight-card h4 {
+    margin: 0 0 9px;
+    font-size: 13px;
+    color: var(--purple);
+}
+
+.insight-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.insight-count {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 8px;
+    border-radius: 20px;
+    background: var(--light);
+    color: var(--purple);
+    font-size: 10px;
+}
+
+.trend-badge {
+    display: inline-block;
+    border-radius: 6px;
+    background: var(--light);
+    color: var(--purple);
+    font-size: 10px;
+    padding: 5px 8px;
+    margin-bottom: 10px;
+}
+
+@media(max-width:1100px) {
+    .kpi-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .main { padding: 22px; }
+}
+
+@media(max-width:760px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform .2s;
+        box-shadow: var(--shadow);
+    }
+
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 17px; }
+    .mobile-menu { display: inline-block; }
+    .grid-2, .action-grid, .insight-grid { grid-template-columns: 1fr; }
+    .topbar h1 { font-size: 21px; }
+    .kpi { padding: 14px; }
+    .kpi-value { font-size: 23px; }
+    .panel, .table-panel { padding: 14px; }
+}
+
+@media(max-width:420px) {
+    .kpi-grid { gap: 9px; }
+    .kpi-value { font-size: 20px; }
+    .kpi-label { font-size: 10px; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+    <div class="brand">
+        <div class="logo">✧</div>
+        <h2>Palm & Tarot AI</h2>
+        <p>Your personalized spiritual insights platform</p>
+    </div>
+
+    <div class="nav-label">MY WORKSPACE</div>
+
+    <button class="nav-btn active" data-page="overview"><span class="nav-icon">▦</span>User Dashboard</button>
+    <button class="nav-btn" data-page="palm"><span class="nav-icon">✋</span>Palmistry Reading</button>
+    <button class="nav-btn" data-page="tarot"><span class="nav-icon">✧</span>Tarot Reading</button>
+    <button class="nav-btn" data-page="history"><span class="nav-icon">◷</span>Reading History</button>
+    <button class="nav-btn" data-page="personality"><span class="nav-icon">◇</span>Personality Insights</button>
+    <button class="nav-btn" data-page="lifeTrends"><span class="nav-icon">📈</span>Life Trends</button>
+    <button class="nav-btn" data-page="tarotReports"><span class="nav-icon">▤</span>Tarot Reports</button>
+    <button class="nav-btn" data-page="palmReports"><span class="nav-icon">▤</span>Palm Reports</button>
+    <button class="nav-btn" data-page="guidance"><span class="nav-icon">✦</span>Personalized Guidance</button>
+
+    <div class="sidebar-bottom">
+        <button class="nav-btn" id="logoutButton"><span class="nav-icon">⇥</span>Logout</button>
+        <div class="user-mini">
+            <div class="avatar" id="userAvatar">U</div>
+            <div>
+                <strong id="sidebarUsername">User</strong>
+                <small>Personal workspace</small>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn mobile-menu" id="menuButton">☰</button>
+        <div>
+            <h1 id="pageTitle">User Dashboard</h1>
+            <p>Welcome to your Palmistry & Tarot AI workspace</p>
+        </div>
+    </div>
+    <div class="top-actions">
+        <span class="muted" id="lastUpdated">Not refreshed yet</span>
+        <button class="btn btn-primary" id="refreshButton">↻ Refresh</button>
+    </div>
+</header>
+
+<div class="status" id="globalStatus" role="status">Connecting to your account...</div>
+
+<!-- USER OVERVIEW -->
+<section class="section active" id="page-overview">
+    <div class="section-heading">
+        <h2>Your Overview</h2>
+        <p>A summary of your readings, reports, and saved insights.</p>
+    </div>
+
+    <div class="kpi-grid">
+        <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Palmistry Readings</span><span class="kpi-icon">✋</span></div>
+            <div class="kpi-value" id="palmCount">—</div>
+            <div class="kpi-note">Your palm reading records</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Tarot Readings</span><span class="kpi-icon">✧</span></div>
+            <div class="kpi-value" id="tarotCount">—</div>
+            <div class="kpi-note">Your tarot reading records</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Palm Reports</span><span class="kpi-icon">▤</span></div>
+            <div class="kpi-value" id="palmReportCount">—</div>
+            <div class="kpi-note">Reports linked to palmistry</div>
+        </div>
+        <div class="kpi">
+            <div class="kpi-top"><span class="kpi-label">Tarot Reports</span><span class="kpi-icon">▤</span></div>
+            <div class="kpi-value" id="tarotReportCount">—</div>
+            <div class="kpi-note">Reports linked to tarot</div>
+        </div>
+    </div>
+
+    <div class="action-grid">
+        <div class="action-card">
+            <div class="symbol">✋</div>
+            <h3>Palmistry Reading</h3>
+            <p>Upload your palm image and explore the result.</p>
+            <button class="btn btn-primary" onclick="navigateTo('palmistry.html')">Open Palmistry</button>
+        </div>
+        <div class="action-card">
+            <div class="symbol">✧</div>
+            <h3>Tarot Reading</h3>
+            <p>Create a tarot reading based on your question.</p>
+            <button class="btn btn-primary" onclick="navigateTo('tarot.html')">Open Tarot</button>
+        </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px">
+        <div class="panel">
+            <h3>My Reading Activity</h3>
+            <p class="subtitle">Saved readings grouped by recorded date.</p>
+            <div class="chart-wrap"><canvas id="activityChart"></canvas></div>
+        </div>
+        <div class="panel">
+            <h3>My Reading Distribution</h3>
+            <p class="subtitle">Your Palmistry and Tarot reading counts.</p>
+            <div class="chart-wrap"><canvas id="distributionChart"></canvas></div>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h3>Latest Activity</h3>
+        <div id="latestActivity" class="muted">Your latest readings will appear here.</div>
+    </div>
+</section>
+
+<!-- PALMISTRY -->
+<section class="section" id="page-palm">
+    <div class="section-heading">
+        <h2>Palmistry Reading</h2>
+        <p>Access the palmistry reader and review your saved readings.</p>
+    </div>
+    <div class="action-card">
+        <div class="symbol">✋</div>
+        <h3>Start a Palmistry Reading</h3>
+        <p>Upload your palm image using the existing Palmistry page.</p>
+        <button class="btn btn-primary" onclick="navigateTo('palmistry.html')">Open Palmistry Reader</button>
+    </div>
+    <div class="content-card" style="margin-top:18px">
+        <h3>Latest Palmistry Reading</h3>
+        <div id="latestPalm" class="muted">Loading...</div>
+    </div>
+    <div class="panel">
+        <h3>Palmistry Reading History</h3>
+        <p class="subtitle">Your saved palmistry readings.</p>
+        <div class="table-scroll">
+            <table>
+                <thead><tr><th>ID</th><th>Created</th><th>Reading Details</th></tr></thead>
+                <tbody id="palmHistoryTable"><tr><td colspan="3" class="empty">Loading...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- TAROT -->
+<section class="section" id="page-tarot">
+    <div class="section-heading">
+        <h2>Tarot Reading</h2>
+        <p>Open your tarot reader and review saved interpretations.</p>
+    </div>
+    <div class="action-card">
+        <div class="symbol">✧</div>
+        <h3>Start a Tarot Reading</h3>
+        <p>Select a reading type and explore the result.</p>
+        <button class="btn btn-primary" onclick="navigateTo('tarot.html')">Open Tarot Reader</button>
+    </div>
+    <div class="content-card" style="margin-top:18px">
+        <h3>Latest Tarot Reading</h3>
+        <div id="latestTarot" class="muted">Loading...</div>
+    </div>
+    <div class="panel">
+        <h3>Tarot Reading History</h3>
+        <p class="subtitle">Your saved tarot readings.</p>
+        <div class="table-scroll">
+            <table>
+                <thead><tr><th>ID</th><th>Type</th><th>Question</th><th>Created</th></tr></thead>
+                <tbody id="tarotHistoryTable"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- HISTORY -->
+<section class="section" id="page-history">
+    <div class="section-heading">
+        <h2>Reading History</h2>
+        <p>Browse your saved Palmistry and Tarot readings.</p>
+    </div>
+    <div class="panel">
+        <div class="table-header">
+            <h3>All My Readings</h3>
+            <div class="table-tools">
+                <input class="field" id="historySearch" type="search" placeholder="Search history">
+                <select class="field" id="historyType">
+                    <option value="">All readings</option>
+                    <option value="palmistry">Palmistry</option>
+                    <option value="tarot">Tarot</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-scroll">
+            <table>
+                <thead><tr><th>Source</th><th>Reading ID</th><th>Type</th><th>Question / Details</th><th>Created</th></tr></thead>
+                <tbody id="allHistoryTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="section" id="page-personality">
+    <div class="section-heading">
+        <h2>Personality & Personal Insights</h2>
+        <p>Seven reflection categories based on available saved reading text.</p>
+    </div>
+
+    <div class="panel">
+        <h3>Insight Categories</h3>
+        <p class="subtitle">
+            Category descriptions are general reflections. The dashboard reports
+            keyword matches in your saved reading text and does not invent scores.
+        </p>
+        <div class="insight-grid" id="insightCategories">
+            <div class="muted">Loading insights...</div>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h3>Palmistry Insights</h3>
+        <div id="palmPersonality" class="muted">No personality interpretation loaded yet.</div>
+    </div>
+
+    <div class="content-card">
+        <h3>Tarot Insights</h3>
+        <div id="tarotPersonality" class="muted">No tarot interpretation loaded yet.</div>
+    </div>
+
+    <div class="content-card">
+        <h3>Combined Personality Summary</h3>
+        <div id="combinedPersonality" class="muted">
+            A combined result will appear when a saved record contains it.
+        </div>
+    </div>
+</section>
+
+<!-- LIFE TRENDS -->
+<section class="section" id="page-lifeTrends">
+    <div class="section-heading">
+        <h2>Life Trends</h2>
+        <p>
+            Explore life themes, opportunities, challenges and growth-related
+            patterns mentioned in your saved readings.
+        </p>
+    </div>
+
+    <div class="status">
+        These visualizations count matching words in saved reading text and
+        recorded reading activity. They are not scientific measurements,
+        medical assessments or predictions of future events.
+    </div>
+
+    <div class="grid-2">
+        <div class="panel">
+            <span class="trend-badge">01 · Life Direction</span>
+            <h3>Life Path Analysis</h3>
+            <p class="subtitle">Themes across personality, relationships, career, finance, wellness and growth.</p>
+            <div class="chart-wrap"><canvas id="lifePathChart"></canvas></div>
+            <p class="muted" id="lifePathNote"></p>
+        </div>
+
+        <div class="panel">
+            <span class="trend-badge">02 · Opportunities</span>
+            <h3>Opportunity Identification</h3>
+            <p class="subtitle">Opportunity-related themes mentioned in saved readings.</p>
+            <div class="chart-wrap"><canvas id="opportunityChart"></canvas></div>
+            <p class="muted" id="opportunityNote"></p>
+        </div>
+
+        <div class="panel">
+            <span class="trend-badge">03 · Reflection</span>
+            <h3>Challenge Forecasting</h3>
+            <p class="subtitle">Words relating to uncertainty, communication, decisions and balance.</p>
+            <div class="chart-wrap"><canvas id="challengeChart"></canvas></div>
+            <p class="muted" id="challengeNote"></p>
+        </div>
+
+        <div class="panel">
+            <span class="trend-badge">04 · Activity</span>
+            <h3>Trend Monitoring</h3>
+            <p class="subtitle">Saved reading counts grouped by recorded date.</p>
+            <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+            <p class="muted" id="trendNote"></p>
+        </div>
+
+        <div class="panel">
+            <span class="trend-badge">05 · Development</span>
+            <h3>Growth Potential Assessment</h3>
+            <p class="subtitle">Growth-related keywords across selected reflection areas.</p>
+            <div class="chart-wrap tall"><canvas id="growthChart"></canvas></div>
+            <p class="muted" id="growthNote"></p>
+        </div>
+    </div>
+</section>
+
+<!-- TAROT REPORTS -->
+<section class="section" id="page-tarotReports">
+    <div class="section-heading">
+        <h2>Tarot Reports</h2>
+        <p>Reports linked exclusively to Tarot readings where the API identifies that relationship.</p>
+    </div>
+    <div class="kpi-grid">
+        <div class="kpi">
+            <div class="kpi-label">Tarot Reports</div>
+            <div class="kpi-value" id="tarotReportsTotal">—</div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="table-header"><h3>My Tarot Reports</h3></div>
+        <div class="table-scroll">
+            <table>
+                <thead><tr><th>Report ID</th><th>Title</th><th>Type</th><th>Created</th><th>Action</th></tr></thead>
+                <tbody id="tarotReportsTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- PALM REPORTS -->
+<section class="section" id="page-palmReports">
+    <div class="section-heading">
+        <h2>Palm Reports</h2>
+        <p>Reports linked exclusively to Palmistry readings where the API identifies that relationship.</p>
+    </div>
+    <div class="kpi-grid">
+        <div class="kpi">
+            <div class="kpi-label">Palm Reports</div>
+            <div class="kpi-value" id="palmReportsTotal">—</div>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="table-header"><h3>My Palm Reports</h3></div>
+        <div class="table-scroll">
+            <table>
+                <thead><tr><th>Report ID</th><th>Title</th><th>Type</th><th>Created</th><th>Action</th></tr></thead>
+                <tbody id="palmReportsTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- GUIDANCE -->
+<section class="section" id="page-guidance">
+    <div class="section-heading">
+        <h2>Personalized Guidance</h2>
+        <p>Review guidance stored with your readings and open the existing guidance workflow.</p>
+    </div>
+
+    <div class="action-card">
+        <div class="symbol">✦</div>
+        <h3>Generate or Explore Guidance</h3>
+        <p>Open the existing personalized guidance page to use its backend workflow.</p>
+        <button class="btn btn-primary" onclick="navigateTo('personalized_guidance.html')">Open Personalized Guidance</button>
+    </div>
+
+    <div class="content-card" style="margin-top:18px">
+        <h3>Guidance from Palmistry</h3>
+        <div id="palmGuidance" class="muted">No saved palmistry guidance available.</div>
+    </div>
+
+    <div class="content-card">
+        <h3>Guidance from Tarot</h3>
+        <div id="tarotGuidance" class="muted">No saved tarot guidance available.</div>
+    </div>
+
+    <div class="content-card">
+        <h3>Combined Guidance</h3>
+        <div id="combinedGuidance" class="muted">
+            Combined guidance will appear when a saved result explicitly contains it.
+        </div>
+    </div>
+</section>
+
+</main>
+</div>
+
+<script>
+"use strict";
+
+const API_BASE = "http://127.0.0.1:8001";
+
+const state = {
+    palmReadings: [],
+    tarotReadings: [],
+    reports: [],
+    charts: {},
+    errors: []
+};
+
+const $ = id => document.getElementById(id);
+
+function token() {
+    return localStorage.getItem("access_token") ||
+           localStorage.getItem("token") || "";
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+/* Avoid showing [object Object] for nested response fields. */
+function displayValue(value) {
+    if (value === null || value === undefined || value === "") return "";
+
+    if (typeof value === "string") return value;
+    if (typeof value === "number" || typeof value === "boolean") return String(value);
+
+    if (Array.isArray(value)) {
+        return value.map(displayValue).filter(Boolean).join(", ");
+    }
+
+    if (typeof value === "object") {
+        const preferred = [
+            "text", "content", "interpretation", "summary",
+            "guidance", "message", "description", "meaning",
+            "analysis", "result"
+        ];
+
+        for (const key of preferred) {
+            if (value[key] !== undefined) {
+                const result = displayValue(value[key]);
+                if (result) return result;
+            }
+        }
+
+        return Object.entries(value)
+            .filter(([, v]) => ["string", "number", "boolean"].includes(typeof v))
+            .map(([key, v]) => key.replace(/_/g, " ") + ": " + v)
+            .join("\n");
+    }
+
+    return "";
+}
+
+function setStatus(message, type = "") {
+    $("globalStatus").textContent = message;
+    $("globalStatus").className = "status" + (type ? " " + type : "");
+}
+
+function asArray(data, keys = []) {
+    if (Array.isArray(data)) return data;
+    if (!data || typeof data !== "object") return [];
+
+    for (const key of [...keys, "items", "results", "readings", "reports", "history"]) {
+        if (Array.isArray(data[key])) return data[key];
+    }
+
+    if (data.data && typeof data.data === "object") {
+        return asArray(data.data, keys);
+    }
+
+    return [];
+}
+
+async function apiJSON(path) {
+    const authToken = token();
+    if (!authToken) throw new Error("No login token found. Please sign in again.");
+
+    const response = await fetch(API_BASE + path, {
+        headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer " + authToken
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(path + " returned HTTP " + response.status);
+    }
+
+    return response.json();
+}
+
+function dateOf(item) {
+    return item?.created_at ??
+           item?.createdAt ??
+           item?.timestamp ??
+           item?.date ??
+           null;
+}
+
+function formatDate(value) {
+    if (!value) return "Not recorded";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? "Not recorded" : date.toLocaleString();
+}
+
+function latest(items) {
+    return [...items].sort((a, b) => {
+        const da = new Date(dateOf(a) || 0).getTime();
+        const db = new Date(dateOf(b) || 0).getTime();
+        return db - da;
+    })[0] || null;
+}
+
+function interpretationOf(item) {
+    if (!item) return "";
+
+    for (const key of [
+        "interpretation", "reading", "analysis", "result", "summary"
+    ]) {
+        const value = displayValue(item[key]);
+        if (value) return value;
+    }
+
+    return "";
+}
+
+function guidanceOf(item) {
+    if (!item) return "";
+
+    for (const key of [
+        "personalized_guidance", "personalizedGuidance", "guidance"
+    ]) {
+        const value = displayValue(item[key]);
+        if (value) return value;
+    }
+
+    return "";
+}
+function getReadingText(item) {
+    if (!item || typeof item !== "object") return "";
+
+    const fields = [
+        item.interpretation,
+        item.personalized_guidance,
+        item.question,
+        item.life_line,
+        item.heart_line,
+        item.head_line,
+        item.fate_line,
+        item.palm_shape,
+        item.description,
+        item.meaning,
+        item.selected_cards
+    ];
+
+    return fields
+        .map(value => displayValue(value))
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+}
+
+function countKeywords(text, keywords) {
+    const source = String(text || "").toLowerCase();
+    let total = 0;
+
+    for (const keyword of keywords) {
+        const escaped = String(keyword).replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
+        );
+
+        const pattern = new RegExp(
+            "\\b" + escaped + "\\b",
+            "gi"
+        );
+
+        total += (source.match(pattern) || []).length;
+    }
+
+    return total;
+}
+
+function personalityOf(item) {
+    if (!item) return "";
+
+    for (const key of [
+        "personality_analysis", "personality_insights",
+        "personality", "personality_summary"
+    ]) {
+        const value = displayValue(item[key]);
+        if (value) return value;
+    }
+
+    return "";
+}
+
+/* CHART HELPERS */
+
+function destroyChart(id) {
+    if (state.charts[id]) {
+        state.charts[id].destroy();
+        delete state.charts[id];
+    }
+}
+
+function chart(id, type, labels, datasets, options = {}) {
+    const canvas = $(id);
+    if (!canvas || typeof Chart === "undefined") return;
+
+    destroyChart(id);
+
+    const wrap = canvas.parentElement;
+    const empty = wrap.querySelector(".chart-empty");
+    if (empty) empty.remove();
+
+    canvas.style.display = "block";
+
+    const isCircular = type === "doughnut" || type === "pie";
+    const isRadar = type === "radar";
+
+    state.charts[id] = new Chart(canvas, {
+        type,
+        data: { labels, datasets },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: isCircular,
+                    position: "bottom"
+                },
+                tooltip: { enabled: true }
+            },
+            scales: isCircular ? {} : isRadar ? {
+                r: {
+                    beginAtZero: true,
+                    ticks: { precision: 0 }
+                }
+            } : {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            },
+            ...options
+        }
+    });
+}
+
+function showEmptyChart(id, message = "No data available yet.") {
+    const canvas = $(id);
+    if (!canvas) return;
+
+    destroyChart(id);
+    canvas.style.display = "block";
+
+    const wrap = canvas.parentElement;
+    let overlay = wrap.querySelector(".chart-empty");
+
+    if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.className = "chart-empty";
+        wrap.appendChild(overlay);
+    }
+
+    overlay.textContent = message;
+}
+
+function dailyCounts(items) {
+    const counts = {};
+
+    for (const item of items) {
+        const raw = dateOf(item);
+        if (!raw) continue;
+
+        const date = new Date(raw);
+        if (Number.isNaN(date.getTime())) continue;
+
+        const key = date.toISOString().slice(0, 10);
+        counts[key] = (counts[key] || 0) + 1;
+    }
+
+    const labels = Object.keys(counts).sort();
+    return { labels, values: labels.map(key => counts[key]) };
+}
+
+function allReadingRecords() {
+    return [
+        ...state.palmReadings.map(item => ({ ...item, _source: "Palmistry" })),
+        ...state.tarotReadings.map(item => ({ ...item, _source: "Tarot" }))
+    ];
+}
+
+function renderActivityChart() {
+    const records = allReadingRecords();
+    const result = dailyCounts(records);
+
+    if (!result.labels.length) {
+        showEmptyChart("activityChart", "No recorded reading dates available.");
+        return;
+    }
+
+    chart("activityChart", "line", result.labels, [{
+        label: "Saved readings",
+        data: result.values,
+        borderColor: "#7027a0",
+        backgroundColor: "rgba(112,39,160,.12)",
+        fill: true,
+        tension: .3
+    }], { plugins: { legend: { display: false } } });
+}
+
+function renderDistributionChart() {
+    const values = [state.palmReadings.length, state.tarotReadings.length];
+
+    if (values.every(value => value === 0)) {
+        showEmptyChart("distributionChart", "No saved readings available.");
+        return;
+    }
+
+    chart("distributionChart", "doughnut",
+        ["Palmistry", "Tarot"],
+        [{
+            data: values,
+            backgroundColor: ["#7027a0", "#d2b5e9"],
+            borderWidth: 2,
+            borderColor: "#fff"
+        }]
+    );
+}
+
+/* CONTENT CARDS */
+
+function textCard(elementId, value, fallback) {
+    const element = $(elementId);
+    if (!element) return;
+
+    const text = displayValue(value);
+    element.textContent = text || fallback;
+}
+
+function renderLatestReadings() {
+    const palm = latest(state.palmReadings);
+    const tarot = latest(state.tarotReadings);
+
+    textCard(
+        "latestPalm",
+        palm ? interpretationOf(palm) : "",
+        palm ? "A saved palmistry reading exists, but its interpretation was not returned." :
+               "No palmistry readings found."
+    );
+
+    textCard(
+        "latestTarot",
+        tarot ? interpretationOf(tarot) : "",
+        tarot ? "A saved tarot reading exists, but its interpretation was not returned." :
+                "No tarot readings found."
+    );
+
+    const records = allReadingRecords().sort((a, b) =>
+        new Date(dateOf(b) || 0).getTime() -
+        new Date(dateOf(a) || 0).getTime()
+    ).slice(0, 5);
+
+    const activity = $("latestActivity");
+
+    if (!records.length) {
+        activity.textContent = "No saved reading activity was returned.";
+        return;
+    }
+
+    activity.innerHTML = records.map(item => `
+        <p><strong>${escapeHTML(item._source)}</strong> ·
+        ${escapeHTML(displayValue(item.reading_type ?? item.type) || "Reading")} ·
+        ${escapeHTML(formatDate(dateOf(item)))}</p>
+    `).join("");
+}
+
+function renderPalmHistory() {
+    const tbody = $("palmHistoryTable");
+    tbody.replaceChildren();
+
+    if (!state.palmReadings.length) {
+        tbody.innerHTML = '<tr><td colspan="3" class="empty">No palmistry history returned by the API.</td></tr>';
+        return;
+    }
+
+    for (const item of state.palmReadings) {
+        const tr = document.createElement("tr");
+
+        [
+            item.id ?? item.reading_id ?? "—",
+            formatDate(dateOf(item)),
+            interpretationOf(item) || "Reading saved"
+        ].forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = displayValue(value);
+            tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+    }
+}
+
+function renderTarotHistory() {
+    const tbody = $("tarotHistoryTable");
+    tbody.replaceChildren();
+
+    if (!state.tarotReadings.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="empty">No tarot history returned by the API.</td></tr>';
+        return;
+    }
+
+    for (const item of state.tarotReadings) {
+        const tr = document.createElement("tr");
+
+        [
+            item.id ?? item.reading_id ?? "—",
+            displayValue(item.reading_type ?? item.type) || "—",
+            displayValue(item.question) || interpretationOf(item) || "—",
+            formatDate(dateOf(item))
+        ].forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = displayValue(value);
+            tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+    }
+}
+
+function renderAllHistory() {
+    const query = $("historySearch").value.trim().toLowerCase();
+    const type = $("historyType").value;
+
+    const records = allReadingRecords().filter(item => {
+        const searchable = [
+            item._source,
+            item.id,
+            displayValue(item.reading_type),
+            displayValue(item.question),
+            interpretationOf(item)
+        ].join(" ").toLowerCase();
+
+        return (!type || item._source.toLowerCase() === type) &&
+               searchable.includes(query);
+    }).sort((a, b) =>
+        new Date(dateOf(b) || 0).getTime() -
+        new Date(dateOf(a) || 0).getTime()
+    );
+
+    const tbody = $("allHistoryTable");
+    tbody.replaceChildren();
+
+    if (!records.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty">No matching reading history.</td></tr>';
+        return;
+    }
+
+    for (const item of records) {
+        const tr = document.createElement("tr");
+
+        [
+            item._source,
+            item.id ?? item.reading_id ?? "—",
+            displayValue(item.reading_type ?? item.type) || "—",
+            displayValue(item.question) || interpretationOf(item) || "—",
+            formatDate(dateOf(item))
+        ].forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = displayValue(value);
+            tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+    }
+}
+
+
+
+/* SEVEN PERSONALITY INSIGHT CATEGORIES */
+
+const INSIGHT_CATEGORIES = [
+    {
+        name: "Personality",
+        icon: "◇",
+        keywords: [
+            "personality", "character", "strength", "adaptability",
+            "thinking", "analytical", "self-awareness"
+        ],
+        description:
+            "Reflect on your personal qualities, strengths, decision-making " +
+            "style, and the balance between emotions and analytical thinking.",
+        general:
+            "Use these themes to reflect on your individual qualities and " +
+            "identify areas where you would like to develop."
+    },
+    {
+        name: "Relationships",
+        icon: "♡",
+        keywords: [
+            "relationship", "relationships", "love", "heart line",
+            "communication", "emotional"
+        ],
+        description:
+            "The combined reading suggests an approach to relationships " +
+            "that balances emotional awareness from the Heart Line. " +
+            "Maintaining clear communication and mutual understanding " +
+            "can support healthy connections."
+    },
+    {
+        name: "Career",
+        icon: "▤",
+        keywords: [
+            "career", "professional", "work", "skills",
+            "goals", "leadership", "head line", "fate line"
+        ],
+        description:
+            "For career development, the combined reading connects " +
+            "analytical thinking from the Head Line, goal orientation " +
+            "associated with the Fate Line, and reflection represented " +
+            "by the Tarot. These themes can support goal planning, " +
+            "skill development, and thoughtful responses to opportunities."
+    },
+    {
+        name: "Finance",
+        icon: "₹",
+        keywords: [
+            "financial", "finance", "money", "planning",
+            "wealth", "budget", "long-term goals"
+        ],
+        description:
+            "The financial reflection combines focus on direction and " +
+            "long-term goals with careful thinking associated with the " +
+            "Head Line. Consider careful planning, responsible decisions, " +
+            "and evaluating opportunities before acting."
+    },
+    {
+        name: "Health & Wellness",
+        icon: "✿",
+        keywords: [
+            "wellness", "wellbeing", "balance", "relaxation",
+            "self-care", "rest"
+        ],
+        description:
+            "Reflect on maintaining balance between daily responsibilities, " +
+            "rest, and personal well-being. Consider healthy routines, " +
+            "relaxation, and making time for yourself.",
+        general:
+            "This is general wellness reflection only. Palmistry and Tarot " +
+            "cannot diagnose health conditions or predict medical outcomes."
+    },
+    {
+        name: "Personal Growth",
+        icon: "↗",
+        keywords: [
+            "personal growth", "learning", "resilience",
+            "development", "adaptability", "improvement"
+        ],
+        description:
+            "The combined reading brings together adaptability and " +
+            "resilience associated with the Life Line and reflection " +
+            "associated with the Head Line. These themes can support " +
+            "continuous learning, adaptability, and gradual personal development."
+    },
+    {
+        name: "Life Opportunities",
+        icon: "✧",
+        keywords: [
+            "opportunity", "opportunities", "possibilities",
+            "new beginnings", "potential", "progress"
+        ],
+        description:
+            "Reflect on possible learning, career, and personal-development " +
+            "opportunities. Consider your goals, available resources, " +
+            "and practical next steps when deciding what to explore.",
+        general:
+            "This is a reflection prompt, not a prediction that a future " +
+            "event or opportunity will occur."
+    }
+];
+
+
+/* DISPLAY ALL SEVEN INSIGHT CARDS */
+
+function renderInsightCategories() {
+    const container = $("insightCategories");
+    if (!container) return;
+
+    const records = allReadingRecords();
+    const texts = records.map(getReadingText);
+
+    container.replaceChildren();
+
+    INSIGHT_CATEGORIES.forEach(category => {
+        const mentions = texts.reduce(
+            (sum, text) =>
+                sum + countKeywords(text, category.keywords),
+            0
+        );
+
+        const matchingRecords = texts.filter(
+            text => countKeywords(text, category.keywords) > 0
+        ).length;
+
+        const card = document.createElement("article");
+        card.className = "insight-card";
+
+        const heading = document.createElement("h4");
+        heading.textContent = category.icon + "  " + category.name;
+
+        const paragraph = document.createElement("p");
+        paragraph.textContent = category.description;
+
+        card.append(heading, paragraph);
+
+        /* Clearly identify categories using general reflection text. */
+        if (category.general) {
+            const note = document.createElement("p");
+            note.style.marginTop = "9px";
+            note.style.fontSize = "11px";
+            note.style.color = "#817b91";
+            note.textContent = category.general;
+            card.appendChild(note);
+        }
+
+        const count = document.createElement("span");
+        count.className = "insight-count";
+
+        if (!records.length) {
+            count.textContent = "No reading records";
+        } else {
+            count.textContent =
+                mentions + " keyword mentions · " +
+                matchingRecords + " matching reading(s)";
+        }
+
+        card.appendChild(count);
+        container.appendChild(card);
+    });
+}
+function renderInsights() {
+    const palm = latest(state.palmReadings);
+    const tarot = latest(state.tarotReadings);
+
+    textCard(
+        "palmPersonality",
+        palm ? personalityOf(palm) || interpretationOf(palm) : "",
+        palm ? "The saved palmistry record contains no readable interpretation." :
+               "No palmistry personality insight is available."
+    );
+
+    textCard(
+        "tarotPersonality",
+        tarot ? personalityOf(tarot) || interpretationOf(tarot) : "",
+        tarot ? "The saved tarot record contains no readable interpretation." :
+                "No tarot personality insight is available."
+    );
+
+    const combined = allReadingRecords().find(item =>
+        item.combined_personality ||
+        item.combined_insights ||
+        (item.personality_analysis &&
+         typeof item.personality_analysis === "object" &&
+         item.personality_analysis.combined)
+    );
+
+    textCard(
+        "combinedPersonality",
+        combined?.combined_personality ??
+        combined?.combined_insights ??
+        combined?.personality_analysis?.combined,
+        "No combined personality result was returned. Use your existing personalized guidance workflow to generate a combined result."
+    );
+}
+
+/* FIVE LIFE TREND ANALYSES */
+
+function renderLifeTrends() {
+    const records = allReadingRecords();
+    const texts = records.map(getReadingText);
+
+    const groups = [
+        {
+            id: "lifePathChart",
+            note: "lifePathNote",
+            labels: ["Personality", "Relationships", "Career", "Finance", "Wellness", "Growth"],
+            keywords: [
+                INSIGHT_CATEGORIES[0].keywords,
+                INSIGHT_CATEGORIES[1].keywords,
+                INSIGHT_CATEGORIES[2].keywords,
+                INSIGHT_CATEGORIES[3].keywords,
+                INSIGHT_CATEGORIES[4].keywords,
+                INSIGHT_CATEGORIES[5].keywords
+            ],
+            type: "radar",
+            description: "Keyword mentions by life area."
+        },
+        {
+            id: "opportunityChart",
+            note: "opportunityNote",
+            labels: ["Career", "Learning", "Progress", "New beginnings"],
+            keywords: [
+                ["career", "professional", "work", "skills"],
+                ["learning", "education", "knowledge", "practice"],
+                ["progress", "development", "improvement", "growth"],
+                ["opportunity", "opportunities", "possibilities", "new beginnings", "potential"]
+            ],
+            type: "bar",
+            description: "Opportunity-related keywords in saved reading text."
+        },
+        {
+            id: "challengeChart",
+            note: "challengeNote",
+            labels: ["Uncertainty", "Communication", "Decisions", "Balance"],
+            keywords: [
+                ["uncertainty", "uncertain", "confusion"],
+                ["communication", "misunderstanding", "expression"],
+                ["decision", "decisions", "choices", "careful thinking"],
+                ["balance", "priorities", "stress"]
+            ],
+            type: "bar",
+            description: "Potential challenge themes mentioned in saved readings, not future forecasts."
+        },
+        {
+            id: "growthChart",
+            note: "growthNote",
+            labels: ["Personality", "Career", "Relationships", "Personal Growth", "Opportunities"],
+            keywords: [
+                INSIGHT_CATEGORIES[0].keywords,
+                INSIGHT_CATEGORIES[2].keywords,
+                INSIGHT_CATEGORIES[1].keywords,
+                INSIGHT_CATEGORIES[5].keywords,
+                INSIGHT_CATEGORIES[6].keywords
+            ],
+            type: "radar",
+            description: "Growth-related keyword mentions by reflection area."
+        }
+    ];
+
+    groups.forEach(group => {
+        const values = group.keywords.map(keywords =>
+            texts.reduce((sum, text) => sum + countKeywords(text, keywords), 0)
+        );
+
+        const note = $(group.note);
+
+        if (note) {
+            note.textContent = !records.length
+                ? "No reading data is available. Complete a reading first."
+                : values.every(value => value === 0)
+                    ? "No matching keywords were found in the saved reading text."
+                    : group.description;
+        }
+
+        if (!records.length || values.every(value => value === 0)) {
+            showEmptyChart(group.id, !records.length
+                ? "Complete a reading to populate this chart."
+                : "No matching themes found in saved reading text.");
+            return;
+        }
+
+        chart(group.id, group.type, group.labels, [{
+            label: "Keyword mentions",
+            data: values,
+            backgroundColor: group.type === "radar"
+                ? "rgba(112,39,160,.2)"
+                : "#a66bc8",
+            borderColor: "#7027a0",
+            borderWidth: 2,
+            pointBackgroundColor: "#7027a0",
+            fill: group.type === "radar",
+            tension: .25
+        }]);
+    });
+
+    // Activity trends reflect actual saved record dates.
+    const dated = dailyCounts(records);
+    $("trendNote").textContent = dated.labels.length
+        ? "Actual saved reading counts grouped by recorded date. This is activity history, not a future prediction."
+        : "No valid reading dates are available to plot.";
+
+    if (dated.labels.length) {
+        chart("trendChart", "line", dated.labels, [{
+            label: "Saved readings",
+            data: dated.values,
+            borderColor: "#7027a0",
+            backgroundColor: "rgba(112,39,160,.12)",
+            fill: true,
+            tension: .25
+        }], {
+            plugins: { legend: { display: false } }
+        });
+    } else {
+        showEmptyChart("trendChart", "No dated reading records available.");
+    }
+}
+
+/* PERSONALIZED GUIDANCE */
+
+function renderGuidance() {
+    const palm = latest(state.palmReadings);
+    const tarot = latest(state.tarotReadings);
+
+    textCard(
+        "palmGuidance",
+        palm ? guidanceOf(palm) : "",
+        palm ? "No personalized guidance is saved with the latest palmistry reading." :
+               "No palmistry reading is available."
+    );
+
+    textCard(
+        "tarotGuidance",
+        tarot ? guidanceOf(tarot) : "",
+        tarot ? "No personalized guidance is saved with the latest tarot reading." :
+                "No tarot reading is available."
+    );
+
+    const combined = allReadingRecords().find(item =>
+        item.combined_guidance ||
+        item.source === "palmistry_and_tarot" ||
+        (item.personalized_guidance &&
+         typeof item.personalized_guidance === "object" &&
+         item.personalized_guidance.source === "palmistry_and_tarot")
+    );
+
+    const combinedText = combined
+        ? displayValue(combined.combined_guidance) ||
+          (typeof combined.personalized_guidance === "string"
+            ? combined.personalized_guidance
+            : displayValue(combined.personalized_guidance))
+        : "";
+
+    textCard(
+        "combinedGuidance",
+        combinedText,
+        "No combined guidance record was returned. Open Personalized Guidance to use the existing backend workflow."
+    );
+}
+
+/* REPORTS */
+
+function normalizedReport(item) {
+    return {
+        id: item.report_id ?? item.id ?? "—",
+        title: displayValue(item.title) || "Untitled report",
+        type: String(item.report_type ?? item.type ?? "unknown").toLowerCase(),
+        palmId: item.palm_reading_id,
+        tarotId: item.tarot_reading_id,
+        created: item.created_at ?? item.createdAt ?? null
+    };
+}
+function renderReportsTable(targetId, reports) {
+    const tbody = $(targetId);
+    tbody.replaceChildren();
+
+    if (!Array.isArray(reports) || reports.length === 0) {
+        tbody.innerHTML =
+            '<tr><td colspan="5" class="empty">No matching reports were found.</td></tr>';
+        return;
+    }
+
+    for (const report of reports) {
+        const tr = document.createElement("tr");
+
+        // Support both backend field names and existing frontend names.
+        const reportId = report.report_id ?? report.id;
+        const title = report.title ?? "Untitled Report";
+        const type = report.report_type ?? report.type ?? "Unknown";
+        const createdAt = report.created_at ?? report.created;
+
+        const values = [
+            reportId,
+            title,
+            type,
+            formatDate(createdAt)
+        ];
+
+        values.forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = displayValue(value);
+            tr.appendChild(td);
+        });
+
+        const action = document.createElement("td");
+
+        const view = document.createElement("button");
+        view.className = "btn";
+        view.textContent = "View";
+        view.addEventListener("click", () => {
+            viewReport(reportId);
+        });
+
+        const pdf = document.createElement("button");
+        pdf.className = "btn";
+        pdf.style.marginLeft = "5px";
+        pdf.textContent = "PDF";
+        pdf.addEventListener("click", () => {
+            downloadReport(reportId);
+        });
+
+        action.append(view, pdf);
+        tr.appendChild(action);
+        tbody.appendChild(tr);
+    }
+}
+async function viewReport(id) {
+    try {
+        const data = await apiJSON("/reports/" + encodeURIComponent(id));
+        const reportWindow = window.open("", "_blank");
+
+        if (!reportWindow) {
+            setStatus("Allow pop-ups to view the report.", "error");
+            return;
+        }
+
+        const formatted = escapeHTML(JSON.stringify(data, null, 2));
+
+        reportWindow.document.write(
+            "<!DOCTYPE html><html><head><title>Report</title>" +
+            "<meta charset='UTF-8'>" +
+            "<style>body{font-family:Arial;padding:24px;line-height:1.6}" +
+            "pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f7f5fa;" +
+            "padding:18px;border-radius:8px}</style></head><body>" +
+            "<h2>Report Details</h2><pre>" + formatted +
+            "</pre></body></html>"
+        );
+        reportWindow.document.close();
+    } catch (error) {
+        setStatus("Unable to open report: " + error.message, "error");
+    }
+}
+
+async function downloadReport(id) {
+    try {
+        const response = await fetch(
+            API_BASE + "/reports/download/" + encodeURIComponent(id),
+            {
+                headers: {
+                    "Authorization": "Bearer " + token()
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Download returned HTTP " + response.status);
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "report-" + id + ".pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+        setStatus("Report download failed: " + error.message, "error");
+    }
+}
+
+function renderReports() {
+    const rawReports = Array.isArray(state.reports)
+        ? state.reports
+        : [];
+
+    const reports = rawReports.map(normalizedReport);
+
+    const hasReadingId = value =>
+        value !== null &&
+        value !== undefined &&
+        String(value).trim() !== "";
+
+    // A report belongs to a category if its type matches
+    // OR it has the corresponding reading ID.
+    const tarotReports = reports.filter(report => {
+        return report.type === "tarot" ||
+               report.type === "combined" ||
+               hasReadingId(report.tarotId);
+    });
+
+    const palmReports = reports.filter(report => {
+        return report.type === "palmistry" ||
+               report.type === "palm" ||
+               report.type === "combined" ||
+               hasReadingId(report.palmId);
+    });
+
+    // Update the report counts safely.
+    const tarotCount = $("tarotReportCount");
+    const palmCount = $("palmReportCount");
+    const tarotTotal = $("tarotReportsTotal");
+    const palmTotal = $("palmReportsTotal");
+
+    if (tarotCount) tarotCount.textContent = tarotReports.length;
+    if (palmCount) palmCount.textContent = palmReports.length;
+
+    if (tarotTotal) tarotTotal.textContent = tarotReports.length;
+    if (palmTotal) palmTotal.textContent = palmReports.length;
+
+    // Render the tables.
+    renderReportsTable("tarotReportsTable", tarotReports);
+    renderReportsTable("palmReportsTable", palmReports);
+
+    console.log("Reports loaded:", reports.length);
+    console.log("Palm reports:", palmReports.length);
+    console.log("Tarot reports:", tarotReports.length);
+}
+
+/* NAVIGATION */
+
+const pageTitles = {
+    overview: "User Dashboard",
+    palm: "Palmistry Reading",
+    tarot: "Tarot Reading",
+    history: "Reading History",
+    personality: "Personality Insights",
+    lifeTrends: "Life Trends",
+    tarotReports: "Tarot Reports",
+    palmReports: "Palm Reports",
+    guidance: "Personalized Guidance"
+};
+
+function showPage(page) {
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.toggle("active", section.id === "page-" + page);
+    });
+
+    document.querySelectorAll(".nav-btn[data-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+    });
+
+    $("pageTitle").textContent = pageTitles[page] || "User Dashboard";
+    $("sidebar").classList.remove("open");
+
+    // Allow hidden charts to resize when their section becomes visible.
+    requestAnimationFrame(() => {
+        Object.values(state.charts).forEach(instance => {
+            if (instance && typeof instance.resize === "function") {
+                instance.resize();
+            }
+        });
+    });
+}
+
+function navigateTo(path) {
+    window.location.href = path;
+}
+
+document.querySelectorAll(".nav-btn[data-page]").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+$("menuButton").addEventListener("click", () => {
+    $("sidebar").classList.toggle("open");
+});
+
+$("refreshButton").addEventListener("click", refreshDashboard);
+$("historySearch").addEventListener("input", renderAllHistory);
+$("historyType").addEventListener("change", renderAllHistory);
+
+$("logoutButton").addEventListener("click", () => {
+    [
+        "access_token", "token", "user_id", "username", "email", "role"
+    ].forEach(key => localStorage.removeItem(key));
+
+    window.location.href = "login.html";
+});
+
+/* LOAD AUTHENTICATED USER DATA */
+
+async function refreshDashboard() {
+    const refreshButton = $("refreshButton");
+
+    refreshButton.disabled = true;
+    refreshButton.textContent = "Loading...";
+    setStatus("Loading your readings and reports...");
+
+    const username = localStorage.getItem("username") || "User";
+    $("sidebarUsername").textContent = username;
+    $("userAvatar").textContent = username.charAt(0).toUpperCase();
+
+    if (!token()) {
+        setStatus("You are not signed in. Please sign in through login.html.", "error");
+        refreshButton.disabled = false;
+        refreshButton.textContent = "↻ Refresh";
+        return;
+    }
+
+    const jobs = await Promise.allSettled([
+        apiJSON("/palmistry/history"),
+        apiJSON("/tarot/history"),
+        apiJSON("/reports")
+    ]);
+
+    const errors = [];
+
+    if (jobs[0].status === "fulfilled") {
+        state.palmReadings = asArray(jobs[0].value, ["readings", "history"]);
+    } else {
+        state.palmReadings = [];
+        errors.push("Palmistry history: " + jobs[0].reason.message);
+    }
+
+    if (jobs[1].status === "fulfilled") {
+        state.tarotReadings = asArray(jobs[1].value, ["readings", "history"]);
+    } else {
+        state.tarotReadings = [];
+        errors.push("Tarot history: " + jobs[1].reason.message);
+    }
+
+    if (jobs[2].status === "fulfilled") {
+    console.log("Reports API response:", jobs[2].value);
+
+    state.reports = asArray(jobs[2].value, ["reports"]);
+
+    console.log("Reports extracted:", state.reports);
+    console.log("Reports count:", state.reports.length);
+} else {
+    state.reports = [];
+    console.error("Reports API error:", jobs[2].reason);
+    errors.push("Reports: " + jobs[2].reason.message);
+}
+
+    state.errors = errors;
+
+    $("palmCount").textContent = state.palmReadings.length;
+    $("tarotCount").textContent = state.tarotReadings.length;
+
+    renderActivityChart();
+    renderDistributionChart();
+    renderLatestReadings();
+    renderPalmHistory();
+    renderTarotHistory();
+    renderAllHistory();
+    renderInsights();
+    renderInsightCategories();
+    renderLifeTrends();
+    renderGuidance();
+    renderReports();
+
+    $("lastUpdated").textContent = "Updated " + new Date().toLocaleTimeString();
+
+    if (!errors.length) {
+        setStatus(
+            "Dashboard refreshed successfully. Insights and graphs use the reading data returned by your backend.",
+            "success"
+        );
+    } else {
+        setStatus(
+            "Some data could not be loaded: " + errors.join(" | ") +
+            ". Check your backend, API routes and login permissions.",
+            "error"
+        );
+    }
+
+    refreshButton.disabled = false;
+    refreshButton.textContent = "↻ Refresh";
+}
+
+refreshDashboard();
+</script>
+</body>
+</html>

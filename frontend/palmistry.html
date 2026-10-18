@@ -1,0 +1,3194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Palmistry & Tarot - Palmistry</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background:
+                linear-gradient(135deg, #f5f3ff 0%, #f8fafc 55%, #eef2ff 100%);
+            color: #222;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 250px;
+            background:
+                linear-gradient(180deg, #1e1b4b 0%, #312e81 55%, #4c1d95 100%);
+            color: white;
+            padding: 25px 15px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+            box-shadow: 4px 0 20px rgba(30, 27, 75, 0.15);
+            z-index: 10;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+            padding: 10px 5px;
+        }
+
+        .logo-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 12px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.14);
+            font-size: 26px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .logo h2 {
+            font-size: 19px;
+            line-height: 1.35;
+        }
+
+        .logo p {
+            font-size: 12px;
+            margin-top: 6px;
+            opacity: 0.75;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 7px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 12px 15px;
+            color: rgba(255,255,255,0.88);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .menu a:hover {
+            background: rgba(255,255,255,0.10);
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .menu a.active {
+            background: linear-gradient(90deg, #6366f1, #7c3aed);
+            color: white;
+            box-shadow: 0 8px 18px rgba(99,102,241,0.25);
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 32px;
+            max-width: 1700px;
+        }
+
+        .header {
+            margin-bottom: 26px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            color: #1e1b4b;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            margin-top: 8px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .header-badge {
+            background: white;
+            border: 1px solid #e0e7ff;
+            color: #4338ca;
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(79,70,229,0.08);
+        }
+
+        /* =====================================================
+           GENERAL CARD
+        ===================================================== */
+
+        .card {
+            background: rgba(255,255,255,0.96);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e8eaf6;
+            box-shadow: 0 8px 30px rgba(30, 27, 75, 0.07);
+        }
+
+        .card h2 {
+            color: #1e1b4b;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .card h3 {
+            color: #3730a3;
+            margin-top: 25px;
+            margin-bottom: 14px;
+            font-size: 17px;
+        }
+
+        /* =====================================================
+           UPLOAD
+        ===================================================== */
+
+        .upload-area {
+            border: 2px dashed #818cf8;
+            border-radius: 14px;
+            padding: 42px 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #fafaff, #f5f3ff);
+        }
+
+        .upload-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 18px;
+            margin: 0 auto 16px;
+            background: #ede9fe;
+            color: #5b21b6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .upload-area h3 {
+            margin: 0 0 8px;
+            color: #312e81;
+            font-size: 18px;
+        }
+
+        .upload-area p {
+            margin-bottom: 18px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 16px;
+            max-width: 100%;
+        }
+
+        button {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 6px 16px rgba(79,70,229,0.22);
+            transition: 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(79,70,229,0.28);
+        }
+
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        .message {
+            padding: 13px 16px;
+            border-radius: 9px;
+            margin-bottom: 18px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+            background: #ecfdf5;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            display: block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 17px;
+            color: #4f46e5;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           READING HEADER
+        ===================================================== */
+
+        .reading-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .reading-title h2 {
+            margin-bottom: 0;
+        }
+
+        .reading-id {
+            background: #eef2ff;
+            color: #4338ca;
+            border: 1px solid #c7d2fe;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           GRID
+        ===================================================== */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #f8f8ff, #f5f3ff);
+            border: 1px solid #e8eaf6;
+            border-radius: 11px;
+            padding: 17px;
+        }
+
+        .info-box strong {
+            display: block;
+            color: #3730a3;
+            margin-bottom: 7px;
+            font-size: 13px;
+        }
+
+        .info-box span {
+            color: #334155;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           AI CONFIDENCE OVERVIEW
+        ===================================================== */
+
+        .confidence-overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .confidence-card {
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+            border-radius: 14px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 6px 18px rgba(30,27,75,0.06);
+        }
+
+        .confidence-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #4f46e5, #7c3aed);
+        }
+
+        .confidence-card-label {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 8px;
+        }
+
+        .confidence-card-value {
+            color: #1e1b4b;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .confidence-card-subtitle {
+            color: #94a3b8;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .confidence-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 9px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #ecfdf5;
+            color: #15803d;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           CONFIDENCE SECTION
+        ===================================================== */
+
+        .confidence-section {
+            margin-top: 25px;
+            padding: 21px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #fafaff, #f8f7ff);
+            border: 1px solid #e5e7eb;
+        }
+
+        .confidence-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .confidence-section-header h3 {
+            margin: 0;
+        }
+
+        .ai-badge {
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #ede9fe;
+            color: #5b21b6;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .confidence-container {
+            margin-top: 10px;
+        }
+
+        .confidence-item {
+            margin-bottom: 18px;
+        }
+
+        .confidence-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .confidence-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px;
+            font-size: 13px;
+        }
+
+        .confidence-label {
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .confidence-value {
+            color: #4338ca;
+            font-weight: 700;
+        }
+
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        /* =====================================================
+           INTERPRETATION
+        ===================================================== */
+
+        .interpretation {
+            background: linear-gradient(135deg, #fafaff, #f8f7ff);
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 11px;
+            line-height: 1.8;
+            color: #475569;
+            white-space: pre-line;
+            font-size: 14px;
+        }
+
+        .interpretation-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .interpretation-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            background: #ede9fe;
+            color: #5b21b6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =====================================================
+           PERSONALITY
+        ===================================================== */
+
+        .personality-section {
+            margin-top: 22px;
+        }
+
+        .personality-item {
+            background: linear-gradient(135deg, #f8f8ff, #f5f3ff);
+            border-left: 4px solid #4f46e5;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-top: 1px solid #eee;
+            border-right: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .personality-item .trait {
+            font-size: 17px;
+            font-weight: bold;
+            color: #312e81;
+            margin-bottom: 14px;
+        }
+
+        .personality-information {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .information-row {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .information-row strong {
+            display: block;
+            color: #3730a3;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+
+        .information-row span {
+            color: #555;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           GUIDANCE
+        ===================================================== */
+
+        .guidance-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .guidance-list li {
+            background: #f8f8ff;
+            border: 1px solid #e8eaf6;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 7px;
+            line-height: 1.6;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .guidance-list li::before {
+            content: "•";
+            color: #4f46e5;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .recommendation-category {
+            margin-bottom: 20px;
+        }
+
+        .recommendation-category h4 {
+            color: #3730a3;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        /* =====================================================
+           TRENDS
+        ===================================================== */
+
+        .trend-box {
+            background: linear-gradient(135deg, #f8f8ff, #f5f3ff);
+            border: 1px solid #e8eaf6;
+            padding: 16px;
+            border-radius: 9px;
+            margin-bottom: 12px;
+        }
+
+        .trend-box strong {
+            display: block;
+            color: #3730a3;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .trend-box p {
+            line-height: 1.6;
+            color: #555;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           SECTION EXPLANATION
+        ===================================================== */
+
+        .section-explanation {
+            background: linear-gradient(135deg, #f8f8ff, #f5f3ff);
+            border: 1px solid #e8eaf6;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .section-explanation h4 {
+            color: #3730a3;
+            margin-bottom: 8px;
+        }
+
+        .section-explanation p {
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        /* =====================================================
+           FEATURE MEANING / HOW IT WORKS
+        ===================================================== */
+
+        .feature-explanation {
+            background: linear-gradient(135deg, #ffffff, #f8f8ff);
+            border: 1px solid #e8eaf6;
+            border-left: 4px solid #4f46e5;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .feature-explanation .feature-title {
+            color: #312e81;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .feature-row {
+            margin-bottom: 13px;
+        }
+
+        .feature-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-row strong {
+            display: block;
+            color: #3730a3;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .feature-row span {
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .feature-confidence {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #ede9fe;
+            color: #5b21b6;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           DISCLAIMER
+        ===================================================== */
+
+        .disclaimer {
+            margin-top: 20px;
+            padding: 13px 15px;
+            background: #fff7ed;
+            border-left: 4px solid #f97316;
+            border-radius: 6px;
+            color: #7c2d12;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+            .confidence-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+                padding: 20px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-top {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .confidence-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .reading-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- =====================================================
+         SIDEBAR
+    ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ✋
+            </div>
+
+            <h2>
+                AI Palmistry & Tarot
+            </h2>
+
+            <p>
+                Personalized Guidance
+            </p>
+
+        </div>
+
+
+        <ul class="menu">
+
+            <li>
+                <a href="dashboard.html">
+                    <span class="menu-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="palmistry.html" class="active">
+                    <span class="menu-icon">✋</span>
+                    <span>Palmistry Reading</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="tarot.html">
+                    <span class="menu-icon">🃏</span>
+                    <span>Tarot Reading</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="insights.html">
+                    <span class="menu-icon">💡</span>
+                    <span>Insights</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="reports.html">
+                    <span class="menu-icon">📄</span>
+                    <span>Reports</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="history.html">
+                    <span class="menu-icon">🕘</span>
+                    <span>Reading History</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="profile.html">
+                    <span class="menu-icon">👤</span>
+                    <span>My Profile</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#" onclick="logout(); return false;">
+                    <span class="menu-icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+
+    <main class="main">
+
+        <div class="header">
+
+            <div class="header-top">
+
+                <div>
+
+                    <h1>
+                        Palmistry Analysis
+                    </h1>
+
+                    <p>
+                        AI-powered palm detection, feature analysis
+                        and traditional palmistry interpretation.
+                    </p>
+
+                </div>
+
+                <div class="header-badge">
+                    ✨ AI PALM ANALYSIS
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="message" class="message"></div>
+
+
+        <!-- =================================================
+             UPLOAD CARD
+        ================================================== -->
+
+        <div class="card">
+
+            <h2>
+                Upload Palm Image
+            </h2>
+
+            <div class="upload-area">
+
+                <div class="upload-icon">
+                    ✋
+                </div>
+
+                <h3>
+                    Upload a clear palm image
+                </h3>
+
+                <p>
+                    The AI system will detect the palm,
+                    analyze palm lines and generate the reading.
+                </p>
+
+                <input
+                    type="file"
+                    id="palmImage"
+                    accept="image/*"
+                >
+
+                <br>
+
+                <button
+                    id="analyzeButton"
+                    onclick="analyzePalm()">
+
+                    ✨ Analyze Palm
+
+                </button>
+
+            </div>
+
+            <div id="loading" class="loading">
+                🤖 AI is analyzing the palm image...
+                Please wait.
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PALM READING CARD
+        ================================================== -->
+
+        <div
+            class="card"
+            id="palmReadingCard"
+            style="display:none;">
+
+            <div class="reading-title">
+
+                <h2>
+                    ✋ Palmistry Reading
+                </h2>
+
+                <div
+                    class="reading-id"
+                    id="palmReadingIdBadge">
+
+                    Reading ID: -
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 AI CONFIDENCE OVERVIEW
+            ================================================== -->
+
+            <div class="confidence-overview">
+
+                <div class="confidence-card">
+
+                    <div class="confidence-card-label">
+                        Palm Detection
+                    </div>
+
+                    <div
+                        id="palmDetected"
+                        class="confidence-card-value">
+
+                        -
+
+                    </div>
+
+                    <div class="confidence-card-subtitle">
+                        AI hand/palm detection result
+                    </div>
+
+                    <div
+                        id="detectionStatus"
+                        class="confidence-status">
+
+                        ● Waiting
+
+                    </div>
+
+                </div>
+
+
+                <div class="confidence-card">
+
+                    <div class="confidence-card-label">
+                        AI Detection Confidence
+                    </div>
+
+                    <div
+                        id="detectionConfidence"
+                        class="confidence-card-value">
+
+                        0%
+
+                    </div>
+
+                    <div class="confidence-card-subtitle">
+                        Confidence of palm detection
+                    </div>
+
+                    <div class="confidence-status">
+                        ● AI Detection
+                    </div>
+
+                </div>
+
+
+                <div class="confidence-card">
+
+                    <div class="confidence-card-label">
+                        AI Analysis Confidence
+                    </div>
+
+                    <div
+                        id="analysisConfidence"
+                        class="confidence-card-value">
+
+                        0%
+
+                    </div>
+
+                    <div class="confidence-card-subtitle">
+                        Confidence of palm feature analysis
+                    </div>
+
+                    <div class="confidence-status">
+                        ● AI Analysis
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PALM FEATURES
+            ================================================== -->
+
+            <h3>
+                Palm Features Detected
+            </h3>
+
+            <div class="grid">
+
+                <div class="info-box">
+
+                    <strong>
+                        ❤️ Heart Line
+                    </strong>
+
+                    <span id="heartLine">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        🧠 Head Line
+                    </strong>
+
+                    <span id="headLine">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        🛤️ Life Line
+                    </strong>
+
+                    <span id="lifeLine">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        ⭐ Fate Line
+                    </strong>
+
+                    <span id="fateLine">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        ✋ Palm Shape
+                    </strong>
+
+                    <span id="palmShape">
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                        🔎 Palm Detected
+                    </strong>
+
+                    <span id="palmDetectedInfo">
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 AI LINE CONFIDENCE
+            ================================================== -->
+
+            <div class="confidence-section">
+
+                <div class="confidence-section-header">
+
+                    <h3>
+                        🤖 AI Palm Line Confidence
+                    </h3>
+
+                    <div class="ai-badge">
+                        AI DETECTED
+                    </div>
+
+                </div>
+
+
+                <div class="confidence-container">
+
+                    <div class="confidence-item">
+
+                        <div class="confidence-header">
+
+                            <span class="confidence-label">
+                                ❤️ Heart Line
+                            </span>
+
+                            <span
+                                id="heartConfidence"
+                                class="confidence-value">
+
+                                0%
+
+                            </span>
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                id="heartProgress"
+                                class="progress-bar"
+                                style="width:0%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="confidence-item">
+
+                        <div class="confidence-header">
+
+                            <span class="confidence-label">
+                                🧠 Head Line
+                            </span>
+
+                            <span
+                                id="headConfidence"
+                                class="confidence-value">
+
+                                0%
+
+                            </span>
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                id="headProgress"
+                                class="progress-bar"
+                                style="width:0%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="confidence-item">
+
+                        <div class="confidence-header">
+
+                            <span class="confidence-label">
+                                🛤️ Life Line
+                            </span>
+
+                            <span
+                                id="lifeConfidence"
+                                class="confidence-value">
+
+                                0%
+
+                            </span>
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                id="lifeProgress"
+                                class="progress-bar"
+                                style="width:0%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="confidence-item">
+
+                        <div class="confidence-header">
+
+                            <span class="confidence-label">
+                                ⭐ Fate Line
+                            </span>
+
+                            <span
+                                id="fateConfidence"
+                                class="confidence-value">
+
+                                0%
+
+                            </span>
+
+                        </div>
+
+                        <div class="progress">
+
+                            <div
+                                id="fateProgress"
+                                class="progress-bar"
+                                style="width:0%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 INTERPRETATION
+            ================================================== -->
+
+            <h3>
+                📝 Palmistry Interpretation
+            </h3>
+
+            <div
+                id="palmInterpretation"
+                class="interpretation">
+
+                Palmistry interpretation will appear here.
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PERSONALIZED GUIDANCE
+        ================================================== -->
+
+        <div
+            class="card"
+            id="guidanceCard"
+            style="display:none;">
+
+            <div class="reading-title">
+
+                <h2>
+                    💡 Personalized Palmistry Insights
+                </h2>
+
+            </div>
+
+
+            <!-- PERSONALITY -->
+
+            <div class="personality-section">
+
+                <h3>
+                    🧠 Personality Intelligence
+                </h3>
+
+                <div
+                    id="personalityOverview"
+                    class="section-explanation">
+                </div>
+
+                <div id="personalityContainer">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- STRENGTHS -->
+
+            <div class="personality-section">
+
+                <h3>
+                    💪 Strengths
+                </h3>
+
+                <div id="strengthsContainer">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- CHALLENGES -->
+
+            <div class="personality-section">
+
+                <h3>
+                    🎯 Challenges
+                </h3>
+
+                <div id="challengesContainer">
+                    -
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PALM FEATURE DETAILS
+            ================================================== -->
+
+            <h3>
+                🔍 Palm Feature Details
+            </h3>
+
+            <div id="palmFeatureDetails">
+                -
+            </div>
+
+
+            <!-- =================================================
+                 PALM SHAPE
+            ================================================== -->
+
+            <h3>
+                ✋ Palm Shape
+            </h3>
+
+            <div
+                id="palmShapeDetails"
+                class="section-explanation">
+
+                -
+
+            </div>
+
+
+            <!-- =================================================
+                 AI INTERPRETATION
+            ================================================== -->
+
+            <h3>
+                🤖 AI Interpretation
+            </h3>
+
+            <div
+                id="aiInterpretation"
+                class="interpretation">
+
+                -
+
+            </div>
+
+
+            <!-- =================================================
+                 RECOMMENDATIONS
+            ================================================== -->
+
+            <h3>
+                💡 Recommendations
+            </h3>
+
+            <div id="recommendationsContainer">
+                -
+            </div>
+
+
+            <!-- =================================================
+                 LIFE TRENDS
+            ================================================== -->
+
+            <h3>
+                📈 Life Trends
+            </h3>
+
+            <div id="lifeTrendsContainer">
+                -
+            </div>
+
+
+            <!-- =================================================
+                 READING INFORMATION
+            ================================================== -->
+
+            <h3>
+                📊 Reading Information
+            </h3>
+
+            <div
+                id="readingInformation"
+                class="interpretation">
+
+                -
+
+            </div>
+
+
+            <div
+                id="personalityDisclaimer"
+                class="disclaimer">
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   API
+========================================================= */
+
+const API_URL = "http://127.0.0.1:8001";
+
+
+/* =========================================================
+   TOKEN
+========================================================= */
+
+function getToken() {
+
+    return (
+        localStorage.getItem("access_token") ||
+        localStorage.getItem("token")
+    );
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(message, type = "success") {
+
+    const element =
+        document.getElementById("message");
+
+    element.textContent = message;
+
+    element.className =
+        "message " + type;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("token");
+
+    localStorage.removeItem(
+        "latest_palmistry_guidance"
+    );
+
+    localStorage.removeItem(
+        "latest_palmistry_reading"
+    );
+
+    localStorage.removeItem(
+        "last_palmistry_reading"
+    );
+
+    localStorage.removeItem(
+        "latest_palm_reading_id"
+    );
+
+    localStorage.removeItem(
+        "last_palm_reading_id"
+    );
+
+    window.location.href = "login.html";
+
+}
+
+
+/* =========================================================
+   ANALYZE PALM
+========================================================= */
+
+async function analyzePalm() {
+
+    const fileInput =
+        document.getElementById("palmImage");
+
+    const button =
+        document.getElementById("analyzeButton");
+
+    const loading =
+        document.getElementById("loading");
+
+
+    if (!fileInput.files.length) {
+
+        showMessage(
+            "Please select a palm image first.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const token = getToken();
+
+
+    if (!token) {
+
+        showMessage(
+            "Please login first.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const formData = new FormData();
+
+    formData.append(
+        "file",
+        fileInput.files[0]
+    );
+
+
+    button.disabled = true;
+
+    loading.style.display = "block";
+
+
+    try {
+
+        const response = await fetch(
+            API_URL + "/palmistry/reading",
+            {
+                method: "POST",
+
+                headers: {
+                    "Authorization":
+                        "Bearer " + token
+                },
+
+                body: formData
+            }
+        );
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            throw new Error(
+                "Palmistry analysis failed: " +
+                errorText
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Palmistry Reading:",
+            data
+        );
+
+
+        displayPalmResult(data);
+
+        displayGuidance(data);
+
+
+        /* Save complete result */
+
+        const serialized =
+            JSON.stringify(data);
+
+
+        localStorage.setItem(
+            "latest_palmistry_guidance",
+            serialized
+        );
+
+        localStorage.setItem(
+            "latest_palmistry_reading",
+            serialized
+        );
+
+        localStorage.setItem(
+            "last_palmistry_reading",
+            serialized
+        );
+
+
+        if (data.palm_reading_id) {
+
+            localStorage.setItem(
+                "latest_palm_reading_id",
+                data.palm_reading_id
+            );
+
+            localStorage.setItem(
+                "last_palm_reading_id",
+                data.palm_reading_id
+            );
+
+        }
+
+
+        showMessage(
+            "Palmistry analysis completed successfully.",
+            "success"
+        );
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+    }
+    finally {
+
+        button.disabled = false;
+
+        loading.style.display = "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   DISPLAY PALM RESULT
+========================================================= */
+
+function displayPalmResult(data) {
+
+    const palmistry =
+        data.palmistry || {};
+
+    const detection =
+        palmistry.detection || {};
+
+    const features =
+        palmistry.features || {};
+
+
+    document.getElementById(
+        "palmReadingCard"
+    ).style.display = "block";
+
+
+    /* Reading ID */
+
+    const readingId =
+        data.palm_reading_id || "-";
+
+
+    document.getElementById(
+        "palmReadingIdBadge"
+    ).textContent =
+        "Reading ID: " + readingId;
+
+
+    /* Palm detected */
+
+    const palmDetected =
+        Boolean(detection.palm_detected);
+
+
+    document.getElementById(
+        "palmDetected"
+    ).textContent =
+        palmDetected ? "Yes" : "No";
+
+
+    document.getElementById(
+        "palmDetectedInfo"
+    ).textContent =
+        palmDetected ? "Yes" : "No";
+
+
+    const status =
+        document.getElementById(
+            "detectionStatus"
+        );
+
+
+    if (palmDetected) {
+
+        status.textContent =
+            "● Palm Detected";
+
+        status.style.background =
+            "#ecfdf5";
+
+        status.style.color =
+            "#15803d";
+
+    }
+    else {
+
+        status.textContent =
+            "● Not Detected";
+
+        status.style.background =
+            "#fef2f2";
+
+        status.style.color =
+            "#b91c1c";
+
+    }
+
+
+    /* Palm lines */
+
+    document.getElementById(
+        "heartLine"
+    ).textContent =
+        features.heart_line ||
+        "Not detected";
+
+
+    document.getElementById(
+        "headLine"
+    ).textContent =
+        features.head_line ||
+        "Not detected";
+
+
+    document.getElementById(
+        "lifeLine"
+    ).textContent =
+        features.life_line ||
+        "Not detected";
+
+
+    document.getElementById(
+        "fateLine"
+    ).textContent =
+        features.fate_line ||
+        "Not detected";
+
+
+    document.getElementById(
+        "palmShape"
+    ).textContent =
+        features.palm_shape ||
+        "Not available";
+
+
+    /* Overall confidence */
+
+    setOverallConfidence(
+        "detectionConfidence",
+        detection.detection_confidence
+    );
+
+    setOverallConfidence(
+        "analysisConfidence",
+        detection.analysis_confidence
+    );
+
+
+    /* Line confidence */
+
+    setConfidence(
+        "heartConfidence",
+        "heartProgress",
+        features.heart_confidence
+    );
+
+    setConfidence(
+        "headConfidence",
+        "headProgress",
+        features.head_confidence
+    );
+
+    setConfidence(
+        "lifeConfidence",
+        "lifeProgress",
+        features.life_confidence
+    );
+
+    setConfidence(
+        "fateConfidence",
+        "fateProgress",
+        features.fate_confidence
+    );
+
+
+    /* Interpretation */
+
+    document.getElementById(
+        "palmInterpretation"
+    ).textContent =
+        palmistry.interpretation ||
+        "No palmistry interpretation available.";
+
+
+    setTimeout(() => {
+
+        document.getElementById(
+            "palmReadingCard"
+        ).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }, 200);
+
+}
+
+
+/* =========================================================
+   OVERALL CONFIDENCE
+========================================================= */
+
+function setOverallConfidence(elementId, value) {
+
+    const element =
+        document.getElementById(elementId);
+
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        element.textContent = "-";
+
+        return;
+    }
+
+
+    const number = Number(value);
+
+
+    if (Number.isNaN(number)) {
+
+        element.textContent = "-";
+
+        return;
+    }
+
+
+    element.textContent =
+        number.toFixed(1) + "%";
+
+}
+
+
+/* =========================================================
+   LINE CONFIDENCE
+========================================================= */
+
+function setConfidence(
+    textId,
+    progressId,
+    value
+) {
+
+    const textElement =
+        document.getElementById(textId);
+
+    const progressElement =
+        document.getElementById(progressId);
+
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        textElement.textContent = "-";
+
+        progressElement.style.width = "0%";
+
+        return;
+    }
+
+
+    const number = Number(value);
+
+
+    if (Number.isNaN(number)) {
+
+        textElement.textContent = "-";
+
+        progressElement.style.width = "0%";
+
+        return;
+    }
+
+
+    const safeNumber =
+        Math.min(
+            Math.max(number, 0),
+            100
+        );
+
+
+    textElement.textContent =
+        number.toFixed(1) + "%";
+
+
+    progressElement.style.width =
+        safeNumber + "%";
+
+}
+
+
+/* =========================================================
+   DISPLAY GUIDANCE
+========================================================= */
+
+function displayGuidance(data) {
+
+    const palmistry =
+        data.palmistry || {};
+
+    const insights =
+        data.palmistry_insights || {};
+
+    const personality =
+        insights.personality || {};
+
+    const recommendations =
+        insights.recommendations || {};
+
+    const lifeTrends =
+        insights.life_trends || {};
+
+
+    document.getElementById(
+        "guidanceCard"
+    ).style.display = "block";
+
+
+    renderPersonality(personality);
+
+
+    document.getElementById(
+        "aiInterpretation"
+    ).textContent =
+        palmistry.interpretation ||
+        "No interpretation available.";
+
+
+    renderRecommendations(
+        recommendations
+    );
+
+
+    renderLifeTrends(
+        lifeTrends
+    );
+
+
+    renderPalmFeatureDetails(
+        personality.palm_features || {}
+    );
+
+
+    renderPalmShapeDetails(
+        personality.palm_shape
+    );
+
+
+    const detection =
+        palmistry.detection || {};
+
+
+    document.getElementById(
+        "readingInformation"
+    ).textContent =
+
+        "Palm Reading ID: " +
+        (data.palm_reading_id || "-") +
+
+        "\n\n" +
+
+        "Reading Type: Palmistry Only" +
+
+        "\n\n" +
+
+        "Palm Detected: " +
+        (
+            detection.palm_detected
+                ? "Yes"
+                : "No"
+        ) +
+
+        "\n\n" +
+
+        "AI Detection Confidence: " +
+        formatConfidence(
+            detection.detection_confidence
+        ) +
+
+        "\n\n" +
+
+        "AI Analysis Confidence: " +
+        formatConfidence(
+            detection.analysis_confidence
+        );
+
+
+    document.getElementById(
+        "personalityDisclaimer"
+    ).textContent =
+
+        personality.disclaimer ||
+        "This interpretation is provided for self-reflection and entertainment only.";
+
+}
+
+
+/* =========================================================
+   PERSONALITY
+========================================================= */
+
+function renderPersonality(personality) {
+
+    const overview =
+        document.getElementById(
+            "personalityOverview"
+        );
+
+
+    overview.innerHTML = "";
+
+
+    addExplanation(
+        overview,
+        "What it is",
+        personality.what_it_is ||
+        "Personality Intelligence converts detected palm features into a structured traditional palmistry-style interpretation."
+    );
+
+
+    addExplanation(
+        overview,
+        "What your result indicates",
+        personality.what_your_result_indicates ||
+        "The system uses the detected palm features to create traditional reflection themes."
+    );
+
+
+    addExplanation(
+        overview,
+        "How it works",
+        personality.how_it_works ||
+        "The AI model detects palm features and the Personality Intelligence module maps those features to predefined themes."
+    );
+
+
+    renderSimpleListWithExplanations(
+        "personalityContainer",
+        Array.isArray(personality.traits)
+            ? personality.traits
+            : []
+    );
+
+
+    renderStrengths(personality);
+
+    renderChallenges(personality);
+
+}
+
+
+/* =========================================================
+   STRENGTHS
+========================================================= */
+
+function renderStrengths(personality) {
+
+    const container =
+        document.getElementById(
+            "strengthsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const strengths =
+        Array.isArray(personality.strengths)
+            ? personality.strengths
+            : [];
+
+
+    const explanations =
+        personality.strength_explanations || {};
+
+
+    if (strengths.length === 0) {
+
+        container.innerHTML =
+            "<p>No strengths available.</p>";
+
+        return;
+    }
+
+
+    strengths.forEach(strength => {
+
+        const explanation =
+            explanations[strength] ||
+            "This strength was identified from the current palmistry interpretation.";
+
+
+        const box =
+            document.createElement("div");
+
+
+        box.className =
+            "personality-item";
+
+
+        box.innerHTML = `
+
+            <div class="trait">
+                ${escapeHtml(strength)}
+            </div>
+
+            <div class="personality-information">
+
+                <div class="information-row">
+
+                    <strong>
+                        What it means
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(explanation)}
+                    </span>
+
+                </div>
+
+            </div>
+        `;
+
+
+        container.appendChild(box);
+
+    });
+
+}
+
+
+/* =========================================================
+   CHALLENGES
+========================================================= */
+
+function renderChallenges(personality) {
+
+    const container =
+        document.getElementById(
+            "challengesContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const challenges =
+        Array.isArray(personality.challenges)
+            ? personality.challenges
+            : [];
+
+
+    const explanations =
+        personality.challenge_explanations || {};
+
+
+    if (challenges.length === 0) {
+
+        container.innerHTML =
+            "<p>No challenges available.</p>";
+
+        return;
+    }
+
+
+    challenges.forEach(challenge => {
+
+        const explanation =
+            explanations[challenge] ||
+            "This is presented as a reflection theme rather than a fixed personal limitation.";
+
+
+        const box =
+            document.createElement("div");
+
+
+        box.className =
+            "personality-item";
+
+
+        box.innerHTML = `
+
+            <div class="trait">
+                ${escapeHtml(challenge)}
+            </div>
+
+            <div class="personality-information">
+
+                <div class="information-row">
+
+                    <strong>
+                        What it means
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(explanation)}
+                    </span>
+
+                </div>
+
+            </div>
+        `;
+
+
+        container.appendChild(box);
+
+    });
+
+}
+
+
+/* =========================================================
+   PALM FEATURE DETAILS
+   WITH:
+   - WHAT IT MEANS
+   - HOW IT WORKS
+   - AI CONFIDENCE
+========================================================= */
+
+function renderPalmFeatureDetails(details) {
+
+    const container =
+        document.getElementById(
+            "palmFeatureDetails"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        !details ||
+        typeof details !== "object"
+    ) {
+
+        container.innerHTML =
+            "<p>No palm feature details available.</p>";
+
+        return;
+    }
+
+
+    /*
+       These descriptions explain the traditional
+       palmistry meaning and the technical AI workflow.
+    */
+
+    const featureData = [
+
+        {
+            key: "life_line",
+            name: "🛤️ Life Line",
+            confidenceKey: "life_confidence",
+
+            meaning:
+                "In traditional palmistry, the Life Line is associated with themes such as energy, vitality, resilience and major life experiences. It is not a scientific method for predicting lifespan or health.",
+
+            how:
+                "The AI computer-vision system analyzes the palm image and searches for the Life Line pattern. If the line is detected, the model provides a detection confidence score. The detected result is then passed to the interpretation module to generate traditional palmistry-based reflection."
+        },
+
+        {
+            key: "heart_line",
+            name: "❤️ Heart Line",
+            confidenceKey: "heart_confidence",
+
+            meaning:
+                "In traditional palmistry, the Heart Line is associated with emotions, relationships, affection and interpersonal sensitivity. These interpretations are symbolic and are not scientific measurements of personality.",
+
+            how:
+                "The AI analyzes the palm image and identifies visual patterns corresponding to the Heart Line. The model produces a confidence score for the detected line. The result is then used by the interpretation and personality modules to generate relationship and emotional reflection themes."
+        },
+
+        {
+            key: "head_line",
+            name: "🧠 Head Line",
+            confidenceKey: "head_confidence",
+
+            meaning:
+                "In traditional palmistry, the Head Line is associated with thinking style, reasoning, learning, imagination and decision-making. These meanings are traditional interpretations rather than scientifically validated personality measurements.",
+
+            how:
+                "The computer-vision model examines the palm image for the Head Line. When detected, the model records its confidence value. The AI interpretation module uses this detected feature to create themes related to thinking, analysis and decision-making."
+        },
+
+        {
+            key: "fate_line",
+            name: "⭐ Fate Line",
+            confidenceKey: "fate_confidence",
+
+            meaning:
+                "In traditional palmistry, the Fate Line is associated with personal direction, career, ambition and life goals. It does not scientifically predict a person's future or career outcome.",
+
+            how:
+                "The AI model examines the palm image for a Fate Line pattern. It records whether the line was detected and its confidence score. The interpretation module then uses this information as a traditional theme related to direction, goals and professional growth."
+        }
+
+    ];
+
+
+    featureData.forEach(feature => {
+
+        const value =
+            details[feature.key];
+
+
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+
+            return;
+        }
+
+
+        const confidence =
+            details[feature.confidenceKey];
+
+
+        const box =
+            document.createElement("div");
+
+
+        box.className =
+            "feature-explanation";
+
+
+        box.innerHTML = `
+
+            <div class="feature-title">
+                ${escapeHtml(feature.name)}
+            </div>
+
+            <div class="feature-row">
+
+                <strong>
+                    Detected Result
+                </strong>
+
+                <span>
+                    ${escapeHtml(String(value))}
+                </span>
+
+            </div>
+
+            <div class="feature-row">
+
+                <strong>
+                    What it means
+                </strong>
+
+                <span>
+                    ${escapeHtml(feature.meaning)}
+                </span>
+
+            </div>
+
+            <div class="feature-row">
+
+                <strong>
+                    How it works
+                </strong>
+
+                <span>
+                    ${escapeHtml(feature.how)}
+                </span>
+
+            </div>
+
+            <div class="feature-row">
+
+                <strong>
+                    AI Detection Confidence
+                </strong>
+
+                <span class="feature-confidence">
+                    ${formatConfidence(confidence)}
+                </span>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(box);
+
+    });
+
+
+    /* =====================================================
+       OTHER FEATURES
+    ===================================================== */
+
+    if (
+        details.other_features &&
+        typeof details.other_features === "object"
+    ) {
+
+        const other =
+            details.other_features;
+
+
+        const otherBox =
+            document.createElement("div");
+
+
+        otherBox.className =
+            "feature-explanation";
+
+
+        let html = `
+
+            <div class="feature-title">
+                🔎 Other Palm Features
+            </div>
+
+        `;
+
+
+        if (
+            other.total_detected_lines !== undefined
+        ) {
+
+            html += `
+
+                <div class="feature-row">
+
+                    <strong>
+                        Total Detected Lines
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(
+                            String(
+                                other.total_detected_lines
+                            )
+                        )}
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+
+
+        if (
+            other.high_confidence_detections !== undefined
+        ) {
+
+            html += `
+
+                <div class="feature-row">
+
+                    <strong>
+                        High Confidence Detections
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(
+                            String(
+                                other.high_confidence_detections
+                            )
+                        )}
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+
+
+        if (
+            other.image_width !== undefined &&
+            other.image_height !== undefined
+        ) {
+
+            html += `
+
+                <div class="feature-row">
+
+                    <strong>
+                        Image Size
+                    </strong>
+
+                    <span>
+                        ${escapeHtml(
+                            String(
+                                other.image_width
+                            )
+                        )}
+                        ×
+                        ${escapeHtml(
+                            String(
+                                other.image_height
+                            )
+                        )}
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+
+
+        html += `
+
+            <div class="feature-row">
+
+                <strong>
+                    How it works
+                </strong>
+
+                <span>
+                    The computer-vision system extracts visual information
+                    from the uploaded palm image, such as detected lines,
+                    image dimensions and other measurable image features.
+                    These values help the system evaluate the palm image
+                    before generating the interpretation.
+                </span>
+
+            </div>
+
+        `;
+
+
+        otherBox.innerHTML = html;
+
+
+        container.appendChild(otherBox);
+
+    }
+
+
+    if (!container.children.length) {
+
+        container.innerHTML =
+            "<p>No palm feature details available.</p>";
+
+    }
+
+}
+
+
+/* =========================================================
+   PALM SHAPE DETAILS
+========================================================= */
+
+function renderPalmShapeDetails(details) {
+
+    const container =
+        document.getElementById(
+            "palmShapeDetails"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        typeof details === "string" &&
+        details.trim() !== ""
+    ) {
+
+        const shape =
+            details.trim();
+
+
+        addExplanation(
+            container,
+            "Detected Palm Shape",
+            shape
+        );
+
+
+        addExplanation(
+            container,
+            "What it means",
+            "In traditional palmistry, palm shape is used as a broad symbolic theme to describe characteristics such as sensitivity, practicality, energy, communication or attention to detail. It should not be treated as a scientific personality measurement."
+        );
+
+
+        addExplanation(
+            container,
+            "How it works",
+            "The AI analyzes the uploaded palm image and extracts visual characteristics such as palm proportions, dimensions and detected features. These characteristics are used to classify the palm into a broad shape category such as Long Palm."
+        );
+
+
+        return;
+    }
+
+
+    if (
+        details &&
+        typeof details === "object"
+    ) {
+
+        addExplanation(
+            container,
+            "Palm Shape",
+            details.name ||
+            details.palm_shape ||
+            "Not available"
+        );
+
+
+        addExplanation(
+            container,
+            "What it means",
+            details.what_it_is ||
+            "Palm shape is used as a traditional reflection theme."
+        );
+
+
+        addExplanation(
+            container,
+            "How it works",
+            details.how_it_works ||
+            "The AI analyzes visual characteristics of the palm image to determine the palm shape."
+        );
+
+
+        return;
+    }
+
+
+    container.textContent =
+        "Palm shape information is not available.";
+
+}
+
+
+/* =========================================================
+   ADD EXPLANATION
+========================================================= */
+
+function addExplanation(
+    container,
+    title,
+    text
+) {
+
+    if (
+        text === null ||
+        text === undefined ||
+        String(text).trim() === ""
+    ) {
+
+        return;
+    }
+
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "information-row";
+
+
+    div.innerHTML = `
+
+        <strong>
+            ${escapeHtml(title)}
+        </strong>
+
+        <span>
+            ${escapeHtml(String(text))}
+        </span>
+
+    `;
+
+
+    container.appendChild(div);
+
+}
+
+
+/* =========================================================
+   SIMPLE LIST
+========================================================= */
+
+function renderSimpleListWithExplanations(
+    containerId,
+    items
+) {
+
+    const container =
+        document.getElementById(
+            containerId
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        !Array.isArray(items) ||
+        items.length === 0
+    ) {
+
+        container.innerHTML =
+            "<p>No traits available.</p>";
+
+        return;
+    }
+
+
+    items.forEach(item => {
+
+        const box =
+            document.createElement("div");
+
+
+        box.className =
+            "personality-item";
+
+
+        box.innerHTML = `
+
+            <div class="trait">
+                ${escapeHtml(String(item))}
+            </div>
+
+            <div class="information-row">
+
+                <strong>
+                    Result
+                </strong>
+
+                <span>
+                    This trait is included as a traditional
+                    palmistry-style reflection theme based
+                    on the detected palm features.
+                </span>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(box);
+
+    });
+
+}
+
+
+/* =========================================================
+   RECOMMENDATIONS
+========================================================= */
+
+function renderRecommendations(
+    recommendations
+) {
+
+    const container =
+        document.getElementById(
+            "recommendationsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        !recommendations ||
+        typeof recommendations !== "object" ||
+        Object.keys(recommendations).length === 0
+    ) {
+
+        container.innerHTML =
+            "<p>No recommendations available.</p>";
+
+        return;
+    }
+
+
+    let rendered = false;
+
+
+    Object.entries(
+        recommendations
+    ).forEach(([category, values]) => {
+
+        if (
+            !Array.isArray(values) ||
+            values.length === 0
+        ) {
+
+            return;
+        }
+
+
+        rendered = true;
+
+
+        const wrapper =
+            document.createElement("div");
+
+
+        wrapper.className =
+            "recommendation-category";
+
+
+        const title =
+            document.createElement("h4");
+
+
+        title.textContent =
+            formatTitle(category);
+
+
+        wrapper.appendChild(title);
+
+
+        const ul =
+            document.createElement("ul");
+
+
+        ul.className =
+            "guidance-list";
+
+
+        values.forEach(value => {
+
+            const li =
+                document.createElement("li");
+
+
+            li.textContent =
+                String(value);
+
+
+            ul.appendChild(li);
+
+        });
+
+
+        wrapper.appendChild(ul);
+
+
+        container.appendChild(wrapper);
+
+    });
+
+
+    if (!rendered) {
+
+        container.innerHTML =
+            "<p>No recommendations available.</p>";
+
+    }
+
+}
+
+
+/* =========================================================
+   LIFE TRENDS
+========================================================= */
+
+function renderLifeTrends(trends) {
+
+    const container =
+        document.getElementById(
+            "lifeTrendsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        !trends ||
+        typeof trends !== "object" ||
+        Object.keys(trends).length === 0
+    ) {
+
+        container.innerHTML =
+            "<p>No life trends available.</p>";
+
+        return;
+    }
+
+
+    Object.entries(trends)
+        .forEach(([key, value]) => {
+
+            if (
+                value === null ||
+                value === undefined ||
+                value === ""
+            ) {
+
+                return;
+            }
+
+
+            if (
+                Array.isArray(value) &&
+                value.length === 0
+            ) {
+
+                return;
+            }
+
+
+            const box =
+                document.createElement("div");
+
+
+            box.className =
+                "trend-box";
+
+
+            const title =
+                document.createElement("strong");
+
+
+            title.textContent =
+                formatTitle(key);
+
+
+            const paragraph =
+                document.createElement("p");
+
+
+            if (Array.isArray(value)) {
+
+                paragraph.textContent =
+                    value.join(", ");
+
+            }
+            else if (
+                typeof value === "object"
+            ) {
+
+                paragraph.textContent =
+                    JSON.stringify(value);
+
+            }
+            else {
+
+                paragraph.textContent =
+                    String(value);
+
+            }
+
+
+            box.appendChild(title);
+
+            box.appendChild(paragraph);
+
+            container.appendChild(box);
+
+        });
+
+
+    if (!container.children.length) {
+
+        container.innerHTML =
+            "<p>No life trends available.</p>";
+
+    }
+
+}
+
+
+/* =========================================================
+   FORMAT CONFIDENCE
+========================================================= */
+
+function formatConfidence(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        return "-";
+    }
+
+
+    const number =
+        Number(value);
+
+
+    if (Number.isNaN(number)) {
+
+        return "-";
+    }
+
+
+    return number.toFixed(1) + "%";
+
+}
+
+
+/* =========================================================
+   FORMAT TITLE
+========================================================= */
+
+function formatTitle(value) {
+
+    return String(value)
+        .replace(/_/g, " ")
+        .replace(
+            /\b\w/g,
+            letter => letter.toUpperCase()
+        );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const token =
+            getToken();
+
+
+        if (!token) {
+
+            showMessage(
+                "Please login to use Palmistry.",
+                "error"
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

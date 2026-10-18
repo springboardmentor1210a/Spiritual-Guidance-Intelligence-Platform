@@ -1,0 +1,165 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f7faff;
+    color: #172b4d;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.navbar {
+    height: 68px;
+    background: white;
+    border-bottom: 1px solid #dce5f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 35px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    background: #eaf2ff;
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1769e0;
+    font-size: 22px;
+}
+
+.logo h1 {
+    font-size: 17px;
+    color: #12315b;
+}
+
+.logo span {
+    display: block;
+    color: #1769e0;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    margin-top: 2px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: #526581;
+    font-size: 13px;
+}
+
+.nav-right a:hover,
+.nav-right .active {
+    color: #1769e0;
+    font-weight: bold;
+}
+
+.logout {
+    border: 1px solid #1769e0;
+    color: #1769e0;
+    background: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+}
+
+.logout:hover {
+    background: #eef5ff;
+}
+
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+.page-title {
+    margin-bottom: 25px;
+}
+
+.page-title h2 {
+    font-size: 27px;
+    margin-bottom: 7px;
+}
+
+.page-title p {
+    color: #718096;
+    font-size: 13px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #dfe7f1;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 3px 12px rgba(40, 80, 130, 0.06);
+}
+
+.primary-btn {
+    background: #1769e0;
+    color: white;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.primary-btn:hover {
+    background: #0f56bd;
+}
+
+.secondary-btn {
+    background: white;
+    color: #1769e0;
+    border: 1px solid #1769e0;
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+.footer {
+    text-align: center;
+    padding: 25px;
+    color: #8a97a8;
+    font-size: 12px;
+    margin-top: 40px;
+}
+
+@media (max-width: 700px) {
+    .navbar {
+        padding: 0 15px;
+    }
+
+    .nav-right a {
+        display: none;
+    }
+
+    .container {
+        width: 94%;
+    }
+}

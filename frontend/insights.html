@@ -1,0 +1,2684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Insights | Palmistry & Tarot</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        .page {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 22px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 25px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        .back-btn {
+            border: none;
+            background: #5b21b6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #4c1d95;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 30px auto 60px;
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            color: #3b0764;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* ================= SECTIONS ================= */
+
+        .section {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 25px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-title {
+            font-size: 21px;
+            font-weight: 700;
+            color: #4c1d95;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-description {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        /* ================= CONTENT BOX ================= */
+
+        .content-box {
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+            border-left: 4px solid #7c3aed;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .content-box h3 {
+            font-size: 15px;
+            color: #4c1d95;
+            margin-bottom: 7px;
+        }
+
+        .content-box p {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* ================= PERSONALITY ================= */
+
+        .personality-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .personality-card {
+            min-height: 145px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .personality-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: #7c3aed;
+            border-radius: 12px 0 0 12px;
+        }
+
+        .personality-card h3 {
+            font-size: 16px;
+            color: #4c1d95;
+            margin-bottom: 9px;
+            padding-left: 5px;
+        }
+
+        .personality-card p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.55;
+            padding-left: 5px;
+        }
+
+        /* ================= GUIDANCE ================= */
+
+        .guidance-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .guidance-card {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 16px;
+            min-height: 125px;
+        }
+
+        .guidance-card h3 {
+            font-size: 15px;
+            color: #166534;
+            margin-bottom: 7px;
+        }
+
+        .guidance-card p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.55;
+        }
+
+        /* ================= RECOMMENDATIONS ================= */
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .recommendation-card {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 16px;
+            min-height: 120px;
+        }
+
+        .recommendation-card h3 {
+            font-size: 15px;
+            color: #166534;
+            margin-bottom: 7px;
+        }
+
+        .recommendation-card p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.55;
+        }
+
+        /* ================= LIFE TRENDS ================= */
+
+        .trend-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .trend-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 16px;
+            min-height: 330px;
+        }
+
+        .trend-card h3 {
+            text-align: center;
+            font-size: 16px;
+            color: #4c1d95;
+            margin-bottom: 12px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 250px;
+            position: relative;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .trend-note {
+            margin-top: 14px;
+            font-size: 11px;
+            color: #888;
+            text-align: center;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            text-align: center;
+            padding: 50px 20px;
+            color: #666;
+        }
+
+        .loader {
+            width: 38px;
+            height: 38px;
+            border: 4px solid #ddd;
+            border-top: 4px solid #7c3aed;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        /* ================= ERROR ================= */
+
+        .error-box {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #9f1239;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty-box {
+            background: #fafafa;
+            border: 1px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .trend-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .personality-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .guidance-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 16px 20px;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .section {
+                padding: 17px;
+            }
+
+            .personality-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div>
+
+            <div class="header-title">
+                💡 Insights
+            </div>
+
+            <div class="header-subtitle">
+                Combined Palmistry and Tarot Intelligence
+            </div>
+
+        </div>
+
+        <button
+            class="back-btn"
+            onclick="goBack()"
+        >
+            ← Dashboard
+        </button>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <div class="page-heading">
+
+            <h1>
+                💡 Spiritual Intelligence Insights
+            </h1>
+
+            <p>
+                Combined analysis generated from your Palmistry reading and selected Tarot cards
+            </p>
+
+        </div>
+
+
+        <!-- ================= ERROR ================= -->
+
+        <div
+            id="errorBox"
+            class="error-box"
+        ></div>
+
+
+        <!-- ================= LOADING ================= -->
+
+        <div
+            id="loadingBox"
+            class="loading"
+        >
+
+            <div class="loader"></div>
+
+            <p>
+                Generating your combined insights...
+            </p>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- READING SYNTHESIS -->
+        <!-- ================================================= -->
+
+        <section
+            class="section"
+            id="synthesisSection"
+            style="display:none;"
+        >
+
+            <div class="section-title">
+                🔗 Reading Synthesis
+            </div>
+
+            <div id="synthesisContent"></div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- COMBINED ANALYSIS -->
+        <!-- ================================================= -->
+
+        <section
+            class="section"
+            id="analysisSection"
+            style="display:none;"
+        >
+
+            <div class="section-title">
+                🔍 Combined Analysis
+            </div>
+
+            <div id="analysisContent"></div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- PERSONALITY -->
+        <!-- ================================================= -->
+
+        <section
+            class="section"
+            id="personalitySection"
+            style="display:none;"
+        >
+
+            <div class="section-title">
+                🧠 Personality Insights
+            </div>
+
+            <div class="section-description">
+                Combined personality insights generated from the actual Palmistry reading and selected Tarot cards.
+            </div>
+
+            <div class="personality-grid">
+
+
+                <div class="personality-card">
+
+                    <h3>
+                        ❤️ Relationship
+                    </h3>
+
+                    <p id="relationshipPersonality">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="personality-card">
+
+                    <h3>
+                        💼 Career
+                    </h3>
+
+                    <p id="careerPersonality">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="personality-card">
+
+                    <h3>
+                        💰 Financial
+                    </h3>
+
+                    <p id="financialPersonality">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="personality-card">
+
+                    <h3>
+                        🌱 Personal Growth
+                    </h3>
+
+                    <p id="growthPersonality">
+                        Loading...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- COMBINED PERSONALIZED GUIDANCE -->
+        <!-- ================================================= -->
+
+        <section
+            class="section"
+            id="guidanceSection"
+            style="display:none;"
+        >
+
+            <div class="section-title">
+                🌟 Combined Personalized Guidance
+            </div>
+
+            <div class="section-description">
+                Guidance generated from the interaction between your Palmistry reading and selected Tarot cards.
+            </div>
+
+            <div class="guidance-grid">
+
+
+                <div class="guidance-card">
+
+                    <h3>
+                        🌟 Overall Guidance
+                    </h3>
+
+                    <p id="overallGuidance">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="guidance-card">
+
+                    <h3>
+                        💼 Career Guidance
+                    </h3>
+
+                    <p id="careerGuidance">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="guidance-card">
+
+                    <h3>
+                        ❤️ Relationship Guidance
+                    </h3>
+
+                    <p id="relationshipGuidance">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="guidance-card">
+
+                    <h3>
+                        🌱 Personal Growth
+                    </h3>
+
+                    <p id="growthGuidance">
+                        Loading...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- COMBINED RECOMMENDATIONS -->
+        <!-- ================================================= -->
+
+        <section
+            class="section"
+            id="recommendationSection"
+            style="display:none;"
+        >
+
+            <div class="section-title">
+                💡 Combined Recommendations
+            </div>
+
+            <div class="section-description">
+                Recommendations generated from the actual combination of your Palmistry reading and selected Tarot cards.
+            </div>
+
+            <div class="recommendation-grid">
+
+
+                <div class="recommendation-card">
+
+                    <h3>
+                        💼 Career
+                    </h3>
+
+                    <p id="careerRecommendation">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="recommendation-card">
+
+                    <h3>
+                        ❤️ Relationship
+                    </h3>
+
+                    <p id="relationshipRecommendation">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="recommendation-card">
+
+                    <h3>
+                        💰 Financial
+                    </h3>
+
+                    <p id="financialRecommendation">
+                        Loading...
+                    </p>
+
+                </div>
+
+
+                <div class="recommendation-card">
+
+                    <h3>
+                        🌱 Personal Growth
+                    </h3>
+
+                    <p id="growthRecommendation">
+                        Loading...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- LIFE TRENDS -->
+        <!-- ================================================= -->
+
+        <section
+            class="section"
+            id="lifeTrendsSection"
+            style="display:none;"
+        >
+
+            <div class="section-title">
+                📊 Life Trends
+            </div>
+
+            <div class="section-description">
+                Visual representation of the available combined life-trend scores.
+            </div>
+
+            <div class="trend-grid">
+
+
+                <div class="trend-card">
+
+                    <h3>
+                        💼 Career Trend
+                    </h3>
+
+                    <div class="chart-container">
+
+                        <canvas
+                            id="careerChart"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+
+                <div class="trend-card">
+
+                    <h3>
+                        ❤️ Relationship Trend
+                    </h3>
+
+                    <div class="chart-container">
+
+                        <canvas
+                            id="relationshipChart"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+
+                <div class="trend-card">
+
+                    <h3>
+                        🌱 Personal Growth Trend
+                    </h3>
+
+                    <div class="chart-container">
+
+                        <canvas
+                            id="growthChart"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="trend-note">
+                Theme-intensity visualization only. Not a scientific prediction or probability.
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- ================= CHART.JS ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+    /* =====================================================
+       API
+       ===================================================== */
+
+    const API_URL =
+        "http://127.0.0.1:8001/personalized-guidance/generate";
+
+
+    /* =====================================================
+       GLOBAL DATA
+       ===================================================== */
+
+    let insightsData = null;
+
+    let careerChart = null;
+
+    let relationshipChart = null;
+
+    let growthChart = null;
+
+
+    /* =====================================================
+       GET TOKEN
+       ===================================================== */
+
+    function getToken() {
+
+        return (
+            localStorage.getItem("access_token") ||
+            localStorage.getItem("token") ||
+            ""
+        );
+
+    }
+
+
+    /* =====================================================
+       BACK TO DASHBOARD
+       ===================================================== */
+
+    function goBack() {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+
+
+    /* =====================================================
+       SAFE TEXT
+       ===================================================== */
+
+    function safeText(
+        value,
+        fallback = "No information available."
+    ) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return fallback;
+
+        }
+
+
+        if (
+            typeof value === "string"
+        ) {
+
+            const cleaned =
+                value.trim();
+
+            return cleaned || fallback;
+
+        }
+
+
+        if (
+            typeof value === "number" ||
+            typeof value === "boolean"
+        ) {
+
+            return String(value);
+
+        }
+
+
+        if (
+            Array.isArray(value)
+        ) {
+
+            if (
+                value.length === 0
+            ) {
+
+                return fallback;
+
+            }
+
+            return value
+                .map(
+                    item =>
+                        safeText(
+                            item,
+                            ""
+                        )
+                )
+                .filter(
+                    item => item
+                )
+                .join(" • ");
+
+        }
+
+
+        if (
+            typeof value === "object"
+        ) {
+
+            const parts = [];
+
+            Object.keys(value)
+                .forEach(key => {
+
+                    const item =
+                        value[key];
+
+                    if (
+                        item !== null &&
+                        item !== undefined &&
+                        typeof item !== "object"
+                    ) {
+
+                        parts.push(
+                            formatKey(key) +
+                            ": " +
+                            String(item)
+                        );
+
+                    }
+
+                });
+
+
+            if (
+                parts.length > 0
+            ) {
+
+                return parts.join(" • ");
+
+            }
+
+        }
+
+
+        return String(value);
+
+    }
+
+
+    /* =====================================================
+       FORMAT KEY
+       ===================================================== */
+
+    function formatKey(key) {
+
+        return String(key)
+            .replace(
+                /_/g,
+                " "
+            )
+            .replace(
+                /\b\w/g,
+                letter =>
+                    letter.toUpperCase()
+            );
+
+    }
+
+
+    /* =====================================================
+       GET COMBINED OBJECT
+       ===================================================== */
+
+    function getCombinedData(data) {
+
+        if (
+            !data ||
+            typeof data !== "object"
+        ) {
+
+            return {};
+
+        }
+
+
+        /*
+         * The backend should return:
+         *
+         * data.combined
+         *
+         * This is the preferred source.
+         */
+
+        if (
+            data.combined &&
+            typeof data.combined === "object"
+        ) {
+
+            return data.combined;
+
+        }
+
+
+        /*
+         * Compatibility:
+         *
+         * If combined is not nested,
+         * use the top-level combined fields.
+         */
+
+        return data;
+
+    }
+
+
+    /* =====================================================
+       GET COMBINED SECTION
+       ===================================================== */
+
+    function getCombinedSection(
+        data,
+        keys
+    ) {
+
+        const combined =
+            getCombinedData(data);
+
+
+        for (
+            const key of keys
+        ) {
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    combined,
+                    key
+                )
+            ) {
+
+                const value =
+                    combined[key];
+
+                if (
+                    value !== null &&
+                    value !== undefined &&
+                    value !== ""
+                ) {
+
+                    return value;
+
+                }
+
+            }
+
+        }
+
+
+        /*
+         * Compatibility with top-level
+         * combined fields.
+         */
+
+        if (
+            combined !== data
+        ) {
+
+            for (
+                const key of keys
+            ) {
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        data,
+                        key
+                    )
+                ) {
+
+                    const value =
+                        data[key];
+
+                    if (
+                        value !== null &&
+                        value !== undefined &&
+                        value !== ""
+                    ) {
+
+                        return value;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =====================================================
+       IMPORTANT:
+       DO NOT SEARCH INSIDE PALMISTRY/TAROT
+       ===================================================== */
+
+    function isIndividualSourceKey(key) {
+
+        return (
+            key === "palmistry" ||
+            key === "tarot" ||
+            key === "palmistry_only" ||
+            key === "tarot_only"
+        );
+
+    }
+
+
+    /* =====================================================
+       SHORTEN TEXT
+       ===================================================== */
+
+    function shortText(
+        value,
+        maxLength = 260
+    ) {
+
+        let text =
+            safeText(value);
+
+        text =
+            text
+                .replace(
+                    /\s+/g,
+                    " "
+                )
+                .trim();
+
+
+        if (
+            text.length <= maxLength
+        ) {
+
+            return text;
+
+        }
+
+
+        return (
+            text
+                .substring(
+                    0,
+                    maxLength
+                )
+                .trim() +
+            "..."
+        );
+
+    }
+
+
+    /* =====================================================
+       CREATE CONTENT BOX
+       ===================================================== */
+
+    function createContentBox(
+        title,
+        value
+    ) {
+
+        return `
+            <div class="content-box">
+
+                <h3>
+                    ${title}
+                </h3>
+
+                <p>
+                    ${shortText(
+                        value,
+                        500
+                    )}
+                </p>
+
+            </div>
+        `;
+
+    }
+
+
+    /* =====================================================
+       SHOW SECTION
+       ===================================================== */
+
+    function showSection(id) {
+
+        const element =
+            document.getElementById(
+                id
+            );
+
+
+        if (element) {
+
+            element.style.display =
+                "block";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       HIDE LOADING
+       ===================================================== */
+
+    function hideLoading() {
+
+        const loading =
+            document.getElementById(
+                "loadingBox"
+            );
+
+
+        if (loading) {
+
+            loading.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SHOW ERROR
+       ===================================================== */
+
+    function showError(message) {
+
+        hideLoading();
+
+
+        const box =
+            document.getElementById(
+                "errorBox"
+            );
+
+
+        if (!box) {
+
+            return;
+
+        }
+
+
+        box.textContent =
+            message;
+
+
+        box.style.display =
+            "block";
+
+    }
+
+
+    /* =====================================================
+       GET CATEGORY VALUE
+       ===================================================== */
+
+    function getCategoryValue(
+        personality,
+        category
+    ) {
+
+        if (
+            !personality ||
+            typeof personality !== "object"
+        ) {
+
+            return null;
+
+        }
+
+
+        /*
+         * New backend structure:
+         *
+         * personality.categories.relationship
+         */
+
+        if (
+            personality.categories &&
+            typeof personality.categories === "object"
+        ) {
+
+            const categories =
+                personality.categories;
+
+
+            if (
+                categories[category] !== undefined
+            ) {
+
+                return categories[category];
+
+            }
+
+        }
+
+
+        /*
+         * Direct category:
+         *
+         * personality.relationship
+         */
+
+        if (
+            personality[category] !== undefined
+        ) {
+
+            return personality[category];
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =====================================================
+       EXTRACT CATEGORY TEXT
+       ===================================================== */
+
+    function extractCategoryText(
+        value
+    ) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return null;
+
+        }
+
+
+        if (
+            typeof value === "string"
+        ) {
+
+            return value;
+
+        }
+
+
+        if (
+            Array.isArray(value)
+        ) {
+
+            return value.length
+                ? value.join(" • ")
+                : null;
+
+        }
+
+
+        if (
+            typeof value === "object"
+        ) {
+
+            const preferredKeys = [
+
+                "insight",
+                "description",
+                "summary",
+                "text",
+                "message",
+                "guidance",
+                "theme"
+
+            ];
+
+
+            for (
+                const key of preferredKeys
+            ) {
+
+                if (
+                    value[key] !== undefined &&
+                    value[key] !== null &&
+                    value[key] !== ""
+                ) {
+
+                    return safeText(
+                        value[key]
+                    );
+
+                }
+
+            }
+
+
+            const parts = [];
+
+
+            [
+                "traits",
+                "strengths",
+                "challenges"
+            ]
+                .forEach(key => {
+
+                    if (
+                        value[key] !== undefined &&
+                        value[key] !== null &&
+                        value[key] !== ""
+                    ) {
+
+                        parts.push(
+                            formatKey(key) +
+                            ": " +
+                            safeText(
+                                value[key]
+                            )
+                        );
+
+                    }
+
+                });
+
+
+            if (
+                parts.length
+            ) {
+
+                return parts.join(
+                    " • "
+                );
+
+            }
+
+        }
+
+
+        return safeText(
+            value,
+            ""
+        );
+
+    }
+
+
+    /* =====================================================
+       EMPTY CATEGORY TEXT
+       ===================================================== */
+
+    function categoryFallback(
+        category
+    ) {
+
+        return (
+            "No combined " +
+            category.toLowerCase() +
+            " insight is available yet."
+        );
+
+    }
+    
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+function showLoading() {
+
+    const loading =
+        document.getElementById("loadingBox");
+
+    if (loading) {
+        loading.style.display = "block";
+    }
+}
+
+
+function hideLoading() {
+
+    const loading =
+        document.getElementById("loadingBox");
+
+    if (loading) {
+        loading.style.display = "none";
+    }
+}
+
+
+/* =========================================================
+   RENDER READING SYNTHESIS
+   ========================================================= */
+
+function renderReadingSynthesis(data) {
+
+    const container =
+        document.getElementById("synthesisContent");
+
+    if (!container) return;
+
+    const synthesis =
+        getCombinedSection(
+            data,
+            [
+                "reading_synthesis",
+                "synthesis"
+            ]
+        );
+
+    container.innerHTML = "";
+
+    if (!synthesis) {
+
+        container.innerHTML = `
+            <div class="empty-box">
+                No reading synthesis is available yet.
+            </div>
+        `;
+
+        showSection("synthesisSection");
+
+        return;
+    }
+
+
+    if (typeof synthesis === "string") {
+
+        container.innerHTML =
+            createContentBox(
+                "Reading Synthesis",
+                synthesis
+            );
+
+    }
+
+    else if (typeof synthesis === "object") {
+
+        Object.entries(synthesis)
+            .forEach(([key, value]) => {
+
+                if (
+                    value === null ||
+                    value === undefined ||
+                    value === ""
+                ) {
+                    return;
+                }
+
+                let text;
+
+                if (
+                    typeof value === "object"
+                ) {
+
+                    text =
+                        extractCategoryText(value);
+
+                } else {
+
+                    text =
+                        String(value);
+
+                }
+
+                if (!text) return;
+
+                container.innerHTML +=
+                    createContentBox(
+                        formatKey(key),
+                        text
+                    );
+
+            });
+    }
+
+
+    if (!container.children.length) {
+
+        container.innerHTML = `
+            <div class="empty-box">
+                No reading synthesis is available yet.
+            </div>
+        `;
+
+    }
+
+    showSection("synthesisSection");
+}
+
+
+/* =========================================================
+   RENDER COMBINED ANALYSIS
+   ========================================================= */
+
+function renderCombinedAnalysis(data) {
+
+    const container =
+        document.getElementById("analysisContent");
+
+    if (!container) return;
+
+    const analysis =
+        getCombinedSection(
+            data,
+            [
+                "combined_analysis",
+                "analysis"
+            ]
+        );
+
+    container.innerHTML = "";
+
+    if (!analysis) {
+
+        container.innerHTML = `
+            <div class="empty-box">
+                No combined analysis is available yet.
+            </div>
+        `;
+
+        showSection("analysisSection");
+
+        return;
+    }
+
+
+    if (typeof analysis === "string") {
+
+        container.innerHTML =
+            createContentBox(
+                "Combined Analysis",
+                analysis
+            );
+
+    }
+
+    else if (typeof analysis === "object") {
+
+        Object.entries(analysis)
+            .forEach(([key, value]) => {
+
+                if (
+                    value === null ||
+                    value === undefined ||
+                    value === ""
+                ) {
+                    return;
+                }
+
+                let text;
+
+                if (
+                    typeof value === "object"
+                ) {
+
+                    text =
+                        extractCategoryText(value);
+
+                } else {
+
+                    text =
+                        String(value);
+
+                }
+
+                if (!text) return;
+
+                container.innerHTML +=
+                    createContentBox(
+                        formatKey(key),
+                        text
+                    );
+
+            });
+    }
+
+
+    if (!container.children.length) {
+
+        container.innerHTML = `
+            <div class="empty-box">
+                No combined analysis is available yet.
+            </div>
+        `;
+
+    }
+
+    showSection("analysisSection");
+}
+
+
+/* =========================================================
+   PERSONALITY INSIGHTS
+   ========================================================= */
+
+function renderPersonality(data) {
+
+    const personality =
+        getCombinedSection(
+            data,
+            [
+                "personality",
+                "combined_personality"
+            ]
+        );
+
+
+    const categories = [
+        {
+            key: "relationship",
+            element: "relationshipPersonality"
+        },
+        {
+            key: "career",
+            element: "careerPersonality"
+        },
+        {
+            key: "financial",
+            element: "financialPersonality"
+        },
+        {
+            key: "personal_growth",
+            element: "growthPersonality"
+        }
+    ];
+
+
+    categories.forEach(category => {
+
+        const element =
+            document.getElementById(
+                category.element
+            );
+
+        if (!element) return;
+
+
+        let value = null;
+
+
+        if (personality) {
+
+            value =
+                getCategoryValue(
+                    personality,
+                    category.key
+                );
+
+        }
+
+
+        let text =
+            extractCategoryText(value);
+
+
+        if (!text) {
+
+            text =
+                categoryFallback(
+                    category.key
+                );
+
+        }
+
+
+        element.textContent =
+            shortText(
+                text,
+                420
+            );
+
+    });
+
+
+    showSection("personalitySection");
+}
+
+
+/* =========================================================
+   COMBINED PERSONALIZED GUIDANCE
+   ========================================================= */
+
+function renderGuidance(data) {
+
+    const guidance =
+        getCombinedSection(
+            data,
+            [
+                "personalized_guidance",
+                "combined_personalized_guidance",
+                "guidance"
+            ]
+        );
+
+
+    const categories = [
+        {
+            aliases: [
+                "overall_guidance",
+                "overall",
+                "final_guidance"
+            ],
+            element: "overallGuidance"
+        },
+
+        {
+            aliases: [
+                "career_guidance",
+                "career"
+            ],
+            element: "careerGuidance"
+        },
+
+        {
+            aliases: [
+                "relationship_guidance",
+                "relationship"
+            ],
+            element: "relationshipGuidance"
+        },
+
+        {
+            aliases: [
+                "personal_growth_guidance",
+                "personal_growth",
+                "growth"
+            ],
+            element: "growthGuidance"
+        }
+    ];
+
+
+    categories.forEach(category => {
+
+        const element =
+            document.getElementById(
+                category.element
+            );
+
+        if (!element) return;
+
+
+        let value = null;
+
+
+        if (guidance) {
+
+            for (
+                const alias of category.aliases
+            ) {
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        guidance,
+                        alias
+                    )
+                ) {
+
+                    value =
+                        guidance[alias];
+
+                    break;
+                }
+
+            }
+
+        }
+
+
+        let text =
+            extractCategoryText(value);
+
+
+        if (!text) {
+
+            text =
+                "No combined guidance is available yet.";
+
+        }
+
+
+        element.textContent =
+            shortText(
+                text,
+                420
+            );
+
+    });
+
+
+    showSection("guidanceSection");
+}
+
+
+/* =========================================================
+   COMBINED RECOMMENDATIONS
+   ========================================================= */
+
+function renderRecommendations(data) {
+
+    const recommendations =
+        getCombinedSection(
+            data,
+            [
+                "recommendations",
+                "combined_recommendations"
+            ]
+        );
+
+
+    const categories = [
+        {
+            aliases: [
+                "career",
+                "career_recommendations",
+                "career_guidance"
+            ],
+            element: "careerRecommendation"
+        },
+
+        {
+            aliases: [
+                "relationship",
+                "relationship_recommendations",
+                "relationship_guidance"
+            ],
+            element: "relationshipRecommendation"
+        },
+
+        {
+            aliases: [
+                "financial",
+                "financial_recommendations",
+                "financial_guidance"
+            ],
+            element: "financialRecommendation"
+        },
+
+        {
+            aliases: [
+                "personal_growth",
+                "personal_growth_recommendations",
+                "growth",
+                "growth_guidance"
+            ],
+            element: "growthRecommendation"
+        }
+    ];
+
+
+    categories.forEach(category => {
+
+        const element =
+            document.getElementById(
+                category.element
+            );
+
+        if (!element) return;
+
+
+        let value = null;
+
+
+        if (recommendations) {
+
+            for (
+                const alias of category.aliases
+            ) {
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        recommendations,
+                        alias
+                    )
+                ) {
+
+                    value =
+                        recommendations[alias];
+
+                    break;
+                }
+
+            }
+
+        }
+
+
+        let text =
+            extractCategoryText(value);
+
+
+        if (!text) {
+
+            text =
+                "No combined recommendation is available yet.";
+
+        }
+
+
+        element.textContent =
+            shortText(
+                text,
+                420
+            );
+
+    });
+
+
+    showSection("recommendationSection");
+}
+
+
+/* =========================================================
+   LIFE TRENDS
+   ========================================================= */
+
+function getLifeTrends(data) {
+
+    return getCombinedSection(
+        data,
+        [
+            "life_trends"
+        ]
+    );
+
+}
+
+
+/* =========================================================
+   GET TREND SCORES
+   ========================================================= */
+
+function getTrendScores(
+    lifeTrends,
+    keys
+) {
+
+    if (
+        !lifeTrends ||
+        typeof lifeTrends !== "object"
+    ) {
+
+        return [];
+
+    }
+
+
+    for (
+        const key of keys
+    ) {
+
+        if (
+            !Object.prototype.hasOwnProperty.call(
+                lifeTrends,
+                key
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        const value =
+            lifeTrends[key];
+
+
+        if (
+            Array.isArray(value)
+        ) {
+
+            return value
+                .map(Number)
+                .filter(
+                    Number.isFinite
+                );
+
+        }
+
+
+        if (
+            typeof value === "number"
+        ) {
+
+            return [value];
+
+        }
+
+
+        if (
+            typeof value === "object" &&
+            value !== null
+        ) {
+
+            return Object.values(value)
+                .map(Number)
+                .filter(
+                    Number.isFinite
+                );
+
+        }
+
+    }
+
+
+    return [];
+
+}
+
+
+/* =========================================================
+   CREATE TREND CHART
+   ========================================================= */
+
+function createTrendChart(
+    canvasId,
+    scores,
+    labels,
+    title
+) {
+
+    const canvas =
+        document.getElementById(
+            canvasId
+        );
+
+
+    if (!canvas) {
+
+        console.error(
+            "Chart canvas not found:",
+            canvasId
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Destroy old chart if necessary.
+     */
+
+    if (
+        window.insightCharts &&
+        window.insightCharts[canvasId]
+    ) {
+
+        window.insightCharts[
+            canvasId
+        ].destroy();
+
+    }
+
+
+    if (!window.insightCharts) {
+
+        window.insightCharts = {};
+
+    }
+
+
+    /*
+     * No numerical data.
+     */
+
+    if (
+        !Array.isArray(scores) ||
+        scores.length === 0
+    ) {
+
+        const parent =
+            canvas.parentElement;
+
+
+        if (parent) {
+
+            parent.innerHTML = `
+                <div class="empty-box"
+                     style="margin-top:60px;">
+                    No numerical trend data available
+                </div>
+            `;
+
+        }
+
+        return;
+
+    }
+
+
+    /*
+     * Only use actual scores.
+     */
+
+    const chartLabels =
+        labels.slice(
+            0,
+            scores.length
+        );
+
+
+    window.insightCharts[
+        canvasId
+    ] = new Chart(
+        canvas,
+        {
+
+            type: "line",
+
+            data: {
+
+                labels: chartLabels,
+
+                datasets: [
+                    {
+
+                        label: title,
+
+                        data: scores,
+
+                        tension: 0.35,
+
+                        fill: false,
+
+                        pointRadius: 4,
+
+                        pointHoverRadius: 6
+
+                    }
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: true
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function(context) {
+
+                                return (
+                                    "Theme Intensity: " +
+                                    context.parsed.y
+                                );
+
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        max: 100,
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                "Theme Intensity"
+
+                        }
+
+                    },
+
+                    x: {
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                "Trend Level"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RENDER LIFE TRENDS
+   ========================================================= */
+
+function renderLifeTrends(data) {
+
+    const lifeTrends =
+        getLifeTrends(data);
+
+
+    showSection(
+        "lifeTrendsSection"
+    );
+
+
+    /*
+     * Exact levels from life_trends.py
+     */
+
+    const defaultTrendLevels = [
+        "Low",
+        "Moderate",
+        "Current",
+        "High",
+        "Very High"
+    ];
+
+
+    let trendLevels =
+        defaultTrendLevels;
+
+
+    if (
+        lifeTrends &&
+        Array.isArray(
+            lifeTrends.trend_levels
+        ) &&
+        lifeTrends.trend_levels.length
+    ) {
+
+        trendLevels =
+            lifeTrends.trend_levels;
+
+    }
+
+
+    const careerScores =
+        getTrendScores(
+            lifeTrends,
+            [
+                "career_scores"
+            ]
+        );
+
+
+    const relationshipScores =
+        getTrendScores(
+            lifeTrends,
+            [
+                "relationship_scores"
+            ]
+        );
+
+
+    const growthScores =
+        getTrendScores(
+            lifeTrends,
+            [
+                "personal_growth_scores"
+            ]
+        );
+
+
+    /*
+     * IMPORTANT:
+     *
+     * These IDs exactly match
+     * the HTML you provided.
+     */
+
+    createTrendChart(
+        "careerChart",
+        careerScores,
+        trendLevels,
+        "Career"
+    );
+
+
+    createTrendChart(
+        "relationshipChart",
+        relationshipScores,
+        trendLevels,
+        "Relationship"
+    );
+
+
+    createTrendChart(
+        "growthChart",
+        growthScores,
+        trendLevels,
+        "Personal Growth"
+    );
+
+}
+
+
+/* =========================================================
+   VALIDATE RESPONSE
+   ========================================================= */
+
+function validateCombinedResponse(data) {
+
+    if (
+        !data ||
+        typeof data !== "object"
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        data.combined &&
+        typeof data.combined === "object"
+    ) {
+
+        return true;
+
+    }
+
+
+    if (
+        data.reading_synthesis ||
+        data.combined_analysis ||
+        data.combined_personality ||
+        data.personalized_guidance ||
+        data.recommendations ||
+        data.life_trends
+    ) {
+
+        return true;
+
+    }
+
+
+    return false;
+
+}
+
+
+/* =========================================================
+   LOAD INSIGHTS
+   ========================================================= */
+
+async function loadInsights() {
+
+    const token =
+        getToken();
+
+
+    if (!token) {
+
+        showError(
+            "Authentication token not found. Please login again."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        showLoading();
+
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " + token
+
+                    },
+
+                    body:
+                        JSON.stringify({})
+
+                }
+            );
+
+
+        let data;
+
+
+        try {
+
+            data =
+                await response.json();
+
+        }
+
+        catch (error) {
+
+            throw new Error(
+                "Invalid response received from the server."
+            );
+
+        }
+
+
+        console.log(
+            "Combined Insights API Response:",
+            data
+        );
+
+
+        if (!response.ok) {
+
+            const message =
+                data?.detail ||
+                data?.message ||
+                "Failed to generate combined insights.";
+
+
+            throw new Error(
+                message
+            );
+
+        }
+
+
+        if (
+            !validateCombinedResponse(data)
+        ) {
+
+            throw new Error(
+                "Combined insights are not available in the backend response."
+            );
+
+        }
+
+
+        insightsData =
+            data;
+
+
+        hideLoading();
+
+
+        /*
+         * Render ONLY combined sections.
+         */
+
+        renderReadingSynthesis(
+            data
+        );
+
+
+        renderCombinedAnalysis(
+            data
+        );
+
+
+        renderPersonality(
+            data
+        );
+
+
+        renderGuidance(
+            data
+        );
+
+
+        renderRecommendations(
+            data
+        );
+
+
+        renderLifeTrends(
+            data
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Insights loading error:",
+            error
+        );
+
+
+        hideLoading();
+
+
+        showError(
+            error.message ||
+            "Unable to load combined insights."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   PAGE LOAD
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        loadInsights();
+
+    }
+);
+
+</script>

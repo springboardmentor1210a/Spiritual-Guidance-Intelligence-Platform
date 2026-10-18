@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Palmistry & Tarot</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            background: #f7faff;
+        }
+
+        .auth-page {
+            min-height: calc(100vh - 68px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .auth-box {
+            width: 430px;
+            max-width: 100%;
+            background: white;
+            border: 1px solid #dce5f0;
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 5px 25px rgba(30, 70, 120, 0.08);
+        }
+
+        .auth-box h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            color: #12315b;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: #7a8798;
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #526581;
+        }
+
+        .form-group input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d5deea;
+            border-radius: 6px;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .form-group input:focus {
+            border-color: #1769e0;
+        }
+
+        .remember {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .remember label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .remember a {
+            color: #1769e0;
+            text-decoration: none;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: #1769e0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #0f56bd;
+        }
+
+        .login-button:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        .or {
+            text-align: center;
+            color: #9aa5b5;
+            margin: 20px 0;
+            font-size: 12px;
+        }
+
+        .register-link {
+            display: block;
+            text-align: center;
+            padding: 11px;
+            border: 1px solid #cdd9e8;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #1769e0;
+            font-size: 13px;
+        }
+
+        .register-link:hover {
+            background: #f4f8ff;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 13px;
+            min-height: 18px;
+        }
+
+        .role-info {
+            text-align: center;
+            margin-top: 18px;
+            padding: 10px;
+            background: #f4f8ff;
+            border-radius: 6px;
+            color: #718096;
+            font-size: 11px;
+        }
+
+        @media (max-width: 500px) {
+            .auth-page {
+                padding: 15px;
+            }
+
+            .auth-box {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <div class="logo-icon">✿</div>
+        <div>
+            <h1>AI Palmistry & Tarot</h1>
+            <span>INTELLIGENCE PLATFORM</span>
+        </div>
+    </div>
+
+    <div class="nav-right">
+        <a href="register.html">Sign Up</a>
+    </div>
+</nav>
+
+<div class="auth-page">
+    <div class="auth-box">
+
+        <h2>Welcome Back</h2>
+
+        <p class="auth-subtitle">
+            Sign in to access your personalized insights
+        </p>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    autocomplete="username"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required>
+            </div>
+
+            <div class="remember">
+                <label>
+                    <input type="checkbox" id="rememberMe">
+                    Remember Me
+                </label>
+
+                <a href="#" id="forgotPassword">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="login-button" id="loginButton">
+                Login
+            </button>
+
+        </form>
+
+        <div id="message" role="status" aria-live="polite"></div>
+
+        <div class="or">OR</div>
+
+        <a href="register.html" class="register-link">
+            Don't have an account? Register
+        </a>
+
+        <div class="role-info">
+            Your dashboard automatically adapts to your account role.
+        </div>
+
+    </div>
+</div>
+
+<script>
+const API_URL = "http://127.0.0.1:8001";
+
+const loginForm = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const loginButton = document.getElementById("loginButton");
+
+// Normalize different role spellings returned by the backend.
+function normalizeRole(role) {
+    return String(role || "user")
+        .trim()
+        .toLowerCase()
+        .replace(/[\s_-]/g, "");
+}
+
+// Redirect each role to its own dashboard.
+function redirectToDashboard(role) {
+    const normalizedRole = normalizeRole(role);
+
+    const dashboards = {
+        user: "dashboard.html",
+        tarotreader: "tarot-reader-dashboard.html",
+        spiritualconsultant: "spiritual-consultant-dashboard.html",
+        administrator: "executive-dashboard.html",
+        admin: "executive-dashboard.html"
+    };
+
+    return dashboards[normalizedRole] || null;
+}
+
+loginForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    message.textContent = "Logging in...";
+    message.style.color = "#718096";
+    loginButton.disabled = true;
+    loginButton.textContent = "Please wait...";
+
+    const formData = new URLSearchParams();
+    formData.append("username", email);
+    formData.append("password", password);
+
+    try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.access_token) {
+    const detail = data.detail;
+
+    if (Array.isArray(detail)) {
+        message.textContent = detail
+            .map(item => item.msg || JSON.stringify(item))
+            .join("; ");
+    } else if (typeof detail === "string") {
+        message.textContent = detail;
+    } else {
+        message.textContent = "Invalid email or password.";
+    }
+
+    message.style.color = "#d32f2f";
+    return;
+}
+
+        // Read the role returned by the backend.
+        const role = data.role || "user";
+        const dashboard = redirectToDashboard(role);
+
+        if (!dashboard) {
+            message.textContent =
+                "Unknown account role. Please contact the administrator.";
+            message.style.color = "#d32f2f";
+            return;
+        }
+
+        // Save login information.
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("token", data.access_token);
+
+        if (data.user_id !== undefined && data.user_id !== null) {
+            localStorage.setItem("user_id", data.user_id);
+        }
+
+        localStorage.setItem("username", data.username || "");
+        localStorage.setItem("email", data.email || email);
+        localStorage.setItem("role", role);
+
+        message.textContent = "Login successful! Opening your dashboard...";
+        message.style.color = "#159447";
+
+        window.location.href = dashboard;
+
+    } catch (error) {
+        console.error("Login Error:", error);
+
+        message.textContent =
+            "Cannot connect to backend. Please check that FastAPI is running.";
+        message.style.color = "#d32f2f";
+
+    } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+    }
+});
+
+document.getElementById("forgotPassword").addEventListener("click", function(event) {
+    event.preventDefault();
+    message.textContent =
+        "Please contact your administrator to reset your password.";
+    message.style.color = "#718096";
+});
+</script>
+
+</body>
+</html>

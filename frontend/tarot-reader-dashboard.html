@@ -1,0 +1,2564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarot Reader Dashboard | Palmistry & Tarot AI</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+:root {
+    --purple: #681b75;
+    --purple-dark: #42104e;
+    --purple-light: #f4eafa;
+    --bg: #f6f5fb;
+    --white: #ffffff;
+    --text: #25213b;
+    --muted: #858198;
+    --border: #e9e5f0;
+    --green: #16865b;
+    --red: #c33b4b;
+    --blue: #3974d8;
+    --shadow: 0 5px 22px rgba(40, 20, 60, 0.055);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 250px;
+    background: linear-gradient(180deg, var(--purple-dark), var(--purple));
+    color: white;
+    padding: 25px 16px;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    overflow-y: auto;
+}
+
+.brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 0 8px 28px;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    background: rgba(255,255,255,.16);
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+}
+
+.brand h2 {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.brand small {
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    opacity: .72;
+}
+
+.nav-label {
+    margin: 27px 12px 10px;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    opacity: .65;
+}
+
+.nav-link {
+    border: 0;
+    background: transparent;
+    color: rgba(255,255,255,.78);
+    width: 100%;
+    text-align: left;
+    padding: 13px 14px;
+    border-radius: 9px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 13px;
+    margin: 3px 0;
+    transition: .2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255,255,255,.16);
+    color: white;
+}
+
+.nav-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.user-box {
+    border-top: 1px solid rgba(255,255,255,.16);
+    padding: 17px 8px 8px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    overflow-wrap: anywhere;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #f0d5fa;
+    color: var(--purple);
+    font-weight: bold;
+}
+
+.user-box strong {
+    display: block;
+    font-size: 12px;
+}
+
+.user-box small {
+    font-size: 10px;
+    opacity: .7;
+}
+
+.main {
+    margin-left: 250px;
+    min-height: 100vh;
+    padding: 28px 30px 45px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 27px;
+}
+
+.eyebrow {
+    color: var(--purple);
+    font-size: 10px;
+    letter-spacing: 1.7px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.topbar h1 {
+    font-size: 27px;
+    margin-bottom: 7px;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.top-actions {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.button {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.button:hover {
+    filter: brightness(.97);
+}
+
+.button.primary {
+    background: var(--purple);
+    border-color: var(--purple);
+    color: white;
+}
+
+.button.danger {
+    color: var(--red);
+    border-color: #f0cbd0;
+}
+
+.button.small {
+    padding: 7px 10px;
+    font-size: 11px;
+}
+
+.status-banner {
+    padding: 12px 15px;
+    border-radius: 9px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    line-height: 1.6;
+    display: none;
+    overflow-wrap: anywhere;
+}
+
+.status-banner.show {
+    display: block;
+}
+
+.status-banner.info {
+    background: #eee9fb;
+    color: #513481;
+}
+
+.status-banner.success {
+    background: #e5f7ee;
+    color: #126a48;
+}
+
+.status-banner.error {
+    background: #fff0f1;
+    color: #a42b3c;
+}
+
+.status-banner.warning {
+    background: #fff5e3;
+    color: #805615;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.section-heading {
+    margin: 26px 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.section-heading h2 {
+    font-size: 17px;
+}
+
+.section-heading p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.kpi {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 19px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+.kpi-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.kpi-label {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.kpi-icon {
+    width: 37px;
+    height: 37px;
+    border-radius: 10px;
+    background: var(--purple-light);
+    color: var(--purple);
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.kpi-value {
+    font-size: 29px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.kpi-note {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+.panel h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.panel-subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
+
+.chart-wrap {
+    height: 260px;
+    position: relative;
+}
+
+.chart-wrap.tall {
+    height: 310px;
+}
+
+.table-panel {
+    margin-top: 18px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.table-header h3 {
+    font-size: 14px;
+}
+
+.table-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.field {
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: white;
+    color: var(--text);
+    font-size: 11px;
+    max-width: 100%;
+}
+
+.table-scroll {
+    overflow-x: auto;
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 680px;
+}
+
+th {
+    background: #f8f6fc;
+    color: #777188;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    text-align: left;
+    padding: 13px 12px;
+    white-space: nowrap;
+}
+
+td {
+    border-bottom: 1px solid #f0edf5;
+    padding: 13px 12px;
+    font-size: 11px;
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background: #fcfbfe;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.pill {
+    display: inline-block;
+    border-radius: 30px;
+    padding: 5px 8px;
+    background: #eee9fb;
+    color: #583c90;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.pill.green {
+    background: #e4f7ed;
+    color: #18744e;
+}
+
+.pill.gray {
+    background: #f0eff4;
+    color: #666276;
+}
+
+.pill.red {
+    background: #ffebed;
+    color: #a92f41;
+}
+
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 30px 12px;
+    font-size: 12px;
+}
+
+.notice {
+    margin-top: 14px;
+    font-size: 11px;
+    line-height: 1.7;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #f5f2fc;
+    color: #65558a;
+}
+
+.metric-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.metric {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.metric span {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 9px;
+}
+
+.metric strong {
+    font-size: 20px;
+    overflow-wrap: anywhere;
+}
+
+.report-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.report-form select,
+.report-form input {
+    min-width: 150px;
+    flex: 1;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+.footer-note {
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 28px;
+}
+
+@media (max-width: 1150px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 850px) {
+    .sidebar {
+        width: 72px;
+        padding: 18px 9px;
+    }
+
+    .brand {
+        padding: 0 4px 22px;
+        justify-content: center;
+    }
+
+    .brand > div:last-child,
+    .nav-label,
+    .nav-text,
+    .user-details {
+        display: none;
+    }
+
+    .nav-link {
+        justify-content: center;
+        padding: 14px 4px;
+    }
+
+    .nav-icon {
+        font-size: 19px;
+    }
+
+    .user-box {
+        justify-content: center;
+        padding: 15px 0 0;
+    }
+
+    .main {
+        margin-left: 72px;
+        padding: 22px 18px 35px;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .main {
+        padding: 17px 12px 28px;
+    }
+
+    .topbar h1 {
+        font-size: 22px;
+    }
+
+    .kpi-grid {
+        gap: 9px;
+    }
+
+    .kpi {
+        padding: 13px;
+    }
+
+    .kpi-value {
+        font-size: 24px;
+    }
+
+    .kpi-icon {
+        width: 31px;
+        height: 31px;
+    }
+
+    .panel, .table-panel {
+        padding: 14px;
+    }
+
+    .metric-list {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-wrap {
+        height: 230px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+    <div class="brand">
+        <div class="brand-icon">✿</div>
+        <div>
+            <h2>Palm & Tarot AI</h2>
+            <small>READER ANALYTICS</small>
+        </div>
+    </div>
+
+    <div class="nav-label">DASHBOARD</div>
+
+    <button class="nav-link active" data-page="overview">
+        <span class="nav-icon">⌂</span><span class="nav-text">Dashboard Overview</span>
+    </button>
+
+    <button class="nav-link" data-page="analytics">
+        <span class="nav-icon">▥</span><span class="nav-text">Reading Analytics</span>
+    </button>
+
+    <button class="nav-link" data-page="engagement">
+        <span class="nav-icon">♧</span><span class="nav-text">User Engagement Insights</span>
+    </button>
+
+    <button class="nav-link" data-page="sessions">
+        <span class="nav-icon">◷</span><span class="nav-text">Session Tracking</span>
+    </button>
+
+    <button class="nav-link" data-page="reports">
+        <span class="nav-icon">▤</span><span class="nav-text">Report Management</span>
+    </button>
+
+    <div class="sidebar-bottom">
+        <button class="nav-link" id="refreshButton">
+            <span class="nav-icon">⟳</span><span class="nav-text">Refresh Data</span>
+        </button>
+
+        <button class="nav-link" id="logoutButton">
+            <span class="nav-icon">⇥</span><span class="nav-text">Logout</span>
+        </button>
+
+        <div class="user-box">
+            <div class="avatar" id="userAvatar">T</div>
+            <div class="user-details">
+                <strong id="sidebarUsername">Tarot Reader</strong>
+                <small id="sidebarRole">tarot_reader</small>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<main class="main">
+    <header class="topbar">
+        <div>
+            <div class="eyebrow">PALMISTRY & TAROT INTELLIGENCE PLATFORM</div>
+            <h1 id="pageTitle">Dashboard Overview</h1>
+            <p class="subtitle" id="pageSubtitle">
+                Live insights from your connected backend.
+            </p>
+        </div>
+
+        <div class="top-actions">
+            <button class="button" id="refreshTop">↻ Refresh Data</button>
+            <span class="pill gray" id="connectionBadge">Connecting...</span>
+        </div>
+    </header>
+
+    <div id="globalMessage" class="status-banner" role="status" aria-live="polite"></div>
+
+    <!-- OVERVIEW -->
+    <section class="section active" id="page-overview">
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Total Tarot Readings</span>
+                    <span class="kpi-icon">✧</span>
+                </div>
+                <div class="kpi-value" id="totalReadings">—</div>
+                <div class="kpi-note">Saved tarot reading records</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Unique Users</span>
+                    <span class="kpi-icon">♧</span>
+                </div>
+                <div class="kpi-value" id="uniqueUsers">—</div>
+                <div class="kpi-note">Users with tarot reading records</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Reading Types</span>
+                    <span class="kpi-icon">▦</span>
+                </div>
+                <div class="kpi-value" id="readingTypesCount">—</div>
+                <div class="kpi-note">Distinct types in saved readings</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Total Reports</span>
+                    <span class="kpi-icon">▤</span>
+                </div>
+                <div class="kpi-value" id="totalReports">—</div>
+                <div class="kpi-note">Reports accessible to this account</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Reading Activity</h3>
+                <p class="panel-subtitle">Saved tarot readings grouped by date.</p>
+                <div class="chart-wrap"><canvas id="overviewTrendChart"></canvas></div>
+            </div>
+
+            <div class="panel">
+                <h3>Reading Type Distribution</h3>
+                <p class="panel-subtitle">Distribution of the tarot reading types stored in your database.</p>
+                <div class="chart-wrap"><canvas id="overviewTypeChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="table-panel">
+            <div class="table-header">
+                <h3>Recent Tarot Readings</h3>
+                <button class="button small" data-goto="analytics">View All Readings →</button>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Reading ID</th>
+                        <th>User ID</th>
+                        <th>Reading Type</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody id="overviewHistoryBody">
+                    <tr><td colspan="5" class="empty">Loading readings...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- READING ANALYTICS -->
+    <section class="section" id="page-analytics">
+        <div class="section-heading">
+            <div>
+                <h2>Reading Analytics</h2>
+                <p>Explore reading patterns, types, and saved reading history.</p>
+            </div>
+            <button class="button" id="exportReadings">Export Reading History CSV</button>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Total Readings</span><span class="kpi-icon">✧</span></div>
+                <div class="kpi-value" id="analyticsTotal">—</div>
+                <div class="kpi-note">From the tarot reader summary endpoint</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Distinct Users</span><span class="kpi-icon">♧</span></div>
+                <div class="kpi-value" id="analyticsUsers">—</div>
+                <div class="kpi-note">Based on user IDs in reading history</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Distinct Types</span><span class="kpi-icon">▦</span></div>
+                <div class="kpi-value" id="analyticsTypes">—</div>
+                <div class="kpi-note">Types represented in saved records</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Records With Dates</span><span class="kpi-icon">◷</span></div>
+                <div class="kpi-value" id="datedReadings">—</div>
+                <div class="kpi-note">Records with a stored creation date</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Daily Reading Trend</h3>
+                <p class="panel-subtitle">Line chart based on timestamps returned by the backend.</p>
+                <div class="chart-wrap tall"><canvas id="dailyTrendChart"></canvas></div>
+            </div>
+            <div class="panel">
+                <h3>Reading Types</h3>
+                <p class="panel-subtitle">Number of saved readings in each category.</p>
+                <div class="chart-wrap tall"><canvas id="typeBarChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-top:18px">
+            <h3>Reading Type Comparison</h3>
+            <p class="panel-subtitle">Compare reading categories by count.</p>
+            <div class="chart-wrap"><canvas id="typePolarChart"></canvas></div>
+        </div>
+
+        <div class="table-panel">
+            <div class="table-header">
+                <h3>Reading History</h3>
+                <div class="table-tools">
+                    <input class="field" type="search" id="readingSearch" placeholder="Search ID, user, type...">
+                    <select class="field" id="readingTypeFilter">
+                        <option value="">All reading types</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Reading ID</th>
+                        <th>User ID</th>
+                        <th>Reading Type</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody id="readingHistoryBody">
+                    <tr><td colspan="5" class="empty">Loading reading history...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="notice">
+                Reading history is limited to the records returned by the dashboard API. This page does not invent missing historical dates.
+            </div>
+        </div>
+    </section>
+
+    <!-- ENGAGEMENT -->
+    <section class="section" id="page-engagement">
+        <div class="section-heading">
+            <div>
+                <h2>User Engagement Insights</h2>
+                <p>Engagement signals derived from actual reading records and dates.</p>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Users With Readings</span><span class="kpi-icon">♧</span></div>
+                <div class="kpi-value" id="engagedUsers">—</div>
+                <div class="kpi-note">Unique user IDs in tarot reading history</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Saved Readings</span><span class="kpi-icon">✧</span></div>
+                <div class="kpi-value" id="engagedReadings">—</div>
+                <div class="kpi-note">All returned tarot reading records</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Dates Available</span><span class="kpi-icon">◷</span></div>
+                <div class="kpi-value" id="engagementDated">—</div>
+                <div class="kpi-note">Records with usable timestamps</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Report Records</span><span class="kpi-icon">▤</span></div>
+                <div class="kpi-value" id="engagementReports">—</div>
+                <div class="kpi-note">Reports visible to the logged-in account</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Monthly Reading Trend</h3>
+                <p class="panel-subtitle">Reading volume by calendar month, based on stored timestamps.</p>
+                <div class="chart-wrap tall"><canvas id="monthlyEngagementChart"></canvas></div>
+            </div>
+            <div class="panel">
+                <h3>Readings by Type</h3>
+                <p class="panel-subtitle">Reading-type counts from the backend response.</p>
+                <div class="chart-wrap tall"><canvas id="engagementTypeChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="table-panel">
+            <div class="table-header"><h3>Recent Platform Activity</h3></div>
+            <div class="table-scroll">
+                <table>
+                    <thead><tr><th>Type</th><th>Record ID</th><th>User ID</th><th>Category</th><th>Created At</th></tr></thead>
+                    <tbody id="engagementActivityBody">
+                    <tr><td colspan="5" class="empty">Loading activity...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="notice" id="engagementNotice">
+                These metrics describe reading activity, not all logins or active website visitors. System-wide login analytics require a backend endpoint that provides authorized aggregate session data.
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSIONS -->
+    <section class="section" id="page-sessions">
+        <div class="section-heading">
+            <div>
+                <h2>Session Tracking</h2>
+                <p>Session records returned for the currently logged-in account.</p>
+            </div>
+            <button class="button" id="refreshSessions">Refresh Sessions</button>
+        </div>
+
+        <div class="metric-list">
+            <div class="metric"><span>Sessions Returned</span><strong id="sessionTotal">—</strong></div>
+            <div class="metric"><span>Active Sessions</span><strong id="sessionActive">—</strong></div>
+            <div class="metric"><span>Completed Sessions</span><strong id="sessionEnded">—</strong></div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Session Status</h3>
+                <p class="panel-subtitle">Active versus ended sessions in the returned records.</p>
+                <div class="chart-wrap"><canvas id="sessionStatusChart"></canvas></div>
+            </div>
+            <div class="panel">
+                <h3>Session Duration</h3>
+                <p class="panel-subtitle">Duration of each session, shown in minutes.</p>
+                <div class="chart-wrap"><canvas id="sessionDurationChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="table-panel">
+            <div class="table-header"><h3>Session History</h3></div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Session ID</th>
+                        <th>User ID</th>
+                        <th>Status</th>
+                        <th>Started At</th>
+                        <th>Last Activity</th>
+                        <th>Ended At</th>
+                        <th>Duration</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sessionsBody">
+                    <tr><td colspan="7" class="empty">Loading sessions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="notice">
+                The current backend endpoint returns up to 50 sessions for the logged-in user. It is not a system-wide session list.
+            </div>
+        </div>
+    </section>
+
+    <!-- REPORTS -->
+    <section class="section" id="page-reports">
+        <div class="section-heading">
+            <div>
+                <h2>Report Management</h2>
+                <p>View, download, generate, and delete reports using your report API.</p>
+            </div>
+            <button class="button" id="refreshReports">Refresh Reports</button>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Reports Loaded</span><span class="kpi-icon">▤</span></div>
+                <div class="kpi-value" id="reportsLoaded">—</div>
+                <div class="kpi-note">Reports returned by GET /reports</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Combined Reports</span><span class="kpi-icon">✧</span></div>
+                <div class="kpi-value" id="combinedReports">—</div>
+                <div class="kpi-note">Report type marked combined</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Tarot Reports</span><span class="kpi-icon">♧</span></div>
+                <div class="kpi-value" id="tarotReports">—</div>
+                <div class="kpi-note">Report type marked tarot</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-top"><span class="kpi-label">Palmistry Reports</span><span class="kpi-icon">☷</span></div>
+                <div class="kpi-value" id="palmReports">—</div>
+                <div class="kpi-note">Report type marked palmistry</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Reports by Type</h3>
+                <p class="panel-subtitle">Distribution of report types returned by the backend.</p>
+                <div class="chart-wrap"><canvas id="reportTypeChart"></canvas></div>
+            </div>
+            <div class="panel">
+                <h3>Report Creation Trend</h3>
+                <p class="panel-subtitle">Reports grouped by stored creation date.</p>
+                <div class="chart-wrap"><canvas id="reportTrendChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="table-panel">
+            <div class="table-header">
+                <h3>Available Reports</h3>
+                <div class="table-tools">
+                    <input class="field" type="search" id="reportSearch" placeholder="Search reports...">
+                    <select class="field" id="reportTypeFilter">
+                        <option value="">All report types</option>
+                        <option value="combined">Combined</option>
+                        <option value="tarot">Tarot</option>
+                        <option value="palmistry">Palmistry</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Palm Reading ID</th>
+                        <th>Tarot Reading ID</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="reportsBody">
+                    <tr><td colspan="7" class="empty">Loading reports...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel" style="margin-top:18px">
+            <h3>Generate a Tarot Report</h3>
+            <p class="panel-subtitle">
+                Select a saved tarot reading. The backend creates the report from that reading; this form does not create a new tarot reading.
+            </p>
+
+            <form id="generateReportForm" class="report-form">
+                <select class="field" id="reportReadingSelect" required>
+                    <option value="">Select a saved tarot reading</option>
+                </select>
+                <input class="field" id="newReportTitle" maxlength="150" placeholder="Report title (optional)">
+                <button class="button primary" type="submit" id="generateReportButton">
+                    Generate Tarot Report
+                </button>
+            </form>
+            <div id="reportFormMessage" class="status-banner" role="status" aria-live="polite"></div>
+        </div>
+    </section>
+
+    <div class="footer-note">
+        AI Palmistry & Tarot Intelligence Platform · Dashboard metrics are loaded from your FastAPI backend.
+    </div>
+</main>
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   API CONFIGURATION
+   ========================================================= */
+
+const API_BASE = "http://127.0.0.1:8001";
+const TOKEN_KEY = "access_token";
+
+const token = () =>
+    localStorage.getItem(TOKEN_KEY) || localStorage.getItem("token");
+
+const username = () => localStorage.getItem("username") || "Tarot Reader";
+const role = () => localStorage.getItem("role") || "tarot_reader";
+
+const state = {
+    summary: null,
+    readingHistory: [],
+    readingTypes: [],
+    reports: [],
+    sessions: [],
+    consultantSummary: null,
+    charts: {},
+    loading: false
+};
+
+const $ = id => document.getElementById(id);
+
+const palette = [
+    "#681b75", "#9c62bd", "#c49ad9", "#e0c9ee",
+    "#5274cc", "#46a7a1", "#e4a04b", "#db6c83",
+    "#6e9e70", "#8d85b8"
+];
+
+const pageInformation = {
+    overview: {
+        title: "Dashboard Overview",
+        subtitle: "A live overview of tarot readings and report records."
+    },
+    analytics: {
+        title: "Reading Analytics",
+        subtitle: "Analyze reading trends, categories, and saved history."
+    },
+    engagement: {
+        title: "User Engagement Insights",
+        subtitle: "Understand engagement using available reading activity."
+    },
+    sessions: {
+        title: "Session Tracking",
+        subtitle: "Inspect session records returned for your account."
+    },
+    reports: {
+        title: "Report Management",
+        subtitle: "View, generate, download, and manage saved reports."
+    }
+};
+
+/* =========================================================
+   UI HELPERS
+   ========================================================= */
+
+function showMessage(message, type = "info", target = "globalMessage") {
+    const element = $(target);
+    if (!element) return;
+
+    element.textContent = message;
+    element.className = `status-banner show ${type}`;
+}
+
+function hideMessage(target = "globalMessage") {
+    const element = $(target);
+    if (!element) return;
+    element.textContent = "";
+    element.className = "status-banner";
+}
+
+function setConnection(connected, label) {
+    const badge = $("connectionBadge");
+    badge.textContent = label;
+
+    badge.className = "pill " + (connected ? "green" : "red");
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function formatDate(value) {
+    if (!value) return "Not recorded";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleDateString();
+}
+
+function formatDateTime(value) {
+    if (!value) return "Not recorded";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleString();
+}
+
+function formatTime(value) {
+    if (!value) return "Not recorded";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleTimeString();
+}
+
+function formatDuration(seconds) {
+    const total = Math.max(0, Number(seconds) || 0);
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const remainingSeconds = Math.floor(total % 60);
+
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    if (minutes > 0) return `${minutes}m ${remainingSeconds}s`;
+    return `${remainingSeconds}s`;
+}
+
+function asArray(value) {
+    if (Array.isArray(value)) return value;
+    if (!value || typeof value !== "object") return [];
+
+    if (Array.isArray(value.readings)) return value.readings;
+    if (Array.isArray(value.reports)) return value.reports;
+    if (Array.isArray(value.sessions)) return value.sessions;
+    if (Array.isArray(value.items)) return value.items;
+    if (Array.isArray(value.results)) return value.results;
+    if (Array.isArray(value.data)) return value.data;
+
+    return [];
+}
+
+function normalizeReading(item) {
+    return {
+        id: item.id ?? item.reading_id ?? item.tarot_reading_id ?? "—",
+        user_id: item.user_id ?? "—",
+        reading_type: item.reading_type ?? "Unspecified",
+        created_at: item.created_at ?? item.timestamp ?? null,
+        date: item.date ?? formatDate(item.created_at),
+        time: item.time ?? formatTime(item.created_at)
+    };
+}
+
+function normalizeReport(item) {
+    const rawType = String(
+        item.report_type ??
+        item.reportType ??
+        item.report_category ??
+        item.category ??
+        item.type ??
+        ""
+    ).trim().toLowerCase().replace(/[\s-]+/g, "_");
+
+    let reportType = "unspecified";
+
+    if (
+        rawType.includes("combined") ||
+        rawType.includes("both") ||
+        (rawType.includes("tarot") && rawType.includes("palm"))
+    ) {
+        reportType = "combined";
+    } else if (rawType.includes("tarot")) {
+        reportType = "tarot";
+    } else if (rawType.includes("palm")) {
+        reportType = "palmistry";
+    } else if (rawType) {
+        reportType = rawType;
+    }
+
+    // Read the creation date from common API field names.
+    const rawDate =
+        item.created_at ??
+        item.createdAt ??
+        item.creation_date ??
+        item.creationDate ??
+        item.created_on ??
+        item.createdOn ??
+        item.date_created ??
+        item.dateCreated ??
+        item.timestamp ??
+        item.generated_at ??
+        item.generatedAt ??
+        null;
+
+    let createdAt = null;
+
+    if (rawDate !== null && rawDate !== "") {
+        let dateString = String(rawDate).trim();
+
+        // Convert SQL datetime to an ISO-compatible format.
+        if (/^\d{4}-\d{2}-\d{2} /.test(dateString)) {
+            dateString = dateString.replace(" ", "T");
+        }
+
+        // Reduce microseconds to milliseconds.
+        dateString = dateString.replace(
+            /(\.\d{3})\d+(?=Z|[+-]\d{2}:\d{2}$|$)/,
+            "$1"
+        );
+
+        const parsedDate = new Date(dateString);
+
+        if (!Number.isNaN(parsedDate.getTime())) {
+            createdAt = parsedDate.toISOString();
+        }
+    }
+
+    return {
+        report_id: item.report_id ?? item.reportId ?? item.id ?? "—",
+        title: item.title ?? item.report_name ?? "Reading Report",
+        report_type: reportType,
+        user_id: item.user_id ?? item.userId ?? "—",
+        palm_reading_id:
+            item.palm_reading_id ??
+            item.palmistry_reading_id ??
+            null,
+        tarot_reading_id: item.tarot_reading_id ?? null,
+
+        // Preserve both the original and converted dates.
+        raw_created_at: rawDate,
+        created_at: createdAt,
+
+        content_available:
+            item.content_available ?? item.has_content ?? false
+    };
+}
+/* =========================================================
+   AUTHENTICATED API REQUESTS
+   ========================================================= */
+
+async function apiRequest(path, options = {}) {
+    const accessToken = token();
+
+    if (!accessToken) {
+        throw new Error("No login token was found. Please log in again.");
+    }
+
+    const headers = new Headers(options.headers || {});
+    headers.set("Authorization", `Bearer ${accessToken}`);
+    headers.set("Accept", "application/json");
+
+    const isFormData = options.body instanceof FormData;
+    if (options.body && !isFormData && !headers.has("Content-Type")) {
+        headers.set("Content-Type", "application/json");
+    }
+
+    const response = await fetch(`${API_BASE}${path}`, {
+        ...options,
+        headers
+    });
+
+    if (!response.ok) {
+        let detail = "";
+
+        try {
+            const data = await response.json();
+            detail = typeof data.detail === "string"
+                ? data.detail
+                : JSON.stringify(data.detail ?? data);
+        } catch {
+            detail = await response.text().catch(() => "");
+        }
+
+        if (response.status === 401) {
+            throw new Error("Your login has expired or is invalid. Please log in again.");
+        }
+
+        if (response.status === 403) {
+            throw new Error(
+                `Permission denied for ${path}. Check the account role and backend RBAC settings. ${detail}`
+            );
+        }
+
+        throw new Error(
+            `${response.status} ${response.statusText}${detail ? ": " + detail : ""}`
+        );
+    }
+
+    return response;
+}
+
+async function apiJSON(path, options = {}) {
+    const response = await apiRequest(path, options);
+    return response.json();
+}
+
+/* =========================================================
+   CHART HELPERS
+   ========================================================= */
+
+function destroyChart(id) {
+    if (state.charts[id]) {
+        state.charts[id].destroy();
+        delete state.charts[id];
+    }
+}
+
+function createChart(id, type, data, options = {}) {
+    const canvas = $(id);
+    if (!canvas || typeof Chart === "undefined") return;
+
+    destroyChart(id);
+
+    state.charts[id] = new Chart(canvas, {
+        type,
+        data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 350 },
+            plugins: {
+                legend: {
+                    display: type === "doughnut" || type === "pie" ||
+                             type === "polarArea",
+                    position: "bottom",
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 16,
+                        font: { size: 10 }
+                    }
+                },
+                tooltip: { enabled: true }
+            },
+            scales: ["line", "bar"].includes(type) ? {
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { size: 10 }, maxRotation: 45 }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: { precision: 0, font: { size: 10 } },
+                    grid: { color: "#f0edf5" }
+                }
+            } : {},
+            ...options
+        }
+    });
+}
+
+function countBy(items, field, fallback = "Unspecified") {
+    const counts = {};
+
+    for (const item of items) {
+        const key = String(item[field] || fallback);
+        counts[key] = (counts[key] || 0) + 1;
+    }
+
+    return counts;
+}
+
+function groupByDate(items) {
+    const counts = {};
+
+    for (const item of items) {
+        if (!item.created_at) continue;
+
+        const date = new Date(item.created_at);
+        if (Number.isNaN(date.getTime())) continue;
+
+        const key = date.toISOString().slice(0, 10);
+        counts[key] = (counts[key] || 0) + 1;
+    }
+
+    const keys = Object.keys(counts).sort();
+    return {
+        labels: keys,
+        values: keys.map(key => counts[key])
+    };
+}
+
+function groupByMonth(items) {
+    const counts = {};
+
+    for (const item of items) {
+        if (!item.created_at) continue;
+
+        const date = new Date(item.created_at);
+        if (Number.isNaN(date.getTime())) continue;
+
+        const key = date.toISOString().slice(0, 7);
+        counts[key] = (counts[key] || 0) + 1;
+    }
+
+    const keys = Object.keys(counts).sort();
+    return {
+        labels: keys,
+        values: keys.map(key => counts[key])
+    };
+}
+
+function typeChartData(types) {
+    return {
+        labels: types.map(item => item.reading_type),
+        datasets: [{
+            label: "Readings",
+            data: types.map(item => Number(item.count) || 0),
+            backgroundColor: types.map((_, i) => palette[i % palette.length]),
+            borderWidth: 1,
+            borderColor: "#ffffff"
+        }]
+    };
+}
+
+function trendChartData(grouped, label = "Readings") {
+    return {
+        labels: grouped.labels,
+        datasets: [{
+            label,
+            data: grouped.values,
+            borderColor: palette[0],
+            backgroundColor: "rgba(104, 27, 117, 0.12)",
+            fill: true,
+            tension: 0.3,
+            pointRadius: 3
+        }]
+    };
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function showPage(page) {
+    if (!pageInformation[page]) return;
+
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    document.querySelectorAll(".nav-link[data-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+    });
+
+    $(`page-${page}`).classList.add("active");
+    $("pageTitle").textContent = pageInformation[page].title;
+    $("pageSubtitle").textContent = pageInformation[page].subtitle;
+
+    // Resize charts when a previously hidden section becomes visible.
+    setTimeout(() => {
+        Object.values(state.charts).forEach(chart => chart.resize());
+    }, 50);
+}
+
+document.querySelectorAll(".nav-link[data-page]").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+document.querySelectorAll("[data-goto]").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.goto));
+});
+
+/* =========================================================
+   LOAD TAROT READER SUMMARY
+   ========================================================= */
+
+async function loadTarotSummary() {
+    const data = await apiJSON("/dashboard/tarot-reader/summary");
+
+    state.summary = data;
+    state.readingHistory = asArray(data.reading_history).map(normalizeReading);
+    state.readingTypes = asArray(data.reading_types).map(item => ({
+        reading_type: item.reading_type || "Unspecified",
+        count: Number(item.count) || 0
+    }));
+
+    const stats = data.statistics || {};
+
+    $("totalReadings").textContent =
+        stats.total_tarot_readings ?? state.readingHistory.length;
+
+    $("uniqueUsers").textContent =
+        stats.unique_users ?? uniqueReadingUsers();
+
+    $("readingTypesCount").textContent =
+        stats.reading_types_count ?? state.readingTypes.length;
+
+    $("analyticsTotal").textContent =
+        stats.total_tarot_readings ?? state.readingHistory.length;
+
+    $("analyticsUsers").textContent = uniqueReadingUsers();
+    $("analyticsTypes").textContent = state.readingTypes.length;
+
+    const datedCount = state.readingHistory.filter(item => {
+        return item.created_at && !Number.isNaN(new Date(item.created_at).getTime());
+    }).length;
+
+    $("datedReadings").textContent = datedCount;
+    $("engagedUsers").textContent = uniqueReadingUsers();
+    $("engagedReadings").textContent = state.readingHistory.length;
+    $("engagementDated").textContent = datedCount;
+
+    renderReadingTables();
+    renderReadingCharts();
+    populateReadingSelect();
+}
+
+function uniqueReadingUsers() {
+    return new Set(
+        state.readingHistory
+            .filter(item => item.user_id !== "—" && item.user_id !== null)
+            .map(item => String(item.user_id))
+    ).size;
+}
+
+/* =========================================================
+   READING TABLES AND CHARTS
+   ========================================================= */
+
+function renderReadingTables() {
+    const search = ($("readingSearch")?.value || "").trim().toLowerCase();
+    const typeFilter = $("readingTypeFilter")?.value || "";
+
+    const filtered = state.readingHistory.filter(item => {
+        const text = `${item.id} ${item.user_id} ${item.reading_type} ${item.date}`.toLowerCase();
+        return text.includes(search) &&
+            (!typeFilter || item.reading_type === typeFilter);
+    });
+
+    $("readingHistoryBody").innerHTML = filtered.length
+        ? filtered.map(item => `
+            <tr>
+                <td>#${escapeHTML(item.id)}</td>
+                <td>${escapeHTML(item.user_id)}</td>
+                <td><span class="pill">${escapeHTML(item.reading_type)}</span></td>
+                <td>${escapeHTML(item.date || formatDate(item.created_at))}</td>
+                <td>${escapeHTML(item.time || formatTime(item.created_at))}</td>
+            </tr>
+        `).join("")
+        : `<tr><td colspan="5" class="empty">No matching reading records were returned by the API.</td></tr>`;
+
+    const recent = state.readingHistory.slice(0, 7);
+
+    $("overviewHistoryBody").innerHTML = recent.length
+        ? recent.map(item => `
+            <tr>
+                <td>#${escapeHTML(item.id)}</td>
+                <td>${escapeHTML(item.user_id)}</td>
+                <td><span class="pill">${escapeHTML(item.reading_type)}</span></td>
+                <td>${escapeHTML(item.date || formatDate(item.created_at))}</td>
+                <td>${escapeHTML(item.time || formatTime(item.created_at))}</td>
+            </tr>
+        `).join("")
+        : `<tr><td colspan="5" class="empty">No tarot readings were returned by the API.</td></tr>`;
+
+    const typeSelect = $("readingTypeFilter");
+    const previousValue = typeSelect.value;
+    const typeNames = [...new Set(state.readingHistory.map(item => item.reading_type))].sort();
+
+    typeSelect.innerHTML = `<option value="">All reading types</option>` +
+        typeNames.map(type =>
+            `<option value="${escapeHTML(type)}">${escapeHTML(type)}</option>`
+        ).join("");
+
+    if (typeNames.includes(previousValue)) typeSelect.value = previousValue;
+}
+
+function renderReadingCharts() {
+    const daily = groupByDate(state.readingHistory);
+    const monthly = groupByMonth(state.readingHistory);
+    const typeCounts = countBy(state.readingHistory, "reading_type");
+
+    const types = Object.entries(typeCounts).map(([reading_type, count]) => ({
+        reading_type,
+        count
+    }));
+
+    createChart("overviewTrendChart", "line", trendChartData(daily), {
+        plugins: { legend: { display: false } }
+    });
+
+    createChart("overviewTypeChart", "doughnut", typeChartData(types));
+
+    createChart("dailyTrendChart", "line", trendChartData(daily), {
+        plugins: { legend: { display: false } }
+    });
+
+    createChart("typeBarChart", "bar", typeChartData(types), {
+        indexAxis: "y",
+        plugins: { legend: { display: false } }
+    });
+
+    createChart("typePolarChart", "polarArea", typeChartData(types));
+
+    createChart("monthlyEngagementChart", "bar", trendChartData(monthly), {
+        plugins: { legend: { display: false } }
+    });
+
+    createChart("engagementTypeChart", "doughnut", typeChartData(types));
+}
+
+/* =========================================================
+   ENGAGEMENT ACTIVITY
+   ========================================================= */
+
+async function loadConsultantSummaryOptional() {
+    const tbody = $("engagementActivityBody");
+    if (!tbody) return;
+
+    // Keep the existing consultant summary behavior.
+    try {
+        const data = await apiJSON("/dashboard/consultant/summary");
+
+        if (data) {
+            state.consultantSummary = data;
+            renderConsultantActivity(data);
+            return;
+        }
+    } catch (error) {
+        state.consultantSummary = null;
+        console.info("Consultant summary unavailable:", error.message);
+    }
+
+    const hasDate = (record) => {
+        const value =
+            record?.created_at ??
+            record?.createdAt ??
+            record?.timestamp ??
+            record?.date;
+
+        return value !== null &&
+            value !== undefined &&
+            value !== "" &&
+            !Number.isNaN(new Date(value).getTime());
+    };
+
+    let readings = Array.isArray(state.tarotReadings)
+        ? state.tarotReadings
+        : [];
+
+    // Fetch history if readings are missing or have no usable dates.
+    if (readings.length === 0 || !readings.some(hasDate)) {
+        try {
+            const payload = await apiJSON("/tarot/history");
+
+            if (Array.isArray(payload)) {
+                readings = payload;
+            } else {
+                const candidates = [
+                    payload?.readings,
+                    payload?.history,
+                    payload?.items,
+                    payload?.results,
+                    payload?.data?.readings,
+                    payload?.data?.history,
+                    payload?.data
+                ];
+
+                readings = candidates.find(Array.isArray) || [];
+            }
+
+            state.tarotReadings = readings;
+        } catch (error) {
+            console.error("Could not load tarot history:", error);
+        }
+    }
+
+    if (!readings.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+                    No accessible tarot reading activity is available.
+                </td>
+            </tr>`;
+        return;
+    }
+
+    const getValue = (record, keys) => {
+        for (const key of keys) {
+            const value = record?.[key];
+
+            if (value !== null && value !== undefined && value !== "") {
+                return value;
+            }
+        }
+        return "—";
+    };
+
+    const escapeHTML = (value) =>
+        String(value).replace(/[&<>"']/g, (character) => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[character]);
+
+    const getTimestamp = (record) => {
+        const rawDate = getValue(record, [
+            "created_at",
+            "createdAt",
+            "timestamp",
+            "date"
+        ]);
+
+        if (rawDate === "—") return 0;
+
+        const timestamp = new Date(rawDate).getTime();
+        return Number.isFinite(timestamp) ? timestamp : 0;
+    };
+
+    const recentReadings = [...readings]
+        .sort((a, b) => getTimestamp(b) - getTimestamp(a))
+        .slice(0, 10);
+
+    tbody.innerHTML = recentReadings.map((reading) => {
+        const id = getValue(reading, [
+            "id", "reading_id", "tarot_reading_id"
+        ]);
+
+        const userId = getValue(reading, ["user_id", "userId"]);
+
+        const category = getValue(reading, [
+            "reading_type", "readingType", "category", "type"
+        ]);
+
+        const timestamp = getTimestamp(reading);
+        const createdAt = timestamp
+            ? new Date(timestamp).toLocaleString()
+            : "—";
+
+        return `
+            <tr>
+                <td>Tarot Reading</td>
+                <td>${escapeHTML(id)}</td>
+                <td>${escapeHTML(userId)}</td>
+                <td>${escapeHTML(category)}</td>
+                <td>${escapeHTML(createdAt)}</td>
+            </tr>`;
+    }).join("");
+}
+function renderConsultantActivity(data) {
+    const activities = asArray(data.recent_activity);
+
+    $("engagementActivityBody").innerHTML = activities.length
+        ? activities.map(item => `
+            <tr>
+                <td><span class="pill">${escapeHTML(item.type || "Activity")}</span></td>
+                <td>#${escapeHTML(item.id ?? "—")}</td>
+                <td>${escapeHTML(item.user_id ?? "—")}</td>
+                <td>${escapeHTML(item.reading_type || item.report_type || item.title || "—")}</td>
+                <td>${escapeHTML(formatDateTime(item.created_at))}</td>
+            </tr>
+        `).join("")
+        : `<tr><td colspan="5" class="empty">No recent activity was returned.</td></tr>`;
+}
+
+/* =========================================================
+   SESSION TRACKING
+   ========================================================= */
+
+async function loadSessions() {
+    const data = await apiJSON("/sessions/my-sessions");
+    state.sessions = asArray(data.sessions);
+
+    const active = Number(data.active_sessions ??
+        state.sessions.filter(item => item.is_active).length);
+
+    $("sessionTotal").textContent = data.total_sessions ?? state.sessions.length;
+    $("sessionActive").textContent = active;
+    $("sessionEnded").textContent = state.sessions.filter(item => !item.is_active).length;
+
+    $("sessionsBody").innerHTML = state.sessions.length
+        ? state.sessions.map(item => `
+            <tr>
+                <td>#${escapeHTML(item.session_id ?? item.id ?? "—")}</td>
+                <td>${escapeHTML(item.user_id ?? "—")}</td>
+                <td>
+                    <span class="pill ${item.is_active ? "green" : "gray"}">
+                        ${item.is_active ? "Active" : "Ended"}
+                    </span>
+                </td>
+                <td>${escapeHTML(formatDateTime(item.started_at))}</td>
+                <td>${escapeHTML(formatDateTime(item.last_activity))}</td>
+                <td>${escapeHTML(formatDateTime(item.ended_at))}</td>
+                <td>${escapeHTML(formatDuration(item.duration_seconds))}</td>
+            </tr>
+        `).join("")
+        : `<tr><td colspan="7" class="empty">No session records were returned for this account.</td></tr>`;
+
+    const statusCounts = {
+        Active: state.sessions.filter(item => item.is_active).length,
+        Ended: state.sessions.filter(item => !item.is_active).length
+    };
+
+    createChart("sessionStatusChart", "doughnut", {
+        labels: Object.keys(statusCounts),
+        datasets: [{
+            data: Object.values(statusCounts),
+            backgroundColor: [palette[5], palette[3]],
+            borderWidth: 1,
+            borderColor: "#fff"
+        }]
+    });
+
+    const durationItems = [...state.sessions].reverse().slice(-12);
+    createChart("sessionDurationChart", "bar", {
+        labels: durationItems.map(item => `#${item.session_id ?? item.id}`),
+        datasets: [{
+            label: "Duration (minutes)",
+            data: durationItems.map(item =>
+                Math.round((Number(item.duration_seconds) || 0) / 60 * 10) / 10
+            ),
+            backgroundColor: palette[1],
+            borderRadius: 5
+        }]
+    }, {
+        plugins: { legend: { display: false } }
+    });
+}
+
+/* =========================================================
+   REPORT MANAGEMENT
+   ========================================================= */
+
+async function loadReports() {
+    const data = await apiJSON("/reports");
+    console.log("RAW REPORTS API RESPONSE:", data);
+    console.table(data.reports || data.items || data.results || []);
+
+    state.reports = asArray(
+        data,
+        ["reports", "items", "results"]
+    ).map(normalizeReport);
+
+    // Total reports visible to the logged-in account
+    const total = data.total_reports ?? state.reports.length;
+
+    $("totalReports").textContent = total;
+    $("engagementReports").textContent = total;
+    $("reportsLoaded").textContent = state.reports.length;
+
+    // Recognize different report type names
+    const getReportType = (item) =>
+        String(item.report_type ?? "")
+            .trim()
+            .toLowerCase();
+
+    // Combined reports: both Palmistry and Tarot
+    $("combinedReports").textContent =
+        state.reports.filter(item => {
+            const type = getReportType(item);
+
+            return (
+                type.includes("combined") ||
+                (
+                    item.palm_reading_id != null &&
+                    item.tarot_reading_id != null
+                ) ||
+                (
+                    type.includes("palmistry") &&
+                    type.includes("tarot")
+                )
+            );
+        }).length;
+
+    // Tarot reports, including combined reports
+    $("tarotReports").textContent =
+        state.reports.filter(item =>
+            item.tarot_reading_id != null ||
+            getReportType(item).includes("tarot")
+        ).length;
+
+    // Palmistry reports, including combined reports
+    $("palmReports").textContent =
+        state.reports.filter(item =>
+            item.palm_reading_id != null ||
+            getReportType(item).includes("palm")
+        ).length;
+
+    renderReportTable();
+    renderReportCharts();
+}
+function renderReportTable() {
+    const search = ($("reportSearch").value || "").trim().toLowerCase();
+    const typeFilter = $("reportTypeFilter").value;
+
+    const filtered = state.reports.filter(report => {
+        const text = `${report.report_id} ${report.title} ${report.report_type}`.toLowerCase();
+        return text.includes(search) &&
+            (!typeFilter || report.report_type === typeFilter);
+    });
+
+    $("reportsBody").innerHTML = filtered.length
+        ? filtered.map(report => `
+            <tr>
+                <td>#${escapeHTML(report.report_id)}</td>
+                <td>${escapeHTML(report.title)}</td>
+                <td><span class="pill">${escapeHTML(report.report_type)}</span></td>
+                <td>${escapeHTML(report.palm_reading_id ?? "—")}</td>
+                <td>${escapeHTML(report.tarot_reading_id ?? "—")}</td>
+                <td>${escapeHTML(formatDateTime(report.created_at))}</td>
+                <td>
+                    <div class="table-tools">
+                        <button class="button small" data-report-action="view"
+                            data-report-id="${escapeHTML(report.report_id)}">View</button>
+                        <button class="button small primary" data-report-action="download"
+                            data-report-id="${escapeHTML(report.report_id)}">PDF</button>
+                        <button class="button small danger" data-report-action="delete"
+                            data-report-id="${escapeHTML(report.report_id)}">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        `).join("")
+        : `<tr><td colspan="7" class="empty">No matching reports were returned by the API.</td></tr>`;
+}
+
+function renderReportCharts() {
+    // Safely read reports from dashboard state.
+    const reportList = Array.isArray(state.reports)
+        ? state.reports
+        : [];
+
+    // ==========================================
+    // 1. REPORT TYPE DOUGHNUT CHART
+    // ==========================================
+    const typeCounts = {};
+
+    reportList.forEach(report => {
+        const type = String(
+            report.report_type || "Other"
+        );
+
+        typeCounts[type] = (typeCounts[type] || 0) + 1;
+    });
+
+    const types = Object.entries(typeCounts).map(
+        ([reading_type, count]) => ({
+            reading_type,
+            count
+        })
+    );
+
+    createChart(
+        "reportTypeChart",
+        "doughnut",
+        typeChartData(types)
+    );
+
+    // ==========================================
+    // 2. GROUP REPORTS BY CREATION DATE
+    // ==========================================
+    const dailyCounts = {};
+
+    reportList.forEach(report => {
+        const rawDate =
+            report.raw_created_at ??
+            report.created_at ??
+            report.createdAt ??
+            report.creation_date ??
+            report.creationDate ??
+            report.created_on ??
+            report.createdOn ??
+            report.date_created ??
+            report.dateCreated ??
+            report.timestamp ??
+            report.generated_at ??
+            report.generatedAt ??
+            null;
+
+        if (rawDate === null || rawDate === "") {
+            return;
+        }
+
+        // Accept SQL and ISO dates such as:
+        // 2026-10-15 13:13:57
+        // 2026-10-15T13:13:57.293939
+        const match = String(rawDate)
+            .trim()
+            .match(/^(\d{4})-(\d{2})-(\d{2})/);
+
+        if (!match) {
+            return;
+        }
+
+        const date = `${match[1]}-${match[2]}-${match[3]}`;
+
+        if (!dailyCounts[date]) {
+            dailyCounts[date] = {
+                palmistry: 0,
+                tarot: 0
+            };
+        }
+
+        const type = String(
+            report.report_type || ""
+        ).toLowerCase();
+
+        const title = String(
+            report.title || ""
+        ).toLowerCase();
+
+        const hasPalmistry =
+            type.includes("palm") ||
+            title.includes("palm") ||
+            report.palm_reading_id != null;
+
+        const hasTarot =
+            type.includes("tarot") ||
+            title.includes("tarot") ||
+            report.tarot_reading_id != null;
+
+        // Combined reports appear in both chart series.
+        if (
+            type.includes("combined") ||
+            type.includes("both") ||
+            (hasPalmistry && hasTarot) ||
+            (title.includes("palmistry") && title.includes("tarot"))
+        ) {
+            dailyCounts[date].palmistry++;
+            dailyCounts[date].tarot++;
+        } else if (hasPalmistry) {
+            dailyCounts[date].palmistry++;
+        } else if (hasTarot) {
+            dailyCounts[date].tarot++;
+        } else {
+            // Keep unclassified reports visible.
+            dailyCounts[date].tarot++;
+        }
+    });
+
+    // ==========================================
+    // 3. PREPARE CHART DATA
+    // ==========================================
+    const dates = Object.keys(dailyCounts).sort();
+
+    const labels = dates.map(date => {
+        const [year, month, day] = date.split("-");
+        return `${day}-${month}-${year}`;
+    });
+
+    const palmistryData = dates.map(
+        date => dailyCounts[date].palmistry
+    );
+
+    const tarotData = dates.map(
+        date => dailyCounts[date].tarot
+    );
+
+    const canvas = $("reportTrendChart");
+    const container = canvas?.parentElement;
+
+    // ==========================================
+    // 4. SHOW A MESSAGE WHEN NO DATES ARE FOUND
+    // ==========================================
+    if (dates.length === 0) {
+        destroyChart("reportTrendChart");
+
+        if (container) {
+            let message = container.querySelector(
+                ".report-trend-empty"
+            );
+
+            if (!message) {
+                message = document.createElement("p");
+                message.className = "report-trend-empty";
+                message.style.textAlign = "center";
+                message.style.padding = "20px";
+                message.style.color = "#777";
+                message.style.overflowWrap = "anywhere";
+
+                container.appendChild(message);
+            }
+
+            const dateValues = reportList
+                .slice(0, 5)
+                .map(report =>
+                    `Report ${report.report_id ?? report.id ?? "—"}: ${
+                        report.raw_created_at ??
+                        report.created_at ??
+                        report.createdAt ??
+                        "DATE IS NULL"
+                    }`
+                )
+                .join(" | ");
+
+            message.textContent = reportList.length === 0
+                ? "No reports returned by the API."
+                : "No valid report creation dates found. " +
+                  dateValues;
+        }
+
+        return;
+    }
+
+    // Remove the previous message when dates are available.
+    container
+        ?.querySelector(".report-trend-empty")
+        ?.remove();
+
+    // ==========================================
+    // 5. RENDER STACKED BAR CHART
+    // ==========================================
+    createChart(
+        "reportTrendChart",
+        "bar",
+        {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Palmistry Reports",
+                    data: palmistryData,
+                    backgroundColor: "#8b5cf6",
+                    borderColor: "#7c3aed",
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    stack: "reports"
+                },
+                {
+                    label: "Tarot Reports",
+                    data: tarotData,
+                    backgroundColor: "#22c55e",
+                    borderColor: "#16a34a",
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    stack: "reports"
+                }
+            ]
+        },
+        {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: "bottom"
+                },
+                tooltip: {
+                    enabled: true,
+                    mode: "index",
+                    intersect: false
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: "Report Creation Date"
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0,
+                        stepSize: 1
+                    },
+                    title: {
+                        display: true,
+                        text: "Number of Reports"
+                    }
+                }
+            }
+        }
+    );
+}
+async function viewReport(reportId) {
+    const data = await apiJSON(`/reports/${encodeURIComponent(reportId)}`);
+    const report = data.report || data;
+
+    const content = [
+        `Report ID: ${report.report_id ?? reportId}`,
+        `Title: ${report.title ?? "Reading Report"}`,
+        `Type: ${report.report_type ?? "unspecified"}`,
+        `Created: ${formatDateTime(report.created_at)}`,
+        "",
+        "Report Content:",
+        JSON.stringify(report.content ?? {}, null, 2),
+        "",
+        "Palmistry Reading:",
+        JSON.stringify(data.palmistry_reading ?? null, null, 2),
+        "",
+        "Tarot Reading:",
+        JSON.stringify(data.tarot_reading ?? null, null, 2)
+    ].join("\n");
+
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const objectURL = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = objectURL;
+    link.download = `report_${reportId}_details.txt`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(objectURL);
+
+    showMessage(`Report ${reportId} details were downloaded as a text file.`, "success");
+}
+
+async function downloadReport(reportId) {
+    const response = await apiRequest(
+        `/reports/download/${encodeURIComponent(reportId)}`
+    );
+
+    const blob = await response.blob();
+    const objectURL = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = objectURL;
+    link.download = `reading_report_${reportId}.pdf`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(objectURL), 1000);
+    showMessage(`PDF download started for report ${reportId}.`, "success");
+}
+
+async function deleteReport(reportId) {
+    if (!confirm(`Delete report ${reportId}? This action cannot be undone.`)) return;
+
+    await apiRequest(`/reports/${encodeURIComponent(reportId)}`, {
+        method: "DELETE"
+    });
+
+    showMessage(`Report ${reportId} was deleted.`, "success");
+    await loadReports();
+}
+
+$("reportsBody").addEventListener("click", async event => {
+    const button = event.target.closest("[data-report-action]");
+    if (!button) return;
+
+    const reportId = button.dataset.reportId;
+    const action = button.dataset.reportAction;
+
+    try {
+        button.disabled = true;
+
+        if (action === "view") await viewReport(reportId);
+        if (action === "download") await downloadReport(reportId);
+        if (action === "delete") await deleteReport(reportId);
+    } catch (error) {
+        showMessage(error.message, "error");
+    } finally {
+        button.disabled = false;
+    }
+});
+
+function populateReadingSelect() {
+    const select = $("reportReadingSelect");
+    const previous = select.value;
+
+    select.innerHTML = `<option value="">Select a saved tarot reading</option>` +
+        state.readingHistory.map(item => `
+            <option value="${escapeHTML(item.id)}">
+                Reading #${escapeHTML(item.id)} · ${escapeHTML(item.reading_type)}
+                · ${escapeHTML(item.date || "Date not recorded")}
+            </option>
+        `).join("");
+
+    if (state.readingHistory.some(item => String(item.id) === previous)) {
+        select.value = previous;
+    }
+}
+
+$("generateReportForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    hideMessage("reportFormMessage");
+
+    const readingId = $("reportReadingSelect").value;
+    const title = $("newReportTitle").value.trim();
+    const button = $("generateReportButton");
+
+    if (!readingId) {
+        showMessage("Select a saved tarot reading first.", "warning", "reportFormMessage");
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Generating...";
+
+    try {
+        const payload = {
+            tarot_reading_id: Number(readingId),
+            report_type: "tarot"
+        };
+
+        if (title) payload.title = title;
+
+        const data = await apiJSON("/reports/generate", {
+            method: "POST",
+            body: JSON.stringify(payload)
+        });
+
+        showMessage(
+            data.message || "Report generated successfully.",
+            "success",
+            "reportFormMessage"
+        );
+
+        $("newReportTitle").value = "";
+        await loadReports();
+    } catch (error) {
+        showMessage(error.message, "error", "reportFormMessage");
+    } finally {
+        button.disabled = false;
+        button.textContent = "Generate Tarot Report";
+    }
+});
+
+/* =========================================================
+   CSV EXPORT
+   ========================================================= */
+
+function downloadCSV(filename, rows) {
+    const csv = rows.map(row =>
+        row.map(value => {
+            const text = String(value ?? "");
+            return `"${text.replace(/"/g, '""')}"`;
+        }).join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+$("exportReadings").addEventListener("click", () => {
+    const rows = [
+        ["Reading ID", "User ID", "Reading Type", "Created At"],
+        ...state.readingHistory.map(item => [
+            item.id, item.user_id, item.reading_type, item.created_at || ""
+        ])
+    ];
+
+    downloadCSV("tarot_reading_history.csv", rows);
+});
+
+/* =========================================================
+   LOAD ALL DASHBOARD DATA
+   ========================================================= */
+
+async function loadDashboard() {
+    if (state.loading) return;
+    state.loading = true;
+
+    $("refreshButton").disabled = true;
+    $("refreshTop").disabled = true;
+
+    showMessage("Loading dashboard data from the backend...", "info");
+
+    const outcomes = await Promise.allSettled([
+        loadTarotSummary(),
+        loadReports(),
+        loadSessions()
+    ]);
+
+    const names = ["Tarot analytics", "Reports", "Sessions"];
+    const failures = [];
+
+    outcomes.forEach((outcome, index) => {
+        if (outcome.status === "rejected") {
+            failures.push(`${names[index]}: ${outcome.reason.message}`);
+            console.error(names[index], outcome.reason);
+        }
+    });
+
+    if (outcomes[0].status === "fulfilled") {
+        setConnection(true, "API Connected");
+        await loadConsultantSummaryOptional();
+    } else {
+        setConnection(false, "API Error");
+    }
+
+    if (failures.length) {
+        showMessage(
+            "Some dashboard sections could not load. " + failures.join(" | "),
+            "error"
+        );
+    } else {
+        showMessage(
+            "Dashboard data refreshed. Displayed metrics come from the connected API responses.",
+            "success"
+        );
+    }
+
+    state.loading = false;
+    $("refreshButton").disabled = false;
+    $("refreshTop").disabled = false;
+}
+
+$("refreshButton").addEventListener("click", loadDashboard);
+$("refreshTop").addEventListener("click", loadDashboard);
+$("refreshSessions").addEventListener("click", async () => {
+    try {
+        await loadSessions();
+        showMessage("Session data refreshed.", "success");
+    } catch (error) {
+        showMessage(error.message, "error");
+    }
+});
+$("refreshReports").addEventListener("click", async () => {
+    try {
+        await loadReports();
+        showMessage("Report data refreshed.", "success");
+    } catch (error) {
+        showMessage(error.message, "error");
+    }
+});
+
+$("readingSearch").addEventListener("input", renderReadingTables);
+$("readingTypeFilter").addEventListener("change", renderReadingTables);
+$("reportSearch").addEventListener("input", renderReportTable);
+$("reportTypeFilter").addEventListener("change", renderReportTable);
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+$("logoutButton").addEventListener("click", () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("role");
+
+    window.location.href = "login.html";
+});
+
+/* =========================================================
+   INITIALIZATION
+   ========================================================= */
+
+function initializeUser() {
+    $("sidebarUsername").textContent = username();
+    $("sidebarRole").textContent = role().replace(/_/g, " ");
+    $("userAvatar").textContent =
+        username().trim().charAt(0).toUpperCase() || "T";
+
+    if (!token()) {
+        showMessage(
+            "No login token was found. Please sign in to access live dashboard data.",
+            "warning"
+        );
+        setConnection(false, "Not Logged In");
+        window.location.href = "login.html";
+        return false;
+    }
+
+    return true;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (!initializeUser()) return;
+    loadDashboard();
+});
+</script>
+</body>
+</html>

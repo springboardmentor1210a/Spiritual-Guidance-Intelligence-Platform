@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Guidance | Palmistry & Tarot AI</title>
+
+    <style>
+        :root {
+            --purple: #4f2ba8;
+            --purple-dark: #211638;
+            --purple-light: #f1edff;
+            --background: #f7f7fb;
+            --text: #28243a;
+            --muted: #77758a;
+            --border: #e9e5f2;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            width: 245px;
+            padding: 27px 16px;
+            background: var(--purple-dark);
+            color: white;
+            overflow-y: auto;
+        }
+
+        .brand {
+            padding: 5px 12px 28px;
+            font-size: 21px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .brand small {
+            display: block;
+            color: #c6b9e7;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .nav-heading {
+            padding: 12px;
+            color: #bcb2d5;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 13px 12px;
+            margin: 4px 0;
+            border-radius: 9px;
+            color: #eee9fa;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #4d3974;
+            color: white;
+        }
+
+        .main {
+            margin-left: 245px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0 0 9px;
+            font-size: 29px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        button {
+            border: 0;
+            border-radius: 9px;
+            padding: 12px 18px;
+            background: var(--purple);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .status {
+            margin: 18px 0;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            color: var(--muted);
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .status.error {
+            color: #a12838;
+            background: #fff2f3;
+            border-color: #f4c8ce;
+        }
+
+        .status.success {
+            color: #176b47;
+            background: #effaf4;
+            border-color: #ccebd9;
+        }
+
+        .section-title {
+            margin: 30px 0 7px;
+            font-size: 21px;
+        }
+
+        .section-description {
+            margin: 0 0 20px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            min-width: 0;
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            background: var(--white);
+            box-shadow: 0 3px 14px rgba(35, 20, 70, 0.04);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card-icon {
+            display: grid;
+            place-items: center;
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: var(--purple-light);
+            font-size: 21px;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 17px;
+        }
+
+        .card-body {
+            color: #565268;
+            font-size: 14px;
+            line-height: 1.75;
+            overflow-wrap: anywhere;
+        }
+
+        .recommendation-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .recommendation-list li {
+            margin: 0 0 10px;
+        }
+
+        .empty {
+            padding: 15px;
+            border-radius: 9px;
+            background: #faf9fd;
+            color: var(--muted);
+        }
+
+        .footer-note {
+            margin-top: 25px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                max-height: none;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            ✦ Palmistry & Tarot AI
+            <small>Personalized Intelligence Platform</small>
+        </div>
+
+        <div class="nav-heading">PLATFORM NAVIGATION</div>
+
+        <a class="nav-link" href="user-dashboard.html">⌂ Home</a>
+        <a class="nav-link" href="palmistry.html">✋ Palmistry</a>
+        <a class="nav-link" href="tarot.html">✧ Tarot</a>
+        <a class="nav-link" href="reports.html">▤ Reports</a>
+        <a class="nav-link active" href="personalized_guidance.html">✦ Personalized Guidance</a>
+        <a class="nav-link" href="reading-history.html">◷ Reading History</a>
+        <a class="nav-link" href="profile.html">♙ Profile</a>
+        <a class="nav-link" href="#" id="logoutLink">↪ Logout</a>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div>
+                <h1>Personalized Guidance</h1>
+                <div class="subtitle">
+                    Insights and recommendations from your available readings
+                    and saved profile.
+                </div>
+            </div>
+            <button id="refreshButton" type="button">↻ Refresh Guidance</button>
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite">
+            Ready to load your personalized recommendations.
+        </div>
+
+        <h2 class="section-title">Personalized Recommendations</h2>
+        <p class="section-description">
+            Explore suggestions across five areas of personal development.
+        </p>
+
+        <div class="recommendation-grid">
+            <section class="card">
+                <div class="card-header">
+                    <div class="card-icon">🌱</div>
+                    <h3>Personal Growth</h3>
+                </div>
+                <div class="card-body" id="personalGrowth">
+                    <div class="empty">Loading recommendations...</div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card-header">
+                    <div class="card-icon">💞</div>
+                    <h3>Relationship Guidance</h3>
+                </div>
+                <div class="card-body" id="relationships">
+                    <div class="empty">Loading recommendations...</div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h3>Career Suggestions</h3>
+                </div>
+                <div class="card-body" id="career">
+                    <div class="empty">Loading recommendations...</div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card-header">
+                    <div class="card-icon">🧭</div>
+                    <h3>Goal Alignment Recommendations</h3>
+                </div>
+                <div class="card-body" id="goalAlignment">
+                    <div class="empty">Loading recommendations...</div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="card-header">
+                    <div class="card-icon">✨</div>
+                    <h3>Spiritual Development Insights</h3>
+                </div>
+                <div class="card-body" id="spiritualDevelopment">
+                    <div class="empty">Loading recommendations...</div>
+                </div>
+            </section>
+        </div>
+
+        <p class="footer-note">
+            These suggestions are intended for reflection and personal development.
+            Palmistry and tarot interpretations are not scientifically validated
+            predictions and should not replace professional advice.
+        </p>
+    </main>
+
+    <script>
+        const API_BASE = "http://127.0.0.1:8001";
+
+        const categoryElements = {
+            personalGrowth: "personalGrowth",
+            relationships: "relationships",
+            career: "career",
+            goalAlignment: "goalAlignment",
+            spiritualDevelopment: "spiritualDevelopment"
+        };
+
+        const categoryAliases = {
+            personalGrowth: [
+                "personal_growth", "personal growth", "growth",
+                "personal_development", "self_development"
+            ],
+            relationships: [
+                "relationships", "relationship", "relationship_guidance",
+                "relationship guidance", "love"
+            ],
+            career: [
+                "career", "career_suggestions", "career suggestions",
+                "professional_development"
+            ],
+            goalAlignment: [
+                "goal_alignment", "goal alignment",
+                "goal_alignment_recommendations", "goals", "goal"
+            ],
+            spiritualDevelopment: [
+                "spiritual_development", "spiritual development",
+                "spiritual_development_insights", "spiritual",
+                "spiritual_growth"
+            ]
+        };
+
+        function setStatus(message, type = "") {
+            const el = document.getElementById("status");
+            el.textContent = message;
+            el.className = "status" + (type ? " " + type : "");
+        }
+
+        function getToken() {
+            return localStorage.getItem("access_token") ||
+                   localStorage.getItem("token");
+        }
+
+        function normalizeKey(value) {
+            return String(value || "")
+                .trim()
+                .toLowerCase()
+                .replace(/[-\s]+/g, "_");
+        }
+
+        function cleanText(value) {
+            if (value === null || value === undefined) return "";
+
+            if (typeof value === "string") {
+                return value.trim();
+            }
+
+            if (typeof value === "number" || typeof value === "boolean") {
+                return String(value);
+            }
+
+            return "";
+        }
+
+        function getRecommendationValue(value) {
+            if (typeof value === "string" || typeof value === "number") {
+                return cleanText(value);
+            }
+
+            if (Array.isArray(value)) {
+                return value
+                    .map(item => getRecommendationValue(item))
+                    .filter(Boolean)
+                    .join("\n");
+            }
+
+            if (value && typeof value === "object") {
+                const knownFields = [
+                    "recommendations",
+                    "items",
+                    "suggestions",
+                    "recommendation",
+                    "guidance",
+                    "insights",
+                    "advice",
+                    "description",
+                    "message",
+                    "content",
+                    "text"
+                ];
+
+                const parts = [];
+
+                for (const key of knownFields) {
+                    if (value[key] !== undefined && value[key] !== null) {
+                        const text = getRecommendationValue(value[key]);
+                        if (text && !parts.includes(text)) {
+                            parts.push(text);
+                        }
+                    }
+                }
+
+                return parts.join("\n");
+            }
+
+            return "";
+        }
+
+        function findCategory(data, aliases) {
+            if (!data || typeof data !== "object") return "";
+
+            const normalizedAliases = aliases.map(normalizeKey);
+
+            for (const [key, value] of Object.entries(data)) {
+                if (normalizedAliases.includes(normalizeKey(key))) {
+                    const result = getRecommendationValue(value);
+                    if (result) return result;
+                }
+            }
+
+            return "";
+        }
+
+        function extractRecommendations(response) {
+            const possibleRoots = [];
+
+            if (response && typeof response === "object") {
+                possibleRoots.push(response);
+
+                for (const key of [
+                    "data",
+                    "result",
+                    "recommendations",
+                    "personalized_guidance",
+                    "personalizedGuidance"
+                ]) {
+                    const value = response[key];
+                    if (value && typeof value === "object") {
+                        possibleRoots.push(value);
+                    }
+                }
+            }
+
+            const output = {};
+
+            for (const category of Object.keys(categoryAliases)) {
+                output[category] = "";
+
+                for (const root of possibleRoots) {
+                    output[category] = findCategory(
+                        root,
+                        categoryAliases[category]
+                    );
+
+                    if (output[category]) break;
+                }
+            }
+
+            return output;
+        }
+
+        function renderRecommendation(elementId, text) {
+            const element = document.getElementById(elementId);
+            element.replaceChildren();
+
+            if (!text) {
+                const empty = document.createElement("div");
+                empty.className = "empty";
+                empty.textContent =
+                    "No recommendations were returned for this category. " +
+                    "Check the backend response and saved profile.";
+                element.appendChild(empty);
+                return;
+            }
+
+            const lines = text
+                .split(/\n+|(?<=[.!?])\s+(?=[A-Z])/)
+                .map(line => line.replace(/^[\s•*-]+/, "").trim())
+                .filter(Boolean);
+
+            if (lines.length > 1) {
+                const list = document.createElement("ul");
+                list.className = "recommendation-list";
+
+                for (const line of lines) {
+                    const item = document.createElement("li");
+                    item.textContent = line;
+                    list.appendChild(item);
+                }
+
+                element.appendChild(list);
+            } else {
+                const paragraph = document.createElement("p");
+                paragraph.textContent = text;
+                element.appendChild(paragraph);
+            }
+        }
+
+        async function loadGuidance() {
+            const button = document.getElementById("refreshButton");
+            const token = getToken();
+
+            if (!token) {
+                setStatus(
+                    "You are not logged in, or your login token is missing. " +
+                    "Please log in again, then reopen this page.",
+                    "error"
+                );
+
+                for (const elementId of Object.values(categoryElements)) {
+                    renderRecommendation(elementId, "");
+                }
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "Loading...";
+            setStatus("Requesting personalized guidance from your backend.");
+
+            try {
+                const response = await fetch(
+                    API_BASE + "/personalized-guidance/generate",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Accept": "application/json",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const raw = await response.text();
+                let data;
+
+                try {
+                    data = raw ? JSON.parse(raw) : {};
+                } catch {
+                    throw new Error(
+                        "The backend did not return valid JSON. " +
+                        "Check the endpoint response in Swagger."
+                    );
+                }
+
+                if (!response.ok) {
+                    const detail =
+                        typeof data.detail === "string"
+                            ? data.detail
+                            : "HTTP " + response.status;
+
+                    throw new Error(detail);
+                }
+
+                const recommendations = extractRecommendations(data);
+
+                for (const [category, elementId] of Object.entries(categoryElements)) {
+                    renderRecommendation(
+                        elementId,
+                        recommendations[category]
+                    );
+                }
+
+                const populated = Object.values(recommendations)
+                    .filter(Boolean).length;
+
+                if (populated === 5) {
+                    setStatus(
+                        "Personalized guidance loaded. All five categories contain recommendations.",
+                        "success"
+                    );
+                } else if (populated > 0) {
+                    setStatus(
+                        populated + " of 5 categories contain recommendations. " +
+                        "The remaining categories may be missing from the API response.",
+                        ""
+                    );
+                } else {
+                    setStatus(
+                        "The endpoint responded successfully, but this page could not " +
+                        "find category-specific recommendations in its response. " +
+                        "Inspect the Swagger response structure to map the fields correctly.",
+                        "error"
+                    );
+                    console.log("Personalized guidance API response:", data);
+                }
+            } catch (error) {
+                console.error("Guidance loading failed:", error);
+
+                setStatus(
+                    "Could not load personalized guidance: " +
+                    (error.message || "Unknown error"),
+                    "error"
+                );
+
+                for (const elementId of Object.values(categoryElements)) {
+                    renderRecommendation(elementId, "");
+                }
+            } finally {
+                button.disabled = false;
+                button.textContent = "↻ Refresh Guidance";
+            }
+        }
+
+        document.getElementById("refreshButton")
+            .addEventListener("click", loadGuidance);
+
+        document.getElementById("logoutLink")
+            .addEventListener("click", function(event) {
+                event.preventDefault();
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("token");
+                window.location.href = "login.html";
+            });
+
+        loadGuidance();
+    </script>
+</body>
+</html>

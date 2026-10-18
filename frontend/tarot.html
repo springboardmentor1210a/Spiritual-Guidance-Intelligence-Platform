@@ -1,0 +1,3488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tarot Reading</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #1b1033, #30145e, #160b29);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: auto;
+            padding: 25px 0 50px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #d8cbed;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* ==============================
+           READING TYPES
+        ============================== */
+
+        .reading-types {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .reading-type {
+            border: 1px solid #8d65bd;
+            background: #291448;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .reading-type:hover {
+            background: #43236d;
+        }
+
+        .reading-type.active {
+            background: #7442a8;
+            border-color: #b995df;
+        }
+
+        /* ==============================
+           CONTROLS
+        ============================== */
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        #shuffleBtn {
+            background: #8d5bc2;
+            color: white;
+        }
+
+        #generateBtn {
+            background: #c18bea;
+            color: #170b25;
+        }
+
+        #generateBtn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        /* ==============================
+           STATUS / MESSAGE
+        ============================== */
+
+        .status {
+            text-align: center;
+            color: #d8cbed;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .message {
+            max-width: 700px;
+            margin: 10px auto 20px;
+            padding: 13px 18px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(52, 168, 83, 0.2);
+            border: 1px solid #5dd17a;
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(234, 67, 53, 0.2);
+            border: 1px solid #ff7569;
+        }
+
+        /* ==============================
+           CARDS
+        ============================== */
+
+        .cards-title {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .cards-title h2 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .cards-title p {
+            color: #cbbddd;
+            line-height: 1.5;
+        }
+
+        .card-count {
+            text-align: center;
+            margin: 15px 0;
+            font-weight: bold;
+            color: #e6d5fa;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tarot-card {
+            height: 175px;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #24103d,
+                    #5b2c7e
+                );
+
+            border: 2px solid #9e70c5;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.35);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: 0.2s;
+        }
+
+        .tarot-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 10px 22px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Blind card symbol */
+
+        .tarot-card::before {
+            content: "✦";
+            font-size: 42px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .tarot-card::after {
+            content: "";
+
+            position: absolute;
+            inset: 9px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+
+            border-radius: 8px;
+        }
+
+        /* Selected card */
+
+        .tarot-card.selected {
+            border-color: #ffd76b;
+
+            box-shadow:
+                0 0 15px
+                rgba(255, 215, 107, 0.5);
+        }
+
+        /* Revealed card */
+
+        .tarot-card.revealed {
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4e6c8,
+                    #d9b875
+                );
+
+            color: #24152f;
+
+            cursor: default;
+        }
+
+        .tarot-card.revealed::before,
+        .tarot-card.revealed::after {
+            display: none;
+        }
+
+        .revealed-content {
+            text-align: center;
+            padding: 12px;
+            width: 100%;
+        }
+
+        .revealed-number {
+            font-size: 13px;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .revealed-name {
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        /* ==============================
+           SECTIONS
+        ============================== */
+
+        .selected-section,
+        .result-section {
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            margin-top: 30px;
+        }
+
+        .selected-section h2,
+        .result-section h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* ==============================
+           SELECTED CARDS
+        ============================== */
+
+        .selected-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+
+            gap: 15px;
+        }
+
+        .selected-item {
+            background:
+                rgba(0, 0, 0, 0.25);
+
+            border-radius: 10px;
+
+            padding: 15px;
+
+            text-align: center;
+        }
+
+        .selected-item .position {
+            color: #c9a9e8;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+        }
+
+        .selected-item .name {
+            font-weight: bold;
+
+            font-size: 17px;
+        }
+
+        /* ==============================
+           RESULT
+        ============================== */
+
+        .result-content {
+            background:
+                rgba(0, 0, 0, 0.2);
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            line-height: 1.7;
+        }
+
+        .result-card {
+            margin-bottom: 20px;
+
+            padding: 20px;
+
+            background:
+                rgba(0, 0, 0, 0.2);
+
+            border-radius: 12px;
+        }
+
+        .result-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-card h3 {
+            color: #e4c8ff;
+
+            margin-bottom: 12px;
+
+            font-size: 20px;
+        }
+
+        .result-card h4 {
+            color: #f1d9ff;
+
+            margin-bottom: 10px;
+        }
+
+        .result-card p {
+            line-height: 1.8;
+
+            margin-bottom: 12px;
+        }
+
+        .result-card ul {
+            margin:
+                10px 0 0 25px;
+        }
+
+        .result-card li {
+            margin-bottom: 8px;
+
+            line-height: 1.6;
+        }
+
+        /* ==============================
+           LOADING
+        ============================== */
+
+        .loading {
+            text-align: center;
+
+            padding: 20px;
+
+            display: none;
+
+            color: #e8d6ff;
+        }
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        .footer-note {
+            text-align: center;
+
+            margin-top: 35px;
+
+            color: #a995bb;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media (max-width: 600px) {
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            .cards-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+                gap: 8px;
+            }
+
+            .tarot-card {
+                height: 140px;
+            }
+
+            .revealed-name {
+                font-size: 12px;
+            }
+
+            .selected-section,
+            .result-section {
+                padding: 15px;
+            }
+
+            .result-content {
+                padding: 12px;
+            }
+
+            .reading-type {
+                padding: 10px 13px;
+
+                font-size: 13px;
+            }
+
+            button {
+                padding: 10px 14px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header>
+
+        <h1>🔮 Tarot Reading</h1>
+
+        <p>
+            Choose your reading type, shuffle the cards,
+            select your cards and generate your Tarot reading.
+        </p>
+
+    </header>
+
+
+    <!-- =====================================================
+         READING TYPES
+         ===================================================== -->
+
+    <div class="reading-types">
+
+        <button
+            class="reading-type active"
+            data-type="single"
+        >
+            Single Card – 1
+        </button>
+
+
+        <button
+            class="reading-type"
+            data-type="three_card"
+        >
+            Three Card – 3
+        </button>
+
+
+        <button
+            class="reading-type"
+            data-type="relationship"
+        >
+            Relationship – 5
+        </button>
+
+
+        <button
+            class="reading-type"
+            data-type="career"
+        >
+            Career – 5
+        </button>
+
+
+        <button
+            class="reading-type"
+            data-type="life_path"
+        >
+            Life Path – 5
+        </button>
+
+
+        <button
+            class="reading-type"
+            data-type="celtic_cross"
+        >
+            Celtic Cross – 5
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         CONTROLS
+         ===================================================== -->
+
+    <div class="controls">
+
+        <button id="shuffleBtn">
+            🔀 Shuffle Cards
+        </button>
+
+
+        <button
+            id="generateBtn"
+            disabled
+        >
+            🔮 Generate Tarot Reading
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATUS
+         ===================================================== -->
+
+    <div
+        id="status"
+        class="status"
+    >
+        Select a reading type and shuffle the cards.
+    </div>
+
+
+    <!-- =====================================================
+         MESSAGE
+         ===================================================== -->
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <!-- =====================================================
+         DECK
+         ===================================================== -->
+
+    <div class="cards-title">
+
+        <h2>🃏 Tarot Deck</h2>
+
+        <p>
+            All 78 Tarot cards are displayed face-down.
+            Select the required number of cards.
+        </p>
+
+    </div>
+
+
+    <div
+        id="cardCount"
+        class="card-count"
+    >
+        Selected: 0 / 1
+    </div>
+
+
+    <div
+        id="cardsGrid"
+        class="cards-grid"
+    ></div>
+
+
+    <!-- =====================================================
+         SELECTED CARDS
+         ===================================================== -->
+
+    <div
+        id="selectedSection"
+        class="selected-section"
+        style="display: none;"
+    >
+
+        <h2>✨ Selected Cards</h2>
+
+        <div
+            id="selectedCards"
+            class="selected-list"
+        ></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         LOADING
+         ===================================================== -->
+
+    <div
+        id="loading"
+        class="loading"
+    >
+        🔮 Generating your Tarot reading...
+    </div>
+
+
+    <!-- =====================================================
+         TAROT INTERPRETATION
+         ===================================================== -->
+
+    <div
+        id="resultSection"
+        class="result-section"
+        style="display: none;"
+    >
+
+        <h2>🔮 Tarot Interpretation</h2>
+
+        <div
+            id="resultContent"
+            class="result-content"
+        ></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <div class="footer-note">
+
+        Tarot readings are intended for
+        spiritual and entertainment purposes.
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   API
+   ========================================================= */
+
+const API_URL =
+    "http://127.0.0.1:8001";
+
+
+/* =========================================================
+   78 TAROT CARDS
+   ========================================================= */
+
+const tarotCards = [
+
+    {
+        name: "The Fool",
+        number: 0,
+        meaning:
+            "New beginnings, freedom, adventure and taking a leap of faith."
+    },
+
+    {
+        name: "The Magician",
+        number: 1,
+        meaning:
+            "Manifestation, skill, confidence and using available resources."
+    },
+
+    {
+        name: "The High Priestess",
+        number: 2,
+        meaning:
+            "Intuition, mystery, inner wisdom and hidden knowledge."
+    },
+
+    {
+        name: "The Empress",
+        number: 3,
+        meaning:
+            "Growth, creativity, abundance and nurturing energy."
+    },
+
+    {
+        name: "The Emperor",
+        number: 4,
+        meaning:
+            "Authority, structure, leadership and stability."
+    },
+
+    {
+        name: "The Hierophant",
+        number: 5,
+        meaning:
+            "Tradition, learning, guidance and spiritual knowledge."
+    },
+
+    {
+        name: "The Lovers",
+        number: 6,
+        meaning:
+            "Love, relationships, choices, harmony and meaningful connections."
+    },
+
+    {
+        name: "The Chariot",
+        number: 7,
+        meaning:
+            "Determination, control, ambition and moving forward."
+    },
+
+    {
+        name: "Strength",
+        number: 8,
+        meaning:
+            "Courage, patience, compassion and inner strength."
+    },
+
+    {
+        name: "The Hermit",
+        number: 9,
+        meaning:
+            "Reflection, solitude, wisdom and searching within."
+    },
+
+    {
+        name: "Wheel of Fortune",
+        number: 10,
+        meaning:
+            "Change, cycles, opportunities and turning points."
+    },
+
+    {
+        name: "Justice",
+        number: 11,
+        meaning:
+            "Balance, fairness, truth and accountability."
+    },
+
+    {
+        name: "The Hanged Man",
+        number: 12,
+        meaning:
+            "Pause, surrender, patience and seeing things differently."
+    },
+
+    {
+        name: "Death",
+        number: 13,
+        meaning:
+            "Transformation, endings and the beginning of a new phase."
+    },
+
+    {
+        name: "Temperance",
+        number: 14,
+        meaning:
+            "Balance, moderation, patience and harmony."
+    },
+
+    {
+        name: "The Devil",
+        number: 15,
+        meaning:
+            "Attachments, temptation, material concerns and unhealthy patterns."
+    },
+
+    {
+        name: "The Tower",
+        number: 16,
+        meaning:
+            "Sudden change, disruption, revelation and rebuilding."
+    },
+
+    {
+        name: "The Star",
+        number: 17,
+        meaning:
+            "Hope, inspiration, healing and optimism."
+    },
+
+    {
+        name: "The Moon",
+        number: 18,
+        meaning:
+            "Intuition, uncertainty, dreams and hidden emotions."
+    },
+
+    {
+        name: "The Sun",
+        number: 19,
+        meaning:
+            "Positivity, confidence, happiness and success."
+    },
+
+    {
+        name: "Judgement",
+        number: 20,
+        meaning:
+            "Reflection, awakening, decisions and renewal."
+    },
+
+    {
+        name: "The World",
+        number: 21,
+        meaning:
+            "Completion, achievement, fulfillment and a new cycle."
+    },
+
+
+    /* WANDS */
+
+    {
+        name: "Ace of Wands",
+        number: 22,
+        meaning:
+            "New inspiration, creativity, passion and opportunity."
+    },
+
+    {
+        name: "Two of Wands",
+        number: 23,
+        meaning:
+            "Planning, future possibilities and making decisions."
+    },
+
+    {
+        name: "Three of Wands",
+        number: 24,
+        meaning:
+            "Expansion, progress and looking toward the future."
+    },
+
+    {
+        name: "Four of Wands",
+        number: 25,
+        meaning:
+            "Celebration, stability, community and achievement."
+    },
+
+    {
+        name: "Five of Wands",
+        number: 26,
+        meaning:
+            "Competition, disagreement, challenges and energetic activity."
+    },
+
+    {
+        name: "Six of Wands",
+        number: 27,
+        meaning:
+            "Victory, recognition, confidence and achievement."
+    },
+
+    {
+        name: "Seven of Wands",
+        number: 28,
+        meaning:
+            "Defending your position, courage and persistence."
+    },
+
+    {
+        name: "Eight of Wands",
+        number: 29,
+        meaning:
+            "Fast movement, communication and rapid progress."
+    },
+
+    {
+        name: "Nine of Wands",
+        number: 30,
+        meaning:
+            "Resilience, persistence and protecting your progress."
+    },
+
+    {
+        name: "Ten of Wands",
+        number: 31,
+        meaning:
+            "Responsibility, workload, pressure and carrying many burdens."
+    },
+
+    {
+        name: "Page of Wands",
+        number: 32,
+        meaning:
+            "Curiosity, enthusiasm, exploration and new ideas."
+    },
+
+    {
+        name: "Knight of Wands",
+        number: 33,
+        meaning:
+            "Action, adventure, passion and bold movement."
+    },
+
+    {
+        name: "Queen of Wands",
+        number: 34,
+        meaning:
+            "Confidence, independence, creativity and warmth."
+    },
+
+    {
+        name: "King of Wands",
+        number: 35,
+        meaning:
+            "Leadership, vision, confidence and determination."
+    },
+
+
+    /* CUPS */
+
+    {
+        name: "Ace of Cups",
+        number: 36,
+        meaning:
+            "Emotional beginnings, love, compassion and openness."
+    },
+
+    {
+        name: "Two of Cups",
+        number: 37,
+        meaning:
+            "Partnership, connection, mutual respect and harmony."
+    },
+
+    {
+        name: "Three of Cups",
+        number: 38,
+        meaning:
+            "Friendship, celebration, community and shared happiness."
+    },
+
+    {
+        name: "Four of Cups",
+        number: 39,
+        meaning:
+            "Reflection, dissatisfaction and reconsidering opportunities."
+    },
+
+    {
+        name: "Five of Cups",
+        number: 40,
+        meaning:
+            "Disappointment, loss, emotional processing and moving forward."
+    },
+
+    {
+        name: "Six of Cups",
+        number: 41,
+        meaning:
+            "Memories, nostalgia, kindness and familiar connections."
+    },
+
+    {
+        name: "Seven of Cups",
+        number: 42,
+        meaning:
+            "Choices, imagination, possibilities and confusion."
+    },
+
+    {
+        name: "Eight of Cups",
+        number: 43,
+        meaning:
+            "Moving on, emotional growth and seeking something deeper."
+    },
+
+    {
+        name: "Nine of Cups",
+        number: 44,
+        meaning:
+            "Contentment, wishes, satisfaction and emotional fulfillment."
+    },
+
+    {
+        name: "Ten of Cups",
+        number: 45,
+        meaning:
+            "Emotional happiness, harmony, family and lasting connection."
+    },
+
+    {
+        name: "Page of Cups",
+        number: 46,
+        meaning:
+            "Emotional openness, creativity, intuition and new feelings."
+    },
+
+    {
+        name: "Knight of Cups",
+        number: 47,
+        meaning:
+            "Romance, imagination, emotional movement and idealism."
+    },
+
+    {
+        name: "Queen of Cups",
+        number: 48,
+        meaning:
+            "Compassion, intuition, emotional intelligence and empathy."
+    },
+
+    {
+        name: "King of Cups",
+        number: 49,
+        meaning:
+            "Emotional balance, wisdom, compassion and maturity."
+    },
+
+
+    /* SWORDS */
+
+    {
+        name: "Ace of Swords",
+        number: 50,
+        meaning:
+            "Clarity, truth, new ideas and decisive thinking."
+    },
+
+    {
+        name: "Two of Swords",
+        number: 51,
+        meaning:
+            "Indecision, choices, balance and avoiding a difficult decision."
+    },
+
+    {
+        name: "Three of Swords",
+        number: 52,
+        meaning:
+            "Heartbreak, disappointment, truth and emotional healing."
+    },
+
+    {
+        name: "Four of Swords",
+        number: 53,
+        meaning:
+            "Rest, recovery, reflection and taking a pause."
+    },
+
+    {
+        name: "Five of Swords",
+        number: 54,
+        meaning:
+            "Conflict, tension, competition and learning from disagreements."
+    },
+
+    {
+        name: "Six of Swords",
+        number: 55,
+        meaning:
+            "Transition, moving forward and leaving difficulties behind."
+    },
+
+    {
+        name: "Seven of Swords",
+        number: 56,
+        meaning:
+            "Strategy, independence, caution and thinking carefully."
+    },
+
+    {
+        name: "Eight of Swords",
+        number: 57,
+        meaning:
+            "Restriction, fear, uncertainty and feeling limited."
+    },
+
+    {
+        name: "Nine of Swords",
+        number: 58,
+        meaning:
+            "Worry, overthinking and emotional pressure."
+    },
+
+    {
+        name: "Ten of Swords",
+        number: 59,
+        meaning:
+            "Ending, release, transition and beginning again."
+    },
+
+    {
+        name: "Page of Swords",
+        number: 60,
+        meaning:
+            "Curiosity, communication, observation and new information."
+    },
+
+    {
+        name: "Knight of Swords",
+        number: 61,
+        meaning:
+            "Determination, fast action, ambition and direct communication."
+    },
+
+    {
+        name: "Queen of Swords",
+        number: 62,
+        meaning:
+            "Clarity, independence, honesty and intelligent decisions."
+    },
+
+    {
+        name: "King of Swords",
+        number: 63,
+        meaning:
+            "Logic, authority, clear thinking and strategic judgment."
+    },
+
+
+    /* PENTACLES */
+
+    {
+        name: "Ace of Pentacles",
+        number: 64,
+        meaning:
+            "New opportunity, stability, money and practical growth."
+    },
+
+    {
+        name: "Two of Pentacles",
+        number: 65,
+        meaning:
+            "Balance, flexibility, priorities and managing responsibilities."
+    },
+
+    {
+        name: "Three of Pentacles",
+        number: 66,
+        meaning:
+            "Teamwork, learning, skill and collaboration."
+    },
+
+    {
+        name: "Four of Pentacles",
+        number: 67,
+        meaning:
+            "Security, control, saving and protecting resources."
+    },
+
+    {
+        name: "Five of Pentacles",
+        number: 68,
+        meaning:
+            "Difficulty, financial concerns, support and resilience."
+    },
+
+    {
+        name: "Six of Pentacles",
+        number: 69,
+        meaning:
+            "Generosity, support, sharing and balance."
+    },
+
+    {
+        name: "Seven of Pentacles",
+        number: 70,
+        meaning:
+            "Patience, evaluation, investment and long-term growth."
+    },
+
+    {
+        name: "Eight of Pentacles",
+        number: 71,
+        meaning:
+            "Hard work, learning, practice and developing skills."
+    },
+
+    {
+        name: "Nine of Pentacles",
+        number: 72,
+        meaning:
+            "Independence, achievement, comfort and self-sufficiency."
+    },
+
+    {
+        name: "Ten of Pentacles",
+        number: 73,
+        meaning:
+            "Long-term stability, family, security and legacy."
+    },
+
+    {
+        name: "Page of Pentacles",
+        number: 74,
+        meaning:
+            "Learning, opportunity, study and practical beginnings."
+    },
+
+    {
+        name: "Knight of Pentacles",
+        number: 75,
+        meaning:
+            "Reliability, patience, responsibility and steady progress."
+    },
+
+    {
+        name: "Queen of Pentacles",
+        number: 76,
+        meaning:
+            "Practicality, nurturing, stability and resourcefulness."
+    },
+
+    {
+        name: "King of Pentacles",
+        number: 77,
+        meaning:
+            "Success, financial stability, leadership and security."
+    }
+
+];
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+let selectedReadingType = "single";
+
+let selectedCards = [];
+
+let cardOrder = [];
+
+
+/* Create 0–77 card order */
+
+for (
+    let i = 0;
+    i < tarotCards.length;
+    i++
+) {
+
+    cardOrder.push(i);
+}
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const cardsGrid =
+    document.getElementById(
+        "cardsGrid"
+    );
+
+const selectedSection =
+    document.getElementById(
+        "selectedSection"
+    );
+
+const selectedCardsContainer =
+    document.getElementById(
+        "selectedCards"
+    );
+
+const generateBtn =
+    document.getElementById(
+        "generateBtn"
+    );
+
+const shuffleBtn =
+    document.getElementById(
+        "shuffleBtn"
+    );
+
+const cardCount =
+    document.getElementById(
+        "cardCount"
+    );
+
+const status =
+    document.getElementById(
+        "status"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+const resultSection =
+    document.getElementById(
+        "resultSection"
+    );
+
+const resultContent =
+    document.getElementById(
+        "resultContent"
+    );
+
+
+/* =========================================================
+   REQUIRED CARD COUNT
+   ========================================================= */
+
+function requiredCardCount() {
+
+    const counts = {
+
+        single: 1,
+
+        three_card: 3,
+
+        relationship: 5,
+
+        career: 5,
+
+        life_path: 5,
+
+        celtic_cross: 5
+    };
+
+    return (
+        counts[selectedReadingType] || 1
+    );
+}
+
+
+/* =========================================================
+   POSITION NAMES
+   ========================================================= */
+
+function getPositionName(index) {
+
+    const positions = {
+
+        single: [
+            "Focus"
+        ],
+
+        three_card: [
+            "Past",
+            "Present",
+            "Future"
+        ],
+
+        relationship: [
+            "You",
+            "Other Person",
+            "Connection",
+            "Challenge",
+            "Direction"
+        ],
+
+        career: [
+            "Current Situation",
+            "Challenge",
+            "Strength",
+            "Opportunity",
+            "Direction"
+        ],
+
+        life_path: [
+            "Current Path",
+            "Growth",
+            "Direction",
+            "Challenge",
+            "Opportunity"
+        ],
+
+        celtic_cross: [
+            "Present Situation",
+            "Challenge",
+            "Foundation",
+            "Past Influence",
+            "Possible Direction"
+        ]
+
+    };
+
+
+    const currentPositions =
+        positions[selectedReadingType] ||
+        ["Card"];
+
+
+    return (
+        currentPositions[index] ||
+        "Card"
+    );
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+/* =========================================================
+   SHOW MESSAGE
+   ========================================================= */
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+}
+
+
+/* =========================================================
+   CLEAR MESSAGE
+   ========================================================= */
+
+function clearMessage() {
+
+    message.textContent =
+        "";
+
+    message.className =
+        "message";
+}
+
+
+/* =========================================================
+   UPDATE CARD COUNT
+   ========================================================= */
+
+function updateCardCount() {
+
+    cardCount.textContent =
+        "Selected: " +
+        selectedCards.length +
+        " / " +
+        requiredCardCount();
+}
+
+
+/* =========================================================
+   RENDER 78 BLIND CARDS
+   ========================================================= */
+
+function renderCards() {
+
+    cardsGrid.innerHTML =
+        "";
+
+
+    for (
+        let i = 0;
+        i < cardOrder.length;
+        i++
+    ) {
+
+        const index =
+            cardOrder[i];
+
+
+        const element =
+            document.createElement(
+                "div"
+            );
+
+
+        element.className =
+            "tarot-card";
+
+
+        element.setAttribute(
+            "data-index",
+            index
+        );
+
+
+        element.addEventListener(
+            "click",
+            function () {
+
+                selectCard(
+                    index,
+                    element
+                );
+
+            }
+        );
+
+
+        cardsGrid.appendChild(
+            element
+        );
+    }
+
+
+    updateCardCount();
+}
+
+
+/* =========================================================
+   SELECT CARD
+   ========================================================= */
+
+function selectCard(
+    index,
+    element
+) {
+
+    const maxCards =
+        requiredCardCount();
+
+
+    /* Maximum selection */
+
+    if (
+        selectedCards.length >=
+        maxCards
+    ) {
+
+        showMessage(
+            "You can select only " +
+            maxCards +
+            " card(s) for this reading.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* Check duplicate */
+
+    for (
+        let i = 0;
+        i < selectedCards.length;
+        i++
+    ) {
+
+        if (
+            selectedCards[i].index ===
+            index
+        ) {
+
+            showMessage(
+                "This card is already selected.",
+                "error"
+            );
+
+            return;
+        }
+    }
+
+
+    const card =
+        tarotCards[index];
+
+
+    selectedCards.push({
+
+        index: index,
+
+        card: card
+
+    });
+
+
+    /* Show selected card */
+
+    element.classList.add(
+        "selected"
+    );
+
+    element.classList.add(
+        "revealed"
+    );
+
+
+    element.innerHTML =
+
+        '<div class="revealed-content">' +
+
+            '<div class="revealed-number">' +
+
+                "Card " +
+
+                (card.number + 1) +
+
+            "</div>" +
+
+            '<div class="revealed-name">' +
+
+                escapeHtml(
+                    card.name
+                ) +
+
+            "</div>" +
+
+        "</div>";
+
+
+    renderSelectedCards();
+
+    updateCardCount();
+
+
+    selectedSection.style.display =
+        "block";
+
+
+    /* All required cards selected */
+
+    if (
+        selectedCards.length ===
+        maxCards
+    ) {
+
+        generateBtn.disabled =
+            false;
+
+
+        showMessage(
+            "You have selected all " +
+            maxCards +
+            " required card(s).",
+            "success"
+        );
+
+
+        status.textContent =
+            "Your cards are ready. Click Generate Tarot Reading.";
+
+    } else {
+
+        generateBtn.disabled =
+            true;
+
+
+        status.textContent =
+            "Select " +
+            (
+                maxCards -
+                selectedCards.length
+            ) +
+            " more card(s).";
+    }
+}
+
+
+/* =========================================================
+   RENDER SELECTED CARDS
+   ========================================================= */
+
+function renderSelectedCards() {
+
+    selectedCardsContainer.innerHTML =
+        "";
+
+
+    for (
+        let i = 0;
+        i < selectedCards.length;
+        i++
+    ) {
+
+        const item =
+            selectedCards[i];
+
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.className =
+            "selected-item";
+
+
+        div.innerHTML =
+
+            '<div class="position">' +
+
+                escapeHtml(
+                    getPositionName(i)
+                ) +
+
+            "</div>" +
+
+            '<div class="name">' +
+
+                escapeHtml(
+                    item.card.name
+                ) +
+
+            "</div>";
+
+
+        selectedCardsContainer.appendChild(
+            div
+        );
+    }
+}
+
+
+/* =========================================================
+   SHUFFLE CARDS
+   ========================================================= */
+
+function shuffleCards() {
+
+    /* Fisher-Yates shuffle */
+
+    for (
+        let i =
+            cardOrder.length - 1;
+
+        i > 0;
+
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() *
+                (i + 1)
+            );
+
+
+        const temp =
+            cardOrder[i];
+
+
+        cardOrder[i] =
+            cardOrder[j];
+
+
+        cardOrder[j] =
+            temp;
+    }
+
+
+    /* Reset selection */
+
+    selectedCards = [];
+
+
+    selectedSection.style.display =
+        "none";
+
+
+    resultSection.style.display =
+        "none";
+
+
+    resultContent.innerHTML =
+        "";
+
+
+    generateBtn.disabled =
+        true;
+
+
+    clearMessage();
+
+
+    renderCards();
+
+
+    status.textContent =
+        "Cards shuffled. Select " +
+        requiredCardCount() +
+        " card(s).";
+}
+
+
+/* =========================================================
+   READING TYPE BUTTONS
+   ========================================================= */
+
+const readingButtons =
+    document.querySelectorAll(
+        ".reading-type"
+    );
+
+
+for (
+    let i = 0;
+    i < readingButtons.length;
+    i++
+) {
+
+    readingButtons[i].addEventListener(
+        "click",
+        function () {
+
+            /* Active button */
+
+            for (
+                let j = 0;
+                j < readingButtons.length;
+                j++
+            ) {
+
+                readingButtons[j]
+                    .classList
+                    .remove(
+                        "active"
+                    );
+            }
+
+
+            this.classList.add(
+                "active"
+            );
+
+
+            /* Change reading type */
+
+            selectedReadingType =
+                this.getAttribute(
+                    "data-type"
+                );
+
+
+            /* Reset cards */
+
+            selectedCards = [];
+
+
+            selectedSection.style.display =
+                "none";
+
+
+            resultSection.style.display =
+                "none";
+
+
+            resultContent.innerHTML =
+                "";
+
+
+            generateBtn.disabled =
+                true;
+
+
+            clearMessage();
+
+
+            renderCards();
+
+
+            status.textContent =
+                "Select " +
+                requiredCardCount() +
+                " card(s) for this reading.";
+        }
+    );
+}
+
+
+/* =========================================================
+   GENERATE TAROT READING
+   ========================================================= */
+
+async function generateReading() {
+
+    const maxCards =
+        requiredCardCount();
+
+
+    /* Check selection */
+
+    if (
+        selectedCards.length !==
+        maxCards
+    ) {
+
+        showMessage(
+            "Please select " +
+            maxCards +
+            " card(s) before generating the reading.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* Get token */
+
+    const token =
+        localStorage.getItem(
+            "access_token"
+        ) ||
+        localStorage.getItem(
+            "token"
+        );
+
+
+    if (!token) {
+
+        showMessage(
+            "Please login first.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+     * Prepare cards for backend.
+     *
+     * The backend accepts:
+     *
+     * card_name
+     * card_meaning
+     * position
+     */
+
+    const cards = [];
+
+
+    for (
+        let i = 0;
+        i < selectedCards.length;
+        i++
+    ) {
+
+        const selected =
+            selectedCards[i];
+
+
+        cards.push({
+
+            card_name:
+                selected.card.name,
+
+            card_meaning:
+                selected.card.meaning,
+
+            position:
+                getPositionName(i)
+
+        });
+    }
+
+
+    const requestBody = {
+
+        reading_type:
+            selectedReadingType,
+
+        cards:
+            cards
+
+    };
+
+
+    console.log(
+        "Tarot request:",
+        requestBody
+    );
+
+
+    /* Loading */
+
+    loading.style.display =
+        "block";
+
+
+    resultSection.style.display =
+        "none";
+
+
+    generateBtn.disabled =
+        true;
+
+
+    clearMessage();
+
+
+    status.textContent =
+        "Generating your Tarot interpretation...";
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                API_URL +
+                "/tarot/reading",
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            "Bearer " +
+                            token
+                    },
+
+                    body:
+                        JSON.stringify(
+                            requestBody
+                        )
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Tarot API response:",
+            data
+        );
+
+
+        /* Backend error */
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                data.detail ||
+
+                data.message ||
+
+                "Failed to generate Tarot reading."
+            );
+        }
+
+
+        /* Display result */
+
+        displayTarotResult(
+            data
+        );
+
+
+        /*
+         * Save the complete Tarot
+         * response for the future
+         * Insights page.
+         */
+
+        localStorage.setItem(
+            "last_tarot_reading",
+            JSON.stringify(
+                data
+            )
+        );
+
+
+        /*
+         * Also save the reading ID
+         * separately for easy access.
+         */
+
+        if (
+            data.tarot_reading_id
+        ) {
+
+            localStorage.setItem(
+                "last_tarot_reading_id",
+                String(
+                    data.tarot_reading_id
+                )
+            );
+        }
+
+
+        showMessage(
+            "Tarot reading generated successfully.",
+            "success"
+        );
+
+
+        status.textContent =
+            "Your Tarot interpretation is ready.";
+
+
+    } catch (error) {
+
+        console.error(
+            "Tarot reading error:",
+            error
+        );
+
+
+        showMessage(
+
+            error.message ||
+
+            "Unable to generate Tarot reading.",
+
+            "error"
+        );
+
+
+        status.textContent =
+            "Unable to generate the Tarot reading.";
+
+    } finally {
+
+        loading.style.display =
+            "none";
+
+
+        /*
+         * Enable Generate again
+         * only if the required cards
+         * remain selected.
+         */
+
+        generateBtn.disabled =
+            selectedCards.length !==
+            requiredCardCount();
+    }
+}
+
+
+/* =========================================================
+   DISPLAY TAROT RESULT
+   ========================================================= */
+
+function displayTarotResult(data) {
+
+    resultContent.innerHTML =
+        "";
+
+
+    /* =====================================================
+       READING TYPE
+       ===================================================== */
+
+    addSimpleResultSection(
+
+        "🔮 Reading Type",
+
+        formatReadingType(
+
+            data.reading_type ||
+
+            selectedReadingType
+        )
+    );
+
+
+    /* =====================================================
+       SELECTED CARDS
+       ===================================================== */
+
+    let selectedCardsData =
+        [];
+
+
+    /*
+     * Try the current backend
+     * response structures.
+     */
+
+    if (
+        data.tarot &&
+        Array.isArray(
+            data.tarot.cards
+        )
+    ) {
+
+        selectedCardsData =
+            data.tarot.cards;
+
+    } else if (
+        Array.isArray(
+            data.selected_cards
+        )
+    ) {
+
+        selectedCardsData =
+            data.selected_cards;
+
+    } else if (
+        data.tarot_interpretation &&
+        Array.isArray(
+            data.tarot_interpretation.selected_cards
+        )
+    ) {
+
+        selectedCardsData =
+            data.tarot_interpretation
+                .selected_cards;
+    }
+
+
+    if (
+        selectedCardsData.length > 0
+    ) {
+
+        const heading =
+            document.createElement(
+                "div"
+            );
+
+
+        heading.className =
+            "result-card";
+
+
+        heading.innerHTML =
+            "<h3>✨ SELECTED CARDS</h3>" +
+
+            "<p>" +
+            "These are the cards selected for your " +
+            escapeHtml(
+                formatReadingType(
+                    data.reading_type ||
+                    selectedReadingType
+                )
+            ) +
+            " reading." +
+            "</p>";
+
+
+        resultContent.appendChild(
+            heading
+        );
+
+
+        for (
+            let i = 0;
+            i < selectedCardsData.length;
+            i++
+        ) {
+
+            const card =
+                selectedCardsData[i];
+
+
+            const cardBox =
+                document.createElement(
+                    "div"
+                );
+
+
+            cardBox.className =
+                "result-card";
+
+
+            const position =
+                card.position ||
+
+                getPositionName(i);
+
+
+            const cardName =
+                card.card_name ||
+
+                card.name ||
+
+                "Tarot Card";
+
+
+            const meaning =
+                card.meaning ||
+
+                card.card_meaning ||
+
+                "";
+
+
+            const detailedInterpretation =
+                card.detailed_interpretation ||
+
+                "";
+
+
+            let html = "";
+
+
+            html +=
+
+                "<h3>" +
+
+                escapeHtml(
+                    position
+                ) +
+
+                "</h3>";
+
+
+            html +=
+
+                "<h4>" +
+
+                escapeHtml(
+                    cardName
+                ) +
+
+                "</h4>";
+
+
+            if (meaning) {
+
+                html +=
+
+                    "<p>" +
+
+                    "<strong>Meaning</strong><br>" +
+
+                    escapeHtml(
+                        meaning
+                    ) +
+
+                    "</p>";
+            }
+
+
+            if (
+                detailedInterpretation
+            ) {
+
+                html +=
+
+                    "<p>" +
+
+                    "<strong>Interpretation</strong><br>" +
+
+                    escapeHtml(
+                        detailedInterpretation
+                    ) +
+
+                    "</p>";
+            }
+
+
+            cardBox.innerHTML =
+                html;
+
+
+            resultContent.appendChild(
+                cardBox
+            );
+        }
+    }
+
+
+    /* =====================================================
+       INTERPRETATION
+       ===================================================== */
+
+    let interpretation =
+        data.tarot_interpretation;
+
+
+    /*
+     * The current backend may return
+     * tarot_interpretation as an object
+     * or a string.
+     */
+
+
+    if (
+        typeof interpretation ===
+        "string"
+    ) {
+
+        addSimpleResultSection(
+
+            "📝 TAROT INTERPRETATION",
+
+            interpretation
+        );
+
+    } else if (
+        interpretation &&
+        typeof interpretation ===
+        "object"
+    ) {
+
+        displayInterpretationObject(
+            interpretation
+        );
+    }
+
+
+    /* =====================================================
+       FALLBACK INTERPRETATION
+       ===================================================== */
+
+    if (
+        !data.tarot_interpretation &&
+        data.interpretation
+    ) {
+
+        if (
+            typeof data.interpretation ===
+            "string"
+        ) {
+
+            addSimpleResultSection(
+
+                "📝 TAROT INTERPRETATION",
+
+                data.interpretation
+            );
+
+        } else {
+
+            displayInterpretationObject(
+                data.interpretation
+            );
+        }
+    }
+
+
+    /* =====================================================
+       SHOW RESULT
+       ===================================================== */
+
+    resultSection.style.display =
+        "block";
+
+
+    /*
+     * Scroll to the result so the
+     * user can immediately see it.
+     */
+
+    setTimeout(
+        function () {
+
+            resultSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        },
+        100
+    );
+}
+
+
+/* =========================================================
+   DISPLAY INTERPRETATION OBJECT
+   ========================================================= */
+
+function displayInterpretationObject(
+    object
+) {
+
+    /*
+     * Common fields returned by
+     * the Tarot interpretation engine.
+     */
+
+
+    if (
+        object.overall_interpretation
+    ) {
+
+        addSimpleResultSection(
+
+            "🌟 OVERALL INTERPRETATION",
+
+            object.overall_interpretation
+        );
+    }
+
+
+    if (
+        object.interpretation
+    ) {
+
+        addSimpleResultSection(
+
+            "📝 INTERPRETATION",
+
+            object.interpretation
+        );
+    }
+
+
+    if (
+        object.summary
+    ) {
+
+        addSimpleResultSection(
+
+            "📌 SUMMARY",
+
+            object.summary
+        );
+    }
+
+
+    if (
+        object.personality_insight
+    ) {
+
+        addObjectResultSection(
+
+            "🧠 PERSONALITY INSIGHT",
+
+            object.personality_insight
+        );
+    }
+
+
+    if (
+        object.relationship_insight
+    ) {
+
+        addObjectResultSection(
+
+            "❤️ RELATIONSHIP INSIGHT",
+
+            object.relationship_insight
+        );
+    }
+
+
+    if (
+        object.career_insight
+    ) {
+
+        addObjectResultSection(
+
+            "💼 CAREER INSIGHT",
+
+            object.career_insight
+        );
+    }
+
+
+    if (
+        object.financial_insight
+    ) {
+
+        addObjectResultSection(
+
+            "💰 FINANCIAL INSIGHT",
+
+            object.financial_insight
+        );
+    }
+
+
+    if (
+        object.personal_growth
+    ) {
+
+        addObjectResultSection(
+
+            "🌱 PERSONAL GROWTH",
+
+            object.personal_growth
+        );
+    }
+
+
+    if (
+        object.life_opportunities
+    ) {
+
+        addObjectResultSection(
+
+            "🌟 LIFE OPPORTUNITIES",
+
+            object.life_opportunities
+        );
+    }
+
+
+   
+
+
+    if (
+        object.recommendations
+    ) {
+
+        addRecommendationsSection(
+
+            object.recommendations
+        );
+    }
+
+
+    /*
+     * If the backend returns a
+     * different object structure,
+     * display it safely rather than
+     * showing nothing.
+     */
+
+    if (
+        resultContent.children.length === 1
+    ) {
+
+        addGenericObjectResult(
+            object
+        );
+    }
+}
+
+
+/* =========================================================
+   SIMPLE RESULT SECTION
+   ========================================================= */
+
+function addSimpleResultSection(
+    title,
+    text
+) {
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+
+    box.className =
+        "result-card";
+
+
+    box.innerHTML =
+
+        "<h3>" +
+
+        escapeHtml(
+            title
+        ) +
+
+        "</h3>" +
+
+        "<p>" +
+
+        escapeHtml(
+            text
+        ) +
+
+        "</p>";
+
+
+    resultContent.appendChild(
+        box
+    );
+}
+
+
+/* =========================================================
+   OBJECT RESULT SECTION
+   ========================================================= */
+
+function addObjectResultSection(
+    title,
+    object
+) {
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+
+    box.className =
+        "result-card";
+
+
+    let html =
+
+        "<h3>" +
+
+        escapeHtml(
+            title
+        ) +
+
+        "</h3>";
+
+
+    if (
+        typeof object ===
+        "string"
+    ) {
+
+        html +=
+
+            "<p>" +
+
+            escapeHtml(
+                object
+            ) +
+
+            "</p>";
+
+
+        box.innerHTML =
+            html;
+
+
+        resultContent.appendChild(
+            box
+        );
+
+
+        return;
+    }
+
+
+    if (
+        object.title
+    ) {
+
+        html +=
+
+            "<h4>" +
+
+            escapeHtml(
+                object.title
+            ) +
+
+            "</h4>";
+    }
+
+
+    if (
+        object.summary
+    ) {
+
+        html +=
+
+            "<p>" +
+
+            "<strong>Summary</strong><br>" +
+
+            escapeHtml(
+                object.summary
+            ) +
+
+            "</p>";
+    }
+
+
+    if (
+        object.description
+    ) {
+
+        html +=
+
+            "<p>" +
+
+            "<strong>Description</strong><br>" +
+
+            escapeHtml(
+                object.description
+            ) +
+
+            "</p>";
+    }
+
+
+    if (
+        object.guidance
+    ) {
+
+        html +=
+
+            "<p>" +
+
+            "<strong>Guidance</strong><br>" +
+
+            escapeHtml(
+                object.guidance
+            ) +
+
+            "</p>";
+    }
+
+
+    if (
+        object.interpretation
+    ) {
+
+        html +=
+
+            "<p>" +
+
+            "<strong>Interpretation</strong><br>" +
+
+            escapeHtml(
+                object.interpretation
+            ) +
+
+            "</p>";
+    }
+
+
+    if (
+        Array.isArray(
+            object.traits
+        ) &&
+        object.traits.length > 0
+    ) {
+
+        html +=
+            "<p><strong>Traits</strong></p>";
+
+        html +=
+            "<ul>";
+
+
+        for (
+            let i = 0;
+            i < object.traits.length;
+            i++
+        ) {
+
+            html +=
+
+                "<li>" +
+
+                escapeHtml(
+                    object.traits[i]
+                ) +
+
+                "</li>";
+        }
+
+
+        html +=
+            "</ul>";
+    }
+
+
+    if (
+        Array.isArray(
+            object.themes
+        ) &&
+        object.themes.length > 0
+    ) {
+
+        html +=
+            "<p><strong>Themes</strong></p>";
+
+        html +=
+            "<ul>";
+
+
+        for (
+            let i = 0;
+            i < object.themes.length;
+            i++
+        ) {
+
+            html +=
+
+                "<li>" +
+
+                escapeHtml(
+                    object.themes[i]
+                ) +
+
+                "</li>";
+        }
+
+
+        html +=
+            "</ul>";
+    }
+
+
+    if (
+        Array.isArray(
+            object.actions
+        ) &&
+        object.actions.length > 0
+    ) {
+
+        html +=
+            "<p><strong>Actions</strong></p>";
+
+        html +=
+            "<ul>";
+
+
+        for (
+            let i = 0;
+            i < object.actions.length;
+            i++
+        ) {
+
+            html +=
+
+                "<li>" +
+
+                escapeHtml(
+                    object.actions[i]
+                ) +
+
+                "</li>";
+        }
+
+
+        html +=
+            "</ul>";
+    }
+
+
+    if (
+        Array.isArray(
+            object.challenges
+        ) &&
+        object.challenges.length > 0
+    ) {
+
+        html +=
+            "<p><strong>Challenges</strong></p>";
+
+        html +=
+            "<ul>";
+
+
+        for (
+            let i = 0;
+            i < object.challenges.length;
+            i++
+        ) {
+
+            html +=
+
+                "<li>" +
+
+                escapeHtml(
+                    object.challenges[i]
+                ) +
+
+                "</li>";
+        }
+
+
+        html +=
+            "</ul>";
+    }
+
+
+    if (
+        Array.isArray(
+            object.opportunities
+        ) &&
+        object.opportunities.length > 0
+    ) {
+
+        html +=
+            "<p><strong>Opportunities</strong></p>";
+
+        html +=
+            "<ul>";
+
+
+        for (
+            let i = 0;
+            i < object.opportunities.length;
+            i++
+        ) {
+
+            html +=
+
+                "<li>" +
+
+                escapeHtml(
+                    object.opportunities[i]
+                ) +
+
+                "</li>";
+        }
+
+
+        html +=
+            "</ul>";
+    }
+
+
+    if (
+        Array.isArray(
+            object.recommendations
+        ) &&
+        object.recommendations.length > 0
+    ) {
+
+        html +=
+            "<p><strong>Recommendations</strong></p>";
+
+        html +=
+            "<ul>";
+
+
+        for (
+            let i = 0;
+            i < object.recommendations.length;
+            i++
+        ) {
+
+            html +=
+
+                "<li>" +
+
+                escapeHtml(
+                    object.recommendations[i]
+                ) +
+
+                "</li>";
+        }
+
+
+        html +=
+            "</ul>";
+    }
+
+
+    if (
+        object.final_message
+    ) {
+
+        html +=
+
+            "<p>" +
+
+            "<strong>Final Message</strong><br>" +
+
+            escapeHtml(
+                object.final_message
+            ) +
+
+            "</p>";
+    }
+
+
+    box.innerHTML =
+        html;
+
+
+    resultContent.appendChild(
+        box
+    );
+}
+
+
+/* =========================================================
+   RECOMMENDATIONS
+   ========================================================= */
+
+function addRecommendationsSection(
+    recommendations
+) {
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+
+    box.className =
+        "result-card";
+
+
+    let html =
+
+        "<h3>💡 RECOMMENDATIONS</h3>";
+
+
+    if (
+        Array.isArray(
+            recommendations
+        )
+    ) {
+
+        html +=
+            "<ul>";
+
+
+        for (
+            let i = 0;
+            i < recommendations.length;
+            i++
+        ) {
+
+            html +=
+
+                "<li>" +
+
+                escapeHtml(
+                    recommendations[i]
+                ) +
+
+                "</li>";
+        }
+
+
+        html +=
+            "</ul>";
+
+    } else if (
+        typeof recommendations ===
+        "object" &&
+        recommendations !== null
+    ) {
+
+        html +=
+
+            "<pre style='white-space:pre-wrap;'>" +
+
+            escapeHtml(
+                JSON.stringify(
+                    recommendations,
+                    null,
+                    2
+                )
+            ) +
+
+            "</pre>";
+
+    } else {
+
+        html +=
+
+            "<p>" +
+
+            escapeHtml(
+                recommendations
+            ) +
+
+            "</p>";
+    }
+
+
+    box.innerHTML =
+        html;
+
+
+    resultContent.appendChild(
+        box
+    );
+}
+
+
+/* =========================================================
+   GENERIC OBJECT RESULT
+   ========================================================= */
+
+function addGenericObjectResult(
+    object
+) {
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+
+    box.className =
+        "result-card";
+
+
+    let html =
+
+        "<h3>📝 Tarot Interpretation Details</h3>";
+
+
+    const keys =
+        Object.keys(object);
+
+
+    for (
+        let i = 0;
+        i < keys.length;
+        i++
+    ) {
+
+        const key =
+            keys[i];
+
+
+        const value =
+            object[key];
+
+
+        const title =
+            key
+
+                .replace(
+                    /_/g,
+                    " "
+                )
+
+                .replace(
+                    /\b\w/g,
+                    function(letter) {
+
+                        return letter.toUpperCase();
+
+                    }
+                );
+
+
+        html +=
+
+            "<p>" +
+
+            "<strong>" +
+
+            escapeHtml(
+                title
+            ) +
+
+            "</strong><br>";
+
+
+        if (
+            Array.isArray(value)
+        ) {
+
+            html +=
+                "<ul>";
+
+
+            for (
+                let j = 0;
+                j < value.length;
+                j++
+            ) {
+
+                html +=
+
+                    "<li>" +
+
+                    escapeHtml(
+                        typeof value[j] ===
+                        "object"
+
+                            ? JSON.stringify(
+                                value[j]
+                            )
+
+                            : value[j]
+                    ) +
+
+                    "</li>";
+            }
+
+
+            html +=
+                "</ul>";
+
+        } else if (
+            typeof value ===
+                "object" &&
+            value !== null
+        ) {
+
+            html +=
+
+                "<pre style='white-space:pre-wrap;'>" +
+
+                escapeHtml(
+                    JSON.stringify(
+                        value,
+                        null,
+                        2
+                    )
+                ) +
+
+                "</pre>";
+
+        } else {
+
+            html +=
+
+                escapeHtml(
+                    value
+                );
+        }
+
+
+        html +=
+            "</p>";
+    }
+
+
+    box.innerHTML =
+        html;
+
+
+    resultContent.appendChild(
+        box
+    );
+}
+
+
+/* =========================================================
+   FORMAT READING TYPE
+   ========================================================= */
+
+function formatReadingType(
+    value
+) {
+
+    if (!value) {
+
+        return "Tarot Reading";
+    }
+
+
+    const text =
+        String(value)
+            .replace(
+                /_/g,
+                " "
+            );
+
+
+    return text.replace(
+        /\b\w/g,
+        function(letter) {
+
+            return letter.toUpperCase();
+
+        }
+    );
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
+   ========================================================= */
+
+shuffleBtn.addEventListener(
+    "click",
+    shuffleCards
+);
+
+
+generateBtn.addEventListener(
+    "click",
+    generateReading
+);
+
+
+/* =========================================================
+   INITIAL PAGE
+   ========================================================= */
+
+renderCards();
+
+updateCardCount();
+
+
+console.log(
+    "Tarot page loaded successfully."
+);
+
+
+console.log(
+    "Total Tarot cards:",
+    tarotCards.length
+);
+
+</script>
+
+</body>
+
+</html>
