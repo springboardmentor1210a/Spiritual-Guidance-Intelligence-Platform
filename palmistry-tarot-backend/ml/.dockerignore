@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+*.pyo
+training.log
+training.err.log
+.git
+.vscode

@@ -1,0 +1,35 @@
+services:
+  # 1. Computer Vision / ML Service (Python / FastAPI)
+  ml-service:
+    build:
+      context: ./palmistry-tarot-backend/ml
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  # 2. Backend Service (Node.js / Express)
+  backend:
+    build:
+      context: ./palmistry-tarot-backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - PALM_INFERENCE_URL=http://ml-service:8000
+      - JWT_SECRET=palmistry_tarot_dev_secret_key_2026
+    depends_on:
+      - ml-service
+    restart: unless-stopped
+
+  # 3. Frontend Service (React / Vite / Nginx)
+  frontend:
+    build:
+      context: ./palmistry-tarot-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

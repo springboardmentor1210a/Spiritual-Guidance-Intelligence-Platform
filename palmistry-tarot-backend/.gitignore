@@ -1,0 +1,7 @@
+ml-venv/
+ml/runs/
+ml/weights/
+ml/predictions/
+ml/ultralytics-config/
+Ultralytics/
+__pycache__/

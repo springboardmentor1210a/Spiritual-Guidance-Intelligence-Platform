@@ -1,0 +1,32 @@
+{
+  "name": "palmistry-tarot-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:node": "node server.js",
+    "start:ml": "cd ml && ..\\ml-venv\\Scripts\\python.exe -m uvicorn inference_service:app --reload --port 8000",
+    "dev": "npx concurrently \"npm run start:node\" \"npm run start:ml\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.3",
+    "express": "^5.2.1",
+    "form-data": "^4.0.6",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
+    "node-fetch": "^2.7.0",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}

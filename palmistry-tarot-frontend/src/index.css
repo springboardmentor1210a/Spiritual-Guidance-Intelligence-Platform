@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-void: #0F0B1E;
+  --color-surface: #1A1530;
+  --color-surfaceHover: #221C3D;
+  --color-ink: #F3EFE7;
+  --color-inkMuted: #B8B0CC;
+  --color-gold: #C9A15C;
+  --color-goldSoft: #E4C98A;
+  --color-violet: #7C6FE0;
+  --color-line: #2E2748;
+
+  --font-display: "Fraunces", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --radius-card: 12px;
+}
+
+body {
+  @apply bg-void text-ink font-sans;
+}
+
+h1, h2, h3, h4 {
+  @apply font-display;
+}
+
+::selection {
+  @apply bg-gold/30;
+}
+@keyframes scanMove {
+  0% { top: 4%; opacity: 0.95; }
+  50% { opacity: 0.55; }
+  100% { top: 94%; opacity: 0.95; }
+}
+.scan-line {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  box-shadow: 0 0 14px 2px var(--color-gold);
+  animation: scanMove 1.6s ease-in-out infinite;
+}
+
+@keyframes cornerPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+.scan-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: var(--color-gold);
+  animation: cornerPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes drawPalmLine {
+  from { stroke-dashoffset: 1; opacity: 0; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+.palm-line-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawPalmLine 0.7s ease forwards;
+}
+
+@keyframes labelFadeIn {
+  from { opacity: 0; transform: translate(-50%, -46%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+.palm-line-label {
+  animation: labelFadeIn 0.4s ease forwards;
+}
+
+@keyframes tarotShuffle {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(-8deg) translateY(-8px); }
+  75% { transform: rotate(8deg) translateY(4px); }
+}
+.tarot-shuffle-card {
+  animation: tarotShuffle 0.35s ease-in-out infinite;
+}
+
+/* Notification Badge */
+.notification-badge {
+  background-color: #ff0000;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 1;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  user-select: none;
+}

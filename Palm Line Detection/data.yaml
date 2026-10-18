@@ -1,0 +1,13 @@
+train: splits/train/images
+val: splits/valid/images
+test: splits/test/images
+
+nc: 6
+names: ['family ring', 'fate line', 'girdle of venus', 'head line', 'heart line', 'life line']
+
+roboflow:
+  workspace: palm-reading-test
+  project: palm-line-detection-9zzh0
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/palm-reading-test/palm-line-detection-9zzh0/dataset/2
