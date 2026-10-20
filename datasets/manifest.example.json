@@ -1,0 +1,15 @@
+{
+  "dataset_name": "replace-with-approved-dataset",
+  "purpose": "palm-line-detection | hand-landmarks | tarot-card-recognition",
+  "source_url": "",
+  "license": "",
+  "download_date": "",
+  "image_count": 0,
+  "annotation_format": "",
+  "split": {
+    "train": 0,
+    "validation": 0,
+    "test": 0
+  },
+  "notes": "Document provenance, consent, and allowed usage before adding data."
+}

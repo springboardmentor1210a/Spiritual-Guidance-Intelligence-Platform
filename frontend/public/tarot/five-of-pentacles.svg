@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="600" viewBox="0 0 360 600">
+<defs><linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff9ed"/><stop offset="1" stop-color="#e7d2b6"/></linearGradient><linearGradient id="ink" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8e6847"/><stop offset="1" stop-color="#4b3024"/></linearGradient></defs>
+<rect x="7" y="7" width="346" height="586" rx="19" fill="url(#paper)" stroke="#6b4b33" stroke-width="7"/><rect x="20" y="20" width="320" height="560" rx="12" fill="none" stroke="#a77b55" stroke-width="2"/>
+<path d="M35 75 Q180 20 325 75 M35 525 Q180 580 325 525" fill="none" stroke="#b38a63" stroke-width="2"/>
+<circle cx="180" cy="278" r="112" fill="#d9c1a2" stroke="#79543a" stroke-width="4"/><circle cx="180" cy="278" r="94" fill="none" stroke="#a77b55" stroke-width="2" stroke-dasharray="5 8"/>
+<text x="180" y="315" text-anchor="middle" font-size="112" fill="url(#ink)" font-family="Georgia,serif">❋</text>
+<text x="180" y="55" text-anchor="middle" font-size="18" letter-spacing="4" fill="#79543a" font-family="Georgia,serif">5</text>
+<text x="180" y="455" text-anchor="middle" font-size="20" fill="#4b3024" font-family="Georgia,serif">Five of Pentacles</text>
+<text x="180" y="485" text-anchor="middle" font-size="11" letter-spacing="3" fill="#8e6847" font-family="Arial,sans-serif">PENTACLES</text>
+<path d="M70 115 l12 -12 12 12 -12 12z M266 115 l12 -12 12 12 -12 12z M70 485 l12 -12 12 12 -12 12z M266 485 l12 -12 12 12 -12 12z" fill="#a77b55"/>
+</svg>

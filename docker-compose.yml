@@ -1,0 +1,66 @@
+﻿services:
+  db:
+    image: postgres:18-alpine
+    container_name: palmistry-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-palmistry_tarot}
+      POSTGRES_USER: ${POSTGRES_USER:-palmistry_app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - palmistry_postgres_data_v18:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-palmistry_app} -d ${POSTGRES_DB:-palmistry_tarot}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - palmistry-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: palmistry-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-palmistry_app}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-palmistry_tarot}
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost}
+      BACKEND_ORIGIN: ${BACKEND_ORIGIN:-http://localhost:8000}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - palmistry_uploads:/app/uploads
+    networks:
+      - palmistry-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+        VITE_GOOGLE_LOGIN_URL: ${VITE_GOOGLE_LOGIN_URL:-http://localhost:8000/api/auth/google/login}
+    container_name: palmistry-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - palmistry-network
+
+volumes:
+  palmistry_postgres_data:
+  palmistry_postgres_data_v18:
+  palmistry_uploads:
+
+networks:
+  palmistry-network:
+    driver: bridge
+

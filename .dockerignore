@@ -1,0 +1,25 @@
+# Local environments and caches
+**/.venv
+**/venv
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/node_modules
+**/dist
+**/.git
+**/.idea
+**/.vscode
+
+# Secrets and local environment files
+**/.env
+**/.env.*
+!**/.env.example
+!backend/.env.docker.example
+
+# Local databases, logs, uploads and exports
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+**/*.log
+**/uploads
+**/coverage
