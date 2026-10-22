@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>History - AI Palmistry & Tarot</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f3fa;
+        }
+
+        .history-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .history-header h1 {
+            color: #4b2e83;
+            margin: 0;
+        }
+
+        .back-btn {
+            background: #673ab7;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            background: #512da8;
+        }
+
+        .history-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .history-section h2 {
+            color: #673ab7;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .history-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 15px;
+            background: #fafafa;
+        }
+
+        .history-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-card h3 {
+            color: #4b2e83;
+            margin-top: 8px;
+        }
+
+        .history-card p {
+            margin: 8px 0;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .date {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #ede7f6;
+            color: #673ab7;
+            font-size: 13px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 30px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #673ab7;
+            padding: 20px;
+        }
+
+        .error {
+            text-align: center;
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .meaning {
+            background: white;
+            padding: 12px;
+            border-left: 4px solid #673ab7;
+            margin-top: 10px;
+            border-radius: 5px;
+            line-height: 1.6;
+        }
+
+        .interpretation {
+            background: white;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 5px;
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+
+        .refresh-btn {
+            background: #673ab7;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn:hover {
+            background: #512da8;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="history-container">
+
+
+    <!-- HEADER -->
+
+    <div class="history-header">
+
+        <h1>📜 My History</h1>
+
+        <a href="dashboard.html" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <button
+        class="refresh-btn"
+        onclick="loadHistory()">
+
+        🔄 Refresh History
+
+    </button>
+
+
+    <!-- =========================
+         PALMISTRY HISTORY
+    ========================== -->
+
+    <div class="history-section">
+
+        <h2>🖐️ Palmistry History</h2>
+
+        <div id="palmHistory">
+
+            <div class="loading">
+                Loading palmistry history...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         TAROT HISTORY
+    ========================== -->
+
+    <div class="history-section">
+
+        <h2>🔮 Tarot History</h2>
+
+        <div id="tarotHistory">
+
+            <div class="loading">
+                Loading tarot history...
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* ==============================
+   API CONFIGURATION
+============================== */
+
+const API_BASE = "http://127.0.0.1:8001";
+
+
+/* ==============================
+   GET LOGIN TOKEN
+============================== */
+
+function getToken() {
+
+    return (
+        localStorage.getItem("access_token") ||
+        localStorage.getItem("token")
+    );
+
+}
+
+
+let token = getToken();
+
+
+/* ==============================
+   CHECK LOGIN
+============================== */
+
+if (!token) {
+
+    alert("Please login first.");
+
+    window.location.href = "login.html";
+
+}
+
+
+/* ==============================
+   HANDLE UNAUTHORIZED RESPONSE
+============================== */
+
+function handleUnauthorized(response) {
+
+    if (response.status === 401) {
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("token");
+
+        alert("Your login session has expired. Please login again.");
+
+        window.location.href = "login.html";
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+/* ==============================
+   FORMAT DATE
+============================== */
+
+function formatDate(dateValue) {
+
+    if (!dateValue) {
+
+        return "Date not available";
+
+    }
+
+
+    const date = new Date(dateValue);
+
+
+    if (isNaN(date.getTime())) {
+
+        return String(dateValue);
+
+    }
+
+
+    return date.toLocaleString();
+
+}
+
+
+/* ==============================
+   LOAD PALMISTRY HISTORY
+============================== */
+
+async function loadPalmHistory() {
+
+    const container =
+        document.getElementById("palmHistory");
+
+
+    container.innerHTML =
+        '<div class="loading">' +
+        'Loading palmistry history...' +
+        '</div>';
+
+
+    token = getToken();
+
+
+    if (!token) {
+
+        container.innerHTML =
+            '<div class="error">' +
+            'Please login first.' +
+            '</div>';
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const response = await fetch(
+
+            API_BASE + "/palmistry/history",
+
+            {
+
+                method: "GET",
+
+                headers: {
+
+                    "Authorization":
+                        "Bearer " + token,
+
+                    "Content-Type":
+                        "application/json"
+
+                }
+
+            }
+
+        );
+
+
+        if (handleUnauthorized(response)) {
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            console.error(
+                "Palmistry history response:",
+                errorText
+            );
+
+            throw new Error(
+                "Palmistry history request failed"
+            );
+
+        }
+
+
+        const data = await response.json();
+
+
+        console.log(
+            "Palmistry History:",
+            data
+        );
+
+
+        let readings = data.readings;
+
+
+        if (!readings) {
+
+            readings = data.palmistry;
+
+        }
+
+
+        if (!readings) {
+
+            readings = data.data;
+
+        }
+
+
+        if (!readings) {
+
+            readings = data;
+
+        }
+
+
+        if (!Array.isArray(readings)) {
+
+            readings = [];
+
+        }
+
+
+        if (readings.length === 0) {
+
+            container.innerHTML =
+                '<div class="empty">' +
+
+                'No palmistry history found.' +
+
+                '<br><br>' +
+
+                'Upload a palm image to create ' +
+                'your first reading.' +
+
+                '</div>';
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        readings.forEach(function(reading) {
+
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "history-card";
+
+
+            let html = "";
+
+
+            html +=
+                '<span class="badge">' +
+                'Palm Reading' +
+                '</span>';
+
+
+            html +=
+                '<h3>🖐️ Palm Reading #' +
+                (
+                    reading.id ||
+                    reading.reading_id ||
+                    reading.palm_reading_id ||
+                    ""
+                ) +
+                '</h3>';
+
+
+            html +=
+                '<p class="date">' +
+                formatDate(
+                    reading.created_at
+                ) +
+                '</p>';
+
+
+            html +=
+                '<p>' +
+                '<strong>Palm Shape:</strong> ' +
+                (
+                    reading.palm_shape ||
+                    reading.other_features?.palm_shape ||
+                    "Not available"
+                ) +
+                '</p>';
+
+
+            html +=
+                '<p>' +
+                '<strong>Heart Line:</strong> ' +
+                (
+                    reading.heart_line ||
+                    "Not detected"
+                ) +
+                '</p>';
+
+
+            html +=
+                '<p>' +
+                '<strong>Head Line:</strong> ' +
+                (
+                    reading.head_line ||
+                    "Not detected"
+                ) +
+                '</p>';
+
+
+            html +=
+                '<p>' +
+                '<strong>Life Line:</strong> ' +
+                (
+                    reading.life_line ||
+                    "Not detected"
+                ) +
+                '</p>';
+
+
+            html +=
+                '<p>' +
+                '<strong>Fate Line:</strong> ' +
+                (
+                    reading.fate_line ||
+                    "Not detected"
+                ) +
+                '</p>';
+
+
+            html +=
+                '<div class="interpretation">' +
+
+                '<strong>Interpretation:</strong>' +
+
+                '<br>' +
+
+                (
+                    reading.interpretation ||
+                    "No interpretation available."
+                ) +
+
+                '</div>';
+
+
+            if (reading.personalized_guidance) {
+
+                html +=
+                    '<div class="interpretation">' +
+
+                    '<strong>Personalized Guidance:</strong>' +
+
+                    '<br><br>' +
+
+                    reading.personalized_guidance +
+
+                    '</div>';
+
+            }
+
+
+            card.innerHTML = html;
+
+
+            container.appendChild(card);
+
+
+        });
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Palmistry history error:",
+            error
+        );
+
+
+        container.innerHTML =
+            '<div class="error">' +
+
+            'Unable to load palmistry history.' +
+
+            '<br><br>' +
+
+            'Please make sure the backend is running.' +
+
+            '<br><br>' +
+
+            'Error: ' +
+            error.message +
+
+            '</div>';
+
+    }
+
+}
+
+
+/* ==============================
+   LOAD TAROT HISTORY
+============================== */
+
+async function loadTarotHistory() {
+
+    const container =
+        document.getElementById("tarotHistory");
+
+
+    container.innerHTML =
+        '<div class="loading">' +
+        'Loading tarot history...' +
+        '</div>';
+
+
+    token = getToken();
+
+
+    if (!token) {
+
+        container.innerHTML =
+            '<div class="error">' +
+            'Please login first.' +
+            '</div>';
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const response = await fetch(
+
+            API_BASE + "/tarot/reports",
+
+            {
+
+                method: "GET",
+
+                headers: {
+
+                    "Authorization":
+                        "Bearer " + token,
+
+                    "Content-Type":
+                        "application/json"
+
+                }
+
+            }
+
+        );
+
+
+        if (handleUnauthorized(response)) {
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            console.error(
+                "Tarot history response:",
+                errorText
+            );
+
+            throw new Error(
+                "Tarot history request failed"
+            );
+
+        }
+
+
+        const data = await response.json();
+
+
+        console.log(
+            "Tarot History:",
+            data
+        );
+
+
+        let readings = data.reports;
+
+
+        if (!readings) {
+
+            readings = data.readings;
+
+        }
+
+
+        if (!readings) {
+
+            readings = data.tarot;
+
+        }
+
+
+        if (!readings) {
+
+            readings = data.data;
+
+        }
+
+
+        if (!readings) {
+
+            readings = data;
+
+        }
+
+
+        if (!Array.isArray(readings)) {
+
+            readings = [];
+
+        }
+
+
+        if (readings.length === 0) {
+
+            container.innerHTML =
+                '<div class="empty">' +
+
+                'No tarot history found.' +
+
+                '<br><br>' +
+
+                'Select a tarot card to create ' +
+                'a reading.' +
+
+                '</div>';
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        readings.forEach(function(reading) {
+
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "history-card";
+
+
+            const cardName =
+
+                reading.card_name ||
+
+                reading.tarot_card ||
+
+                reading.card ||
+
+                reading.name ||
+
+                "Tarot Card";
+
+
+            const meaning =
+
+                reading.meaning ||
+
+                reading.tarot_meaning ||
+
+                reading.description ||
+
+                "";
+
+
+            const interpretation =
+
+                reading.interpretation ||
+
+                reading.tarot_interpretation ||
+
+                "";
+
+
+            let html = "";
+
+
+            html +=
+                '<span class="badge">' +
+                'Tarot Reading' +
+                '</span>';
+
+
+            html +=
+                '<h3>🔮 ' +
+                cardName +
+                '</h3>';
+
+
+            html +=
+                '<p class="date">' +
+                formatDate(
+                    reading.created_at
+                ) +
+                '</p>';
+
+
+            if (meaning) {
+
+                html +=
+                    '<div class="meaning">' +
+
+                    '<strong>Meaning:</strong>' +
+
+                    '<br>' +
+
+                    meaning +
+
+                    '</div>';
+
+            }
+
+
+            if (interpretation) {
+
+                html +=
+                    '<div class="interpretation">' +
+
+                    '<strong>Interpretation:</strong>' +
+
+                    '<br>' +
+
+                    interpretation +
+
+                    '</div>';
+
+            }
+
+
+            if (reading.personalized_guidance) {
+
+                html +=
+                    '<div class="interpretation">' +
+
+                    '<strong>Personalized Guidance:</strong>' +
+
+                    '<br><br>' +
+
+                    reading.personalized_guidance +
+
+                    '</div>';
+
+            }
+
+
+            card.innerHTML = html;
+
+
+            container.appendChild(card);
+
+
+        });
+
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "Tarot history error:",
+            error
+        );
+
+
+        container.innerHTML =
+            '<div class="error">' +
+
+            'Unable to load tarot history.' +
+
+            '<br><br>' +
+
+            'Please make sure the backend is running.' +
+
+            '<br><br>' +
+
+            'Error: ' +
+            error.message +
+
+            '</div>';
+
+    }
+
+}
+
+
+/* ==============================
+   LOAD BOTH HISTORIES
+============================== */
+
+async function loadHistory() {
+
+    await loadPalmHistory();
+
+    await loadTarotHistory();
+
+}
+
+
+/* ==============================
+   START
+============================== */
+
+loadHistory();
+
+
+</script>
+
+
+</body>
+
+</html>

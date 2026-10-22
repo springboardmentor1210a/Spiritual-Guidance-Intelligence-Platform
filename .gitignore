@@ -1,0 +1,30 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+.pytest_cache/
+
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Local databases and generated files
+*.db
+*.sqlite
+*.sqlite3
+generated_reports/
+*.log
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Backup folders
+frontend-backup-before-docker/
+# Keep local backup files out of GitHub
+backend/routes/personalized_guidance_backup.py
+frontend/tarot-reader-dashboard-backup.html

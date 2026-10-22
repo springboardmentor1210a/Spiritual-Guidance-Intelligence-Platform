@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Palmistry & Tarot AI</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    --purple: #7027a0;
+    --purple-dark: #35104f;
+    --purple-light: #f2e9fa;
+    --bg: #f6f5fa;
+    --white: #ffffff;
+    --text: #29243a;
+    --muted: #817b91;
+    --border: #ece8f3;
+    --green: #169b70;
+    --red: #d94c63;
+    --shadow: 0 5px 22px rgba(40, 15, 70, .06);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button, input, select { font: inherit; }
+
+button { cursor: pointer; }
+
+.app { min-height: 100vh; }
+
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 255px;
+    background: linear-gradient(180deg, #391250, #251039);
+    color: white;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+    overflow-y: auto;
+}
+
+.brand {
+    padding: 0 12px 25px;
+    border-bottom: 1px solid #ffffff20;
+}
+
+.brand-icon {
+    font-size: 29px;
+    margin-bottom: 9px;
+}
+
+.brand h2 {
+    font-size: 18px;
+    margin: 0 0 7px;
+}
+
+.brand p {
+    font-size: 12px;
+    color: #d4c4e1;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.nav-label {
+    color: #bfa9ce;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    padding: 24px 12px 10px;
+}
+
+.nav-btn {
+    border: 0;
+    width: 100%;
+    text-align: left;
+    color: #e4d8ed;
+    background: transparent;
+    border-radius: 9px;
+    padding: 13px 12px;
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: #ffffff19;
+    color: white;
+}
+
+.nav-btn.active {
+    box-shadow: inset 3px 0 #d8a8ff;
+}
+
+.nav-icon {
+    width: 22px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 25px;
+}
+
+.admin-profile {
+    padding: 14px 9px;
+    border-top: 1px solid #ffffff20;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px;
+}
+
+.avatar {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    background: #8b4bb3;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.admin-profile small {
+    display: block;
+    color: #c9b6d8;
+    margin-top: 4px;
+}
+
+.main {
+    margin-left: 255px;
+    padding: 25px 30px 40px;
+    min-width: 0;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+}
+
+.topbar h1 {
+    font-size: 25px;
+    margin: 0 0 7px;
+}
+
+.topbar p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.top-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.btn-primary {
+    background: var(--purple);
+    color: white;
+    border-color: var(--purple);
+}
+
+.btn:hover { opacity: .88; }
+
+.section { display: none; }
+.section.active { display: block; }
+
+.section-heading {
+    margin: 0 0 19px;
+}
+
+.section-heading h2 {
+    font-size: 19px;
+    margin: 0 0 6px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 12px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.status {
+    padding: 11px 14px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.status.error {
+    border-color: #f2c4cc;
+    color: var(--red);
+    background: #fff7f8;
+}
+
+.status.success {
+    color: var(--green);
+    background: #f3fbf7;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.kpi {
+    background: white;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    border-radius: 13px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.kpi-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 17px;
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.kpi-icon {
+    background: var(--purple-light);
+    color: var(--purple);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+}
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+.kpi-note {
+    margin-top: 9px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.panel, .table-panel {
+    min-width: 0;
+    background: white;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    border-radius: 13px;
+    padding: 20px;
+    margin-bottom: 19px;
+}
+
+.panel h3, .table-panel h3 {
+    font-size: 14px;
+    margin: 0 0 6px;
+}
+
+.panel-subtitle {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    margin: 0 0 18px;
+}
+
+.chart-wrap {
+    height: 270px;
+    position: relative;
+    width: 100%;
+}
+
+.chart-wrap.tall { height: 320px; }
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 17px;
+}
+
+.table-tools {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.field {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 11px;
+    color: var(--text);
+    outline: none;
+    min-width: 140px;
+    max-width: 100%;
+    font-size: 12px;
+}
+
+.field:focus { border-color: var(--purple); }
+
+.table-scroll {
+    overflow-x: auto;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+th {
+    background: #faf8fc;
+    color: var(--muted);
+    text-align: left;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+th, td {
+    border-bottom: 1px solid var(--border);
+    padding: 13px 12px;
+}
+
+td { color: #494258; }
+
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 28px 10px;
+    font-size: 12px;
+}
+
+.pill {
+    display: inline-block;
+    background: var(--purple-light);
+    color: var(--purple);
+    padding: 5px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+.small-muted {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.mobile-menu { display: none; }
+
+@media (max-width: 1100px) {
+    .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .main { padding: 22px; }
+}
+
+@media (max-width: 760px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform .2s;
+        box-shadow: var(--shadow);
+    }
+
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 17px; }
+    .mobile-menu { display: inline-block; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .topbar h1 { font-size: 21px; }
+    .kpi { padding: 15px; }
+    .kpi-value { font-size: 24px; }
+}
+
+@media (max-width: 420px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .kpi-value { font-size: 21px; }
+    .kpi-label { font-size: 11px; }
+    .panel, .table-panel { padding: 14px; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+    <div class="brand">
+        <div class="brand-icon">✧</div>
+        <h2>Palm & Tarot AI</h2>
+        <p>Administrator Control Center</p>
+    </div>
+
+    <div class="nav-label">ADMINISTRATION</div>
+
+    <button class="nav-btn active" data-page="overview">
+        <span class="nav-icon">▦</span> Dashboard Overview
+    </button>
+    <button class="nav-btn" data-page="users">
+        <span class="nav-icon">♙</span> User Management
+    </button>
+    <button class="nav-btn" data-page="analytics">
+        <span class="nav-icon">⌁</span> Platform Analytics
+    </button>
+    <button class="nav-btn" data-page="readings">
+        <span class="nav-icon">✧</span> Reading Statistics
+    </button>
+    <button class="nav-btn" data-page="reports">
+        <span class="nav-icon">▤</span> System Reports
+    </button>
+
+    <div class="sidebar-bottom">
+        <button class="nav-btn" id="logoutButton">
+            <span class="nav-icon">⇥</span> Logout
+        </button>
+        <div class="admin-profile">
+            <div class="avatar">A</div>
+            <div>
+                <strong>Administrator</strong>
+                <small>Platform management</small>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<main class="main">
+    <header class="topbar">
+        <div style="display:flex;gap:12px;align-items:center">
+            <button class="btn mobile-menu" id="menuButton">☰</button>
+            <div>
+                <h1 id="pageTitle">Dashboard Overview</h1>
+                <p>AI-Powered Palmistry and Tarot Intelligence Platform</p>
+            </div>
+        </div>
+        <div class="top-actions">
+            <span class="small-muted" id="lastUpdated">Not refreshed yet</span>
+            <button class="btn btn-primary" id="refreshButton">↻ Refresh Data</button>
+        </div>
+    </header>
+
+    <div id="globalStatus" class="status" role="status">
+        Connecting to the backend...
+    </div>
+
+    <!-- OVERVIEW -->
+    <section class="section active" id="page-overview">
+        <div class="section-heading">
+            <h2>Platform Overview</h2>
+            <p>Summary of statistics returned by your backend.</p>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Total Users</span>
+                    <span class="kpi-icon">♙</span>
+                </div>
+                <div class="kpi-value" id="totalUsers">—</div>
+                <div class="kpi-note">Registered platform users</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Palm Readings</span>
+                    <span class="kpi-icon">✋</span>
+                </div>
+                <div class="kpi-value" id="totalPalm">—</div>
+                <div class="kpi-note">Palmistry records</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">Tarot Readings</span>
+                    <span class="kpi-icon">✧</span>
+                </div>
+                <div class="kpi-value" id="totalTarot">—</div>
+                <div class="kpi-note">Tarot reading records</div>
+            </div>
+
+            <div class="kpi">
+                <div class="kpi-top">
+                    <span class="kpi-label">System Reports</span>
+                    <span class="kpi-icon">▤</span>
+                </div>
+                <div class="kpi-value" id="totalReports">—</div>
+                <div class="kpi-note">Generated reports</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Reading Activity</h3>
+                <p class="panel-subtitle">Daily readings grouped by creation date when available.</p>
+                <div class="chart-wrap"><canvas id="overviewActivityChart"></canvas></div>
+            </div>
+
+            <div class="panel">
+                <h3>Reading Distribution</h3>
+                <p class="panel-subtitle">Palmistry compared with tarot readings.</p>
+                <div class="chart-wrap"><canvas id="overviewDistributionChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>User Role Distribution</h3>
+            <p class="panel-subtitle">Roles reported by the administrator summary endpoint.</p>
+            <div class="chart-wrap"><canvas id="overviewRolesChart"></canvas></div>
+        </div>
+    </section>
+
+    <!-- USER MANAGEMENT -->
+    <section class="section" id="page-users">
+        <div class="section-heading">
+            <h2>User Management</h2>
+            <p>Inspect available user records and their assigned roles. User administration requires a compatible backend endpoint.</p>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-label">Users Returned</div>
+                <div class="kpi-value" id="usersLoaded">—</div>
+                <div class="kpi-note">Records returned by the user API</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-label">Role Types</div>
+                <div class="kpi-value" id="roleTypes">—</div>
+                <div class="kpi-note">Distinct roles found</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>User Role Distribution</h3>
+            <p class="panel-subtitle">Distribution based on user records or the admin summary.</p>
+            <div class="chart-wrap"><canvas id="userRolesChart"></canvas></div>
+        </div>
+
+        <div class="table-panel">
+            <div class="table-header">
+                <h3>Registered Users</h3>
+                <div class="table-tools">
+                    <input class="field" id="userSearch" type="search" placeholder="Search users">
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead><tr>
+                        <th>User ID</th><th>Username</th><th>Email</th><th>Role</th><th>Status</th>
+                    </tr></thead>
+                    <tbody id="usersTable">
+                        <tr><td colspan="5" class="empty">Loading users...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="small-muted">If no user endpoint is configured, the table will explain what is missing. This page does not create, edit, or delete accounts.</p>
+        </div>
+    </section>
+
+    <!-- PLATFORM ANALYTICS -->
+    <section class="section" id="page-analytics">
+        <div class="section-heading">
+            <h2>Platform Analytics</h2>
+            <p>Platform usage trends from available backend records.</p>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Monthly Reading Activity</h3>
+                <p class="panel-subtitle">Readings grouped by month using recorded timestamps.</p>
+                <div class="chart-wrap tall"><canvas id="monthlyActivityChart"></canvas></div>
+            </div>
+            <div class="panel">
+                <h3>Monthly Report Activity</h3>
+                <p class="panel-subtitle">Reports grouped by their stored creation dates.</p>
+                <div class="chart-wrap tall"><canvas id="monthlyReportsChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Platform Data Availability</h3>
+                <p class="panel-subtitle">Shows which backend data sources responded successfully.</p>
+                <div class="chart-wrap"><canvas id="sourceStatusChart"></canvas></div>
+            </div>
+            <div class="panel">
+                <h3>Session Overview</h3>
+                <p class="panel-subtitle">Session information, when available to this administrator.</p>
+                <div class="chart-wrap"><canvas id="sessionChart"></canvas></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- READING STATISTICS -->
+    <section class="section" id="page-readings">
+        <div class="section-heading">
+            <h2>Reading Statistics</h2>
+            <p>Analyze reading volume, reading types, and recorded activity.</p>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Palmistry vs Tarot</h3>
+                <p class="panel-subtitle">Comparison based on backend statistics.</p>
+                <div class="chart-wrap"><canvas id="readingComparisonChart"></canvas></div>
+            </div>
+            <div class="panel">
+                <h3>Tarot Reading Types</h3>
+                <p class="panel-subtitle">Types returned by the administrator summary or tarot API.</p>
+                <div class="chart-wrap"><canvas id="readingTypesChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>Reading Trends</h3>
+            <p class="panel-subtitle">Daily reading creation dates. Records without dates cannot be plotted.</p>
+            <div class="chart-wrap tall"><canvas id="readingTrendChart"></canvas></div>
+        </div>
+    </section>
+
+    <!-- SYSTEM REPORTS -->
+    <section class="section" id="page-reports">
+        <div class="section-heading">
+            <h2>System Reports</h2>
+            <p>Report totals, type distribution, and creation history from GET /reports.</p>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-label">Reports Loaded</div>
+                <div class="kpi-value" id="reportsLoaded">—</div>
+                <div class="kpi-note">Records returned by the API</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-label">Combined Reports</div>
+                <div class="kpi-value" id="combinedReports">—</div>
+                <div class="kpi-note">Combined report records</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-label">Tarot Reports</div>
+                <div class="kpi-value" id="tarotReports">—</div>
+                <div class="kpi-note">Tarot report records</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-label">Palmistry Reports</div>
+                <div class="kpi-value" id="palmReports">—</div>
+                <div class="kpi-note">Palmistry report records</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel">
+                <h3>Reports by Type</h3>
+                <p class="panel-subtitle">Distribution of report types returned by the backend.</p>
+                <div class="chart-wrap"><canvas id="reportTypesChart"></canvas></div>
+            </div>
+            <div class="panel">
+                <h3>Report Creation Trend</h3>
+                <p class="panel-subtitle">Reports grouped by stored creation date.</p>
+                <div class="chart-wrap"><canvas id="reportTrendChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="table-panel">
+            <div class="table-header">
+                <h3>Recent System Reports</h3>
+                <div class="table-tools">
+                    <input class="field" type="search" id="reportSearch" placeholder="Search reports">
+                    <select class="field" id="reportTypeFilter">
+                        <option value="">All report types</option>
+                        <option value="combined">Combined</option>
+                        <option value="tarot">Tarot</option>
+                        <option value="palmistry">Palmistry</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead><tr>
+                        <th>Report ID</th><th>Title</th><th>Type</th>
+                        <th>Palm Reading ID</th><th>Tarot Reading ID</th>
+                        <th>Created At</th><th>Action</th>
+                    </tr></thead>
+                    <tbody id="reportsTable">
+                        <tr><td colspan="7" class="empty">Loading reports...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+</div>
+
+<script>
+"use strict";
+
+/* -------------------------------------------------------
+   CONFIGURATION
+------------------------------------------------------- */
+
+const API_BASE = "http://127.0.0.1:8001";
+const TOKEN_KEY = "access_token";
+
+const state = {
+    summary: null,
+    reports: [],
+    users: [],
+    sessions: [],
+    palmReadings: [],
+    tarotReadings: [],
+    sourceStatus: {},
+    charts: {}
+};
+
+const $ = id => document.getElementById(id);
+
+function getToken() {
+    return localStorage.getItem(TOKEN_KEY) ||
+           localStorage.getItem("token") || "";
+}
+
+function setStatus(message, type = "") {
+    const el = $("globalStatus");
+    el.textContent = message;
+    el.className = "status" + (type ? " " + type : "");
+}
+
+function numberText(value) {
+    if (value === null || value === undefined || value === "") return "—";
+    const number = Number(value);
+    return Number.isFinite(number) ? number.toLocaleString() : "—";
+}
+
+function findNumber(object, names) {
+    if (!object || typeof object !== "object") return null;
+
+    const wanted = names.map(name => name.toLowerCase());
+
+    for (const [key, value] of Object.entries(object)) {
+        if (wanted.includes(key.toLowerCase()) &&
+            typeof value === "number" &&
+            Number.isFinite(value)) {
+            return value;
+        }
+    }
+
+    for (const value of Object.values(object)) {
+        if (value && typeof value === "object") {
+            const found = findNumber(value, names);
+            if (found !== null) return found;
+        }
+    }
+
+    return null;
+}
+
+function findObject(object, names) {
+    if (!object || typeof object !== "object") return null;
+
+    const wanted = names.map(name => name.toLowerCase());
+
+    for (const [key, value] of Object.entries(object)) {
+        if (wanted.includes(key.toLowerCase()) &&
+            value && typeof value === "object" &&
+            !Array.isArray(value)) {
+            return value;
+        }
+    }
+
+    for (const value of Object.values(object)) {
+        if (value && typeof value === "object") {
+            const found = findObject(value, names);
+            if (found) return found;
+        }
+    }
+
+    return null;
+}
+
+function asArray(data, preferredKeys = []) {
+    // The API may return an array directly.
+    if (Array.isArray(data)) {
+        return data;
+    }
+
+    // Extract arrays from common API response formats.
+    if (data && typeof data === "object") {
+        for (const key of preferredKeys) {
+            if (Array.isArray(data[key])) {
+                return data[key];
+            }
+        }
+
+        // Support nested response formats, if present.
+        for (const key of ["data", "result", "response"]) {
+            const nested = data[key];
+
+            if (Array.isArray(nested)) {
+                return nested;
+            }
+
+            if (nested && typeof nested === "object") {
+                for (const preferredKey of preferredKeys) {
+                    if (Array.isArray(nested[preferredKey])) {
+                        return nested[preferredKey];
+                    }
+                }
+            }
+        }
+    }
+
+    return [];
+}
+
+async function apiJSON(path) {
+    const token = getToken();
+
+    const response = await fetch(API_BASE + path, {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+            ...(token ? { "Authorization": "Bearer " + token } : {})
+        }
+    });
+
+    if (!response.ok) {
+        throw new Error(path + " returned HTTP " + response.status);
+    }
+
+    return response.json();
+}
+
+function markSource(path, success, message = "") {
+    state.sourceStatus[path] = { success, message };
+}
+
+function safeDate(value) {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function reportDate(report) {
+    return (
+        report.created_at ??
+        report["created at"]??
+        report.createdAt ??
+        report.creation_date ??
+        report.creationDate ??
+        report.created_on ??
+        report.createdOn ??
+        report.recorded_at ??
+        report.recordedAt ??
+        report.timestamp ??
+        report.date ??
+        null
+    );
+}
+
+function readingDate(reading) {
+    if (!reading || typeof reading !== "object") {
+        return null;
+    }
+
+    // Check common date fields used by the backend.
+    const possibleDates = [
+        reading.created_at,
+        reading.createdAt,
+        reading["created at"],
+        reading.recorded_at,
+        reading.recordedAt,
+        reading.created_on,
+        reading.createdOn,
+        reading.updated_at,
+        reading.updatedAt,
+        reading.timestamp,
+        reading.reading_date,
+        reading.readingDate,
+        reading.date
+    ];
+
+    for (const value of possibleDates) {
+        if (value === null || value === undefined || value === "") {
+            continue;
+        }
+
+        const parsed = new Date(value);
+
+        if (!Number.isNaN(parsed.getTime())) {
+            return parsed;
+        }
+    }
+
+    return null;
+}
+
+function reportType(report) {
+    return String(report.report_type ?? report.type ?? "unknown")
+        .toLowerCase();
+}
+
+function normalizeReport(report) {
+    return {
+        report_id: report.report_id ?? report.id ?? "—",
+        title: report.title ?? "Untitled report",
+        report_type: reportType(report),
+        palm_reading_id: report.palm_reading_id ?? "—",
+        tarot_reading_id: report.tarot_reading_id ?? "—",
+        created_at: reportDate(report)
+    };
+}
+
+/* -------------------------------------------------------
+   CHART HELPERS
+------------------------------------------------------- */
+
+function destroyChart(id) {
+    if (state.charts[id]) {
+        state.charts[id].destroy();
+        delete state.charts[id];
+    }
+}
+
+function createChart(id, type, labels, datasets, extraOptions = {}) {
+    const canvas = $(id);
+    if (!canvas || typeof Chart === "undefined") return;
+
+    destroyChart(id);
+
+    state.charts[id] = new Chart(canvas, {
+        type,
+        data: { labels, datasets },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { intersect: false, mode: "index" },
+            plugins: {
+                legend: {
+                    display: type === "doughnut" ||
+                             type === "pie" ||
+                             type === "polarArea",
+                    position: "bottom",
+                    labels: {
+                        usePointStyle: true,
+                        boxWidth: 8,
+                        padding: 16
+                    }
+                }
+            },
+            scales: ["doughnut", "pie", "polarArea"].includes(type)
+                ? {}
+                : {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: "#817b91" }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: { precision: 0, color: "#817b91" },
+                        grid: { color: "#f0edf5" }
+                    }
+                },
+            ...extraOptions
+        }
+    });
+}
+
+function countBy(items, key) {
+    const result = {};
+    for (const item of items) {
+        const name = String(item[key] ?? "unknown");
+        result[name] = (result[name] || 0) + 1;
+    }
+    return result;
+}
+
+function groupByDate(items, dateFunction) {
+    const counts = {};
+
+    for (const item of (items || [])) {
+        const rawDate = dateFunction(item);
+
+        if (!rawDate) {
+            continue;
+        }
+
+        const date = rawDate instanceof Date
+            ? rawDate
+            : new Date(rawDate);
+
+        if (Number.isNaN(date.getTime())) {
+            continue;
+        }
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const key = `${year}-${month}-${day}`;
+
+        counts[key] = (counts[key] || 0) + 1;
+    }
+
+    const labels = Object.keys(counts).sort();
+
+    return {
+        labels,
+        values: labels.map(label => counts[label])
+    };
+}
+function groupByMonth(items, dateFunction) {
+    const counts = {};
+
+    for (const item of items) {
+        const date = safeDate(dateFunction(item));
+        if (!date) continue;
+
+        const key = date.toISOString().slice(0, 7);
+        counts[key] = (counts[key] || 0) + 1;
+    }
+
+    const labels = Object.keys(counts).sort();
+
+    return {
+        labels,
+        values: labels.map(label => counts[label])
+    };
+}
+
+function chartHasData(id, labels) {
+    if (!labels.length) {
+        const canvas = $(id);
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = "13px Arial";
+        ctx.fillStyle = "#817b91";
+        ctx.textAlign = "center";
+        ctx.fillText("No dated records available", canvas.width / 2, canvas.height / 2);
+        return false;
+    }
+    return true;
+}
+
+function renderDateChart(canvasId, items, dateFunction, label = "Readings") {
+    const canvas = document.getElementById(canvasId);
+
+    if (!canvas) {
+        console.error("Reading Activity canvas not found:", canvasId);
+        return;
+    }
+
+    if (!state.charts) {
+        state.charts = {};
+    }
+
+    if (state.charts[canvasId]) {
+        state.charts[canvasId].destroy();
+        delete state.charts[canvasId];
+    } else {
+        const existing = Chart.getChart(canvas);
+        if (existing) existing.destroy();
+    }
+
+    const records = Array.isArray(items) ? items : [];
+    const dailyCounts = {};
+
+    records.forEach(record => {
+        let rawDate = null;
+
+        try {
+            rawDate = typeof dateFunction === "function"
+                ? dateFunction(record)
+                : null;
+        } catch (error) {
+            console.warn("Date extraction failed:", error);
+        }
+
+        if (!rawDate && record && typeof record === "object") {
+            rawDate =
+                record.created_at ??
+                record.createdAt ??
+                record.recorded_at ??
+                record.created_on ??
+                record.timestamp ??
+                record.reading_date ??
+                record.date;
+        }
+
+        if (!rawDate) {
+            console.warn("Reading has no usable date:", record);
+            return;
+        }
+
+        // readingDate() returns a Date object, so support both
+        // Date objects and backend date strings.
+        const parsedDate = rawDate instanceof Date
+            ? rawDate
+            : new Date(rawDate);
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            console.warn("Invalid reading date:", rawDate);
+            return;
+        }
+
+        // Use the date in the browser's local timezone.
+        const year = parsedDate.getFullYear();
+        const month = String(parsedDate.getMonth() + 1).padStart(2, "0");
+        const day = String(parsedDate.getDate()).padStart(2, "0");
+        const dateKey = `${year}-${month}-${day}`;
+
+        dailyCounts[dateKey] = (dailyCounts[dateKey] || 0) + 1;
+    });
+
+    const sortedDates = Object.keys(dailyCounts).sort();
+
+    const displayDates = sortedDates.map(date => {
+        const [year, month, day] = date.split("-");
+        return `${day}/${month}/${year}`;
+    });
+
+    const values = sortedDates.map(date => dailyCounts[date]);
+
+    const chart = new Chart(canvas, {
+        type: "line",
+        data: {
+            labels: displayDates,
+            datasets: [{
+                label,
+                data: values,
+                borderColor: "#7547bd",
+                backgroundColor: "rgba(117, 71, 189, 0.15)",
+                borderWidth: 3,
+                fill: true,
+                tension: 0.35,
+                pointRadius: 5,
+                pointHoverRadius: 8,
+                pointBackgroundColor: "#7547bd",
+                pointBorderColor: "#ffffff",
+                pointBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: "index"
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: "top"
+                },
+                tooltip: {
+                    callbacks: {
+                        label: context =>
+                            `${label}: ${context.parsed.y}`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: "Reading Creation Date"
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Number of Readings"
+                    },
+                    ticks: {
+                        precision: 0,
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    state.charts[canvasId] = chart;
+
+    console.log("Reading Activity diagnostic:", {
+        receivedRecords: records.length,
+        datesFound: sortedDates,
+        dailyReadingCounts: values
+    });
+}
+function renderDoughnut(id, values, emptyMessage = "No data available") {
+    const entries = Object.entries(values || {})
+        .filter(([, value]) => Number.isFinite(Number(value)) && Number(value) >= 0);
+
+    if (!entries.length || entries.every(([, value]) => Number(value) === 0)) {
+        const canvas = $(id);
+        if (!canvas) return;
+        destroyChart(id);
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = "13px Arial";
+        ctx.fillStyle = "#817b91";
+        ctx.textAlign = "center";
+        ctx.fillText(emptyMessage, canvas.width / 2, canvas.height / 2);
+        return;
+    }
+
+    createChart(id, "doughnut",
+        entries.map(([key]) => key),
+        [{
+            data: entries.map(([, value]) => Number(value)),
+            backgroundColor: [
+                "#7027a0", "#b58bd4", "#4f8fcb",
+                "#31a985", "#e5aa55", "#df6f8b",
+                "#7b7cdb", "#55b9c6"
+            ],
+            borderWidth: 2,
+            borderColor: "#ffffff"
+        }]
+    );
+}
+
+function renderBar(id, values, label = "Records") {
+    const entries = Object.entries(values || {})
+        .filter(([, value]) => Number.isFinite(Number(value)));
+
+    if (!entries.length) {
+        const canvas = $(id);
+        if (!canvas) return;
+        destroyChart(id);
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = "13px Arial";
+        ctx.fillStyle = "#817b91";
+        ctx.textAlign = "center";
+        ctx.fillText("No data available", canvas.width / 2, canvas.height / 2);
+        return;
+    }
+
+    createChart(id, "bar",
+        entries.map(([key]) => key),
+        [{
+            label,
+            data: entries.map(([, value]) => Number(value)),
+            backgroundColor: "#8c50b4",
+            borderRadius: 5,
+            maxBarThickness: 45
+        }]
+    );
+}
+
+/* -------------------------------------------------------
+   LOAD BACKEND DATA
+------------------------------------------------------- */
+
+async function loadSummary() {
+    const data = await apiJSON("/dashboard/admin/summary");
+    state.summary = data;
+    markSource("admin summary", true);
+    return data;
+}
+
+async function loadReports() {
+    const data = await apiJSON("/reports");
+    state.reports = asArray(data, ["reports"]).map(normalizeReport);
+    markSource("reports", true);
+    return data;
+}
+
+async function loadSessions() {
+    const data = await apiJSON("/sessions/my-sessions");
+    state.sessions = asArray(data, ["sessions"]);
+    markSource("sessions", true);
+    return data;
+}
+
+async function loadTarotReadings() {
+    const data = await apiJSON("/tarot/history");
+    state.tarotReadings = asArray(data, ["readings", "history"]);
+    markSource("tarot readings", true);
+    return data;
+}
+
+/*
+ * User and palmistry list routes vary by project.
+ * These are read-only attempts. An unsuccessful route is not
+ * treated as zero users/readings.
+ */
+async function tryEndpoints(paths, preferredKeys) {
+    let lastError;
+
+    for (const path of paths) {
+        try {
+            const data = await apiJSON(path);
+            const records = asArray(data, preferredKeys);
+            markSource(path, true);
+            return { path, data, records };
+        } catch (error) {
+            lastError = error;
+            markSource(path, false, error.message);
+        }
+    }
+
+    throw lastError || new Error("No supported endpoint responded.");
+}
+
+async function loadUsers() {
+    const result = await tryEndpoints(
+        ["/auth/admin/users"],
+        ["users", "items", "results"]
+    );
+
+    console.log("User API endpoint:", result.path);
+    console.log("User API response:", result.data);
+    console.log("Extracted user records:", result.records);
+
+    state.users = result.records;
+    return result;
+}
+
+async function loadPalmReadings() {
+    const result = await tryEndpoints(
+        ["/palmistry/history", "/palmistry/readings", "/palmistry"],
+        ["readings", "history", "items", "results"]
+    );
+    state.palmReadings = result.records;
+    return result;
+}
+
+/* -------------------------------------------------------
+   RENDER OVERVIEW
+------------------------------------------------------- */
+
+function summaryNumber(names) {
+    return state.summary ? findNumber(state.summary, names) : null;
+}
+
+function roleCounts() {
+    const summaryRoles = findObject(state.summary, [
+        "users_by_role", "role_counts", "roles_distribution"
+    ]);
+
+    if (summaryRoles) return summaryRoles;
+
+    if (state.users.length) return countBy(
+        state.users.map(user => ({
+            role: user.role ?? user.user_role ?? "unknown"
+        })),
+        "role"
+    );
+
+    return {};
+}
+
+function renderOverview() {
+    const totalUsers = summaryNumber([
+        "total_users", "user_count", "users_count"
+    ]);
+
+    const totalPalm = summaryNumber([
+        "total_palm_readings", "palm_readings", "palm_reading_count"
+    ]);
+
+    const totalTarot = summaryNumber([
+        "total_tarot_readings", "tarot_readings", "tarot_reading_count"
+    ]);
+
+    const totalReports = summaryNumber([
+        "total_reports", "reports_count", "report_count"
+    ]);
+
+    $("totalUsers").textContent = numberText(totalUsers);
+    $("totalPalm").textContent =
+        numberText(totalPalm ?? (state.palmReadings.length || null));
+    $("totalTarot").textContent =
+        numberText(totalTarot ?? (state.tarotReadings.length || null));
+    $("totalReports").textContent =
+        numberText(totalReports ?? state.reports.length);
+
+    const readings = [
+        ...(state.palmReadings || []),
+        ...(state.tarotReadings || [])
+    ];
+
+    renderDateChart(
+        "overviewActivityChart",
+        readings,
+        readingDate,
+        "Readings"
+    );
+
+    const activityChart = state.charts["overviewActivityChart"];
+
+    const diagnostic = document.getElementById("activityDiagnostic");
+
+    if (diagnostic) {
+        diagnostic.textContent = activityChart
+            ? "Chart created. Labels: " +
+              JSON.stringify(activityChart.data.labels) +
+              " | Values: " +
+              JSON.stringify(activityChart.data.datasets[0].data)
+            : "Chart was not created. Check the chart canvas and Chart.js.";
+    }
+
+    renderDoughnut("overviewDistributionChart", {
+        "Palmistry": totalPalm ?? state.palmReadings.length,
+        "Tarot": totalTarot ?? state.tarotReadings.length
+    });
+
+    renderDoughnut(
+        "overviewRolesChart",
+        roleCounts(),
+        "Role statistics unavailable"
+    );
+}
+
+/* -------------------------------------------------------
+   RENDER USER MANAGEMENT
+------------------------------------------------------- */
+
+function renderUsers() {
+    $("usersLoaded").textContent = numberText(state.users.length);
+
+    const roles = countBy(state.users.map(user => ({
+        role: user.role ?? user.user_role ?? "unknown"
+    })), "role");
+
+    $("roleTypes").textContent = numberText(Object.keys(roles).length);
+    renderDoughnut("userRolesChart", Object.keys(roles).length ? roles : roleCounts(),
+        "User list or role statistics unavailable");
+
+    const query = $("userSearch").value.trim().toLowerCase();
+    const filtered = state.users.filter(user => {
+        const text = [
+            user.id, user.user_id, user.username,
+            user.email, user.role, user.user_role
+        ].join(" ").toLowerCase();
+
+        return text.includes(query);
+    });
+
+    const tbody = $("usersTable");
+
+    if (!state.users.length) {
+        tbody.innerHTML = `<tr><td colspan="5" class="empty">
+            No user list is available. Check whether your backend has an
+            administrator-only user-list endpoint.
+        </td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = "";
+
+    for (const user of filtered) {
+        const tr = document.createElement("tr");
+
+        const values = [
+            user.user_id ?? user.id ?? "—",
+            user.username ?? user.name ?? "—",
+            user.email ?? "—",
+            user.role ?? user.user_role ?? "—",
+            user.is_active === false ? "Inactive" : "Available"
+        ];
+
+        values.forEach((value, index) => {
+            const td = document.createElement("td");
+
+            if (index === 3) {
+                const pill = document.createElement("span");
+                pill.className = "pill";
+                pill.textContent = String(value);
+                td.appendChild(pill);
+            } else {
+                td.textContent = String(value);
+            }
+
+            tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+    }
+
+    if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="5" class="empty">No matching users.</td></tr>`;
+    }
+}
+
+/* -------------------------------------------------------
+   RENDER PLATFORM ANALYTICS
+------------------------------------------------------- */
+
+function renderAnalytics() {
+    const readings = [...state.palmReadings, ...state.tarotReadings];
+
+    renderDateChart("monthlyActivityChart", readings, readingDate, "Readings", true);
+    renderDateChart("monthlyReportsChart", state.reports, reportDate, "Reports", true);
+
+    const sourceValues = {
+        "Admin summary": state.sourceStatus["admin summary"]?.success ? 1 : 0,
+        "Reports": state.sourceStatus.reports?.success ? 1 : 0,
+        "Sessions": state.sourceStatus.sessions?.success ? 1 : 0,
+        "Tarot readings": state.sourceStatus["tarot readings"]?.success ? 1 : 0,
+        "Palm readings": Object.entries(state.sourceStatus).some(
+            ([key, value]) => key.startsWith("/palmistry") && value.success
+        ) ? 1 : 0
+    };
+
+    renderBar("sourceStatusChart", sourceValues, "Available (1) / unavailable (0)");
+
+    const sessionData = {
+        "Total returned": state.sessions.length,
+        "Active": state.sessions.filter(s =>
+            s.is_active === true || s.active === true
+        ).length,
+        "Ended": state.sessions.filter(s =>
+            s.is_active === false || s.active === false
+        ).length
+    };
+
+    renderBar("sessionChart", sessionData, "Sessions");
+}
+
+/* -------------------------------------------------------
+   RENDER READING STATISTICS
+------------------------------------------------------- */
+
+function renderReadings() {
+    const palmTotal = summaryNumber(["total_palm_readings", "palm_readings", "palm_reading_count"])
+        ?? (state.palmReadings.length || 0);
+
+    const tarotTotal = summaryNumber(["total_tarot_readings", "tarot_readings", "tarot_reading_count"])
+        ?? (state.tarotReadings.length || 0);
+
+    renderBar("readingComparisonChart", {
+        "Palmistry": palmTotal,
+        "Tarot": tarotTotal
+    }, "Readings");
+
+    const tarotTypes = countBy(state.tarotReadings.map(reading => ({
+        reading_type: reading.reading_type ?? reading.type ?? "unknown"
+    })), "reading_type");
+
+    const summaryTypes = findObject(state.summary, [
+        "tarot_reading_types", "reading_types", "tarot_types"
+    ]);
+
+    renderDoughnut("readingTypesChart",
+        Object.keys(tarotTypes).length ? tarotTypes : (summaryTypes || {}),
+        "Reading type statistics unavailable");
+
+    const allReadings = [...state.palmReadings, ...state.tarotReadings];
+    renderDateChart("readingTrendChart", allReadings, readingDate, "Readings");
+}
+
+/* -------------------------------------------------------
+   RENDER SYSTEM REPORTS
+------------------------------------------------------- */
+
+function renderReportTable() {
+    const query = $("reportSearch").value.trim().toLowerCase();
+    const typeFilter = $("reportTypeFilter").value.toLowerCase();
+
+    const filtered = state.reports.filter(report => {
+        const text = [
+            report.report_id, report.title, report.report_type,
+            report.palm_reading_id, report.tarot_reading_id
+        ].join(" ").toLowerCase();
+
+        return text.includes(query) &&
+            (!typeFilter || report.report_type === typeFilter);
+    });
+
+    const tbody = $("reportsTable");
+    tbody.innerHTML = "";
+
+    if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty">
+            No reports match the current filters.
+        </td></tr>`;
+        return;
+    }
+
+    for (const report of filtered) {
+        const tr = document.createElement("tr");
+
+        const values = [
+            report.report_id,
+            report.title,
+            report.report_type,
+            report.palm_reading_id,
+            report.tarot_reading_id,
+            safeDate(report.created_at)
+                ? safeDate(report.created_at).toLocaleString()
+                : "Not recorded"
+        ];
+
+        values.forEach((value, index) => {
+            const td = document.createElement("td");
+
+            if (index === 2) {
+                const pill = document.createElement("span");
+                pill.className = "pill";
+                pill.textContent = String(value);
+                td.appendChild(pill);
+            } else {
+                td.textContent = String(value);
+            }
+
+            tr.appendChild(td);
+        });
+
+        const action = document.createElement("td");
+        const view = document.createElement("button");
+        view.className = "btn";
+        view.textContent = "View";
+        view.addEventListener("click", () => {
+            window.open(
+                API_BASE + "/reports/" + encodeURIComponent(report.report_id),
+                "_blank"
+            );
+        });
+
+        const download = document.createElement("button");
+        download.className = "btn";
+        download.style.marginLeft = "5px";
+        download.textContent = "PDF";
+        download.addEventListener("click", () => {
+            const token = getToken();
+            if (!token) {
+                setStatus("Please sign in again before downloading a report.", "error");
+                return;
+            }
+
+            // Open the authenticated download through a fetch request.
+            downloadReport(report.report_id);
+        });
+
+        action.append(view, download);
+        tr.appendChild(action);
+        tbody.appendChild(tr);
+    }
+}
+
+async function downloadReport(id) {
+    try {
+        const response = await fetch(
+            API_BASE + "/reports/download/" + encodeURIComponent(id),
+            { headers: { Authorization: "Bearer " + getToken() } }
+        );
+
+        if (!response.ok) {
+            throw new Error("Report download returned HTTP " + response.status);
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "report-" + id + ".pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        setStatus("Could not download the report: " + error.message, "error");
+    }
+}
+
+function renderReports() {
+    const reports = Array.isArray(state.reports)
+        ? state.reports
+        : [];
+
+    const getType = r =>
+        String(r.report_type ?? r.type ?? "unknown")
+            .trim()
+            .toLowerCase();
+
+    const hasId = value =>
+        value !== null &&
+        value !== undefined &&
+        String(value).trim() !== "";
+
+    const combinedReports = reports.filter(
+        r => getType(r) === "combined"
+    );
+
+    const tarotReports = reports.filter(r =>
+        getType(r) === "tarot" ||
+        getType(r) === "combined" ||
+        hasId(r.tarot_reading_id ?? r.tarotId)
+    );
+
+    const palmReports = reports.filter(r =>
+        getType(r) === "palmistry" ||
+        getType(r) === "palm" ||
+        getType(r) === "combined" ||
+        hasId(r.palm_reading_id ?? r.palmId)
+    );
+
+    $("reportsLoaded").textContent = numberText(reports.length);
+    $("combinedReports").textContent = numberText(combinedReports.length);
+    $("tarotReports").textContent = numberText(tarotReports.length);
+    $("palmReports").textContent = numberText(palmReports.length);
+
+    // Preserve the existing charts and table.
+    renderDoughnut("reportTypesChart", countBy(reports, "report_type"));
+    renderDateChart("reportTrendChart", reports, reportDate, "Reports");
+    renderReportTable();
+}
+
+/* -------------------------------------------------------
+   REFRESH
+------------------------------------------------------- */
+
+async function refreshDashboard() {
+    $("refreshButton").disabled = true;
+    $("refreshButton").textContent = "Refreshing...";
+    setStatus("Loading administrator data from the backend...");
+
+    state.sourceStatus = {};
+
+    const jobs = [
+        ["summary", loadSummary],
+        ["reports", loadReports],
+        ["sessions", loadSessions],
+        ["tarot readings", loadTarotReadings],
+        ["users", loadUsers],
+        ["palm readings", loadPalmReadings]
+    ];
+
+    const results = await Promise.allSettled(
+        jobs.map(async ([name, fn]) => {
+            try {
+                await fn();
+                return { name, success: true };
+            } catch (error) {
+                markSource(name, false, error.message);
+                return { name, success: false, message: error.message };
+            }
+        })
+    );
+
+    const failed = results
+        .filter(result => result.status === "fulfilled" && !result.value.success)
+        .map(result => result.value);
+
+    renderOverview();
+    renderUsers();
+    renderAnalytics();
+    renderReadings();
+    renderReports();
+
+    $("lastUpdated").textContent = "Updated " + new Date().toLocaleTimeString();
+
+    if (!getToken()) {
+        setStatus(
+            "No login token was found. Please sign in with an administrator account, then refresh.",
+            "error"
+        );
+    } else if (!state.summary && !state.reports.length) {
+        setStatus(
+            "Could not load administrator summary or reports. Check the login role, API server, and browser console.",
+            "error"
+        );
+    } else if (failed.length) {
+        setStatus(
+            "Some data sources are unavailable: " +
+            failed.map(item => item.name + (item.message ? " (" + item.message + ")" : "")).join("; ") +
+            ". Available sections show returned backend data; unavailable values are not fabricated.",
+            "error"
+        );
+    } else {
+        setStatus("Backend data refreshed successfully.", "success");
+    }
+
+    $("refreshButton").disabled = false;
+    $("refreshButton").textContent = "↻ Refresh Data";
+}
+
+/* -------------------------------------------------------
+   NAVIGATION AND EVENTS
+------------------------------------------------------- */
+
+const pageTitles = {
+    overview: "Dashboard Overview",
+    users: "User Management",
+    analytics: "Platform Analytics",
+    readings: "Reading Statistics",
+    reports: "System Reports"
+};
+
+function showPage(page) {
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.toggle("active", section.id === "page-" + page);
+    });
+
+    document.querySelectorAll(".nav-btn[data-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+    });
+
+    $("pageTitle").textContent = pageTitles[page] || "Admin Dashboard";
+    $("sidebar").classList.remove("open");
+
+    // Chart.js needs a resize after a previously hidden chart becomes visible.
+    setTimeout(() => {
+        Object.values(state.charts).forEach(chart => chart.resize());
+    }, 50);
+}
+
+document.querySelectorAll(".nav-btn[data-page]").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+$("refreshButton").addEventListener("click", refreshDashboard);
+$("menuButton").addEventListener("click", () => {
+    $("sidebar").classList.toggle("open");
+});
+
+$("reportSearch").addEventListener("input", renderReportTable);
+$("reportTypeFilter").addEventListener("change", renderReportTable);
+$("userSearch").addEventListener("input", renderUsers);
+
+$("logoutButton").addEventListener("click", () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("role");
+    window.location.href = "login.html";
+});
+
+/* Initial load */
+refreshDashboard();
+</script>
+</body>
+</html>

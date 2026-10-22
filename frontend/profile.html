@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | AI Palmistry & Tarot</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .profile-card {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .profile-icon {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #eaf2ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            margin: 0 auto 18px;
+        }
+
+        .profile-card h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .section-heading {
+            margin: 25px 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #edf1f6;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0 18px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            min-width: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px;
+            border: 1px solid #d5deea;
+            border-radius: 6px;
+            font: inherit;
+            background: #fff;
+        }
+
+        .form-group textarea {
+            min-height: 75px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: 2px solid #681b75;
+            outline-offset: 1px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .secondary-btn {
+            padding: 11px 18px;
+            border: 1px solid #d5deea;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        #message.success { color: #16803c; }
+        #message.error { color: #c62828; }
+        #message.info { color: #1769e0; }
+
+        .help-text {
+            display: block;
+            margin-top: 6px;
+            color: #666;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar">
+    <div class="logo">
+        <div class="logo-icon">✿</div>
+        <div>
+            <h1>AI Palmistry & Tarot</h1>
+            <span>INTELLIGENCE PLATFORM</span>
+        </div>
+    </div>
+
+    <div class="nav-right">
+        <a href="user-dashboard.html">Dashboard</a>
+        <a href="palmistry.html">Palmistry</a>
+        <a href="tarot.html">Tarot</a>
+        <a href="profile.html" class="active">Profile</a>
+        <button class="logout" type="button" id="logoutButton">Logout</button>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="page-title">
+        <h2>My Profile</h2>
+        <p>Manage your account, personal information and spiritual preferences.</p>
+    </div>
+
+    <div class="card profile-card">
+        <div class="profile-icon">👤</div>
+        <h2>Profile Information</h2>
+
+        <form id="profileForm">
+            <h3 class="section-heading">Account Information</h3>
+
+            <div class="profile-grid">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text"
+                           placeholder="Enter username"
+                           minlength="2" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email"
+                           placeholder="Enter email address" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="role">Account Role</label>
+                    <input id="role" type="text" readonly>
+                    <span class="help-text">
+                        Your current role is controlled by the backend.
+                        Only an administrator can change account permissions.
+                    </span>
+                </div>
+            </div>
+
+            <h3 class="section-heading">Personal Details</h3>
+
+            <div class="profile-grid">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input id="fullName" type="text"
+                           placeholder="Enter full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input id="age" type="number" min="1" max="120"
+                           placeholder="Enter age">
+                </div>
+
+                <div class="form-group">
+                    <label for="ageGroup">Age Group</label>
+                    <select id="ageGroup">
+                        <option value="">Select age group</option>
+                        <option value="Under 18">Under 18</option>
+                        <option value="18-25">18-25</option>
+                        <option value="26-35">26-35</option>
+                        <option value="36-45">36-45</option>
+                        <option value="46-60">46-60</option>
+                        <option value="60+">60+</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender">
+                        <option value="">Select gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <input id="dateOfBirth" type="text"
+                           placeholder="DD-MM-YYYY">
+                </div>
+
+                <div class="form-group">
+                    <label for="occupation">Occupation</label>
+                    <input id="occupation" type="text"
+                           placeholder="e.g. Student">
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="interests">Interests</label>
+                    <textarea id="interests"
+                              placeholder="Enter your interests"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="spiritualInterests">Spiritual Interests</label>
+                    <textarea id="spiritualInterests"
+                              placeholder="Palmistry, Tarot, Meditation"></textarea>
+                </div>
+            </div>
+
+            <h3 class="section-heading">Goals and Preferences</h3>
+
+            <div class="profile-grid">
+                <div class="form-group full-width">
+                    <label for="goals">Personal Goals</label>
+                    <textarea id="goals"
+                              placeholder="Enter your personal goals"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="spiritualGoals">Spiritual Goals</label>
+                    <textarea id="spiritualGoals"
+                              placeholder="Enter your spiritual goals"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="readingPreferences">Reading Preferences</label>
+                    <textarea id="readingPreferences"
+                              placeholder="Three Card, Life Path, Career, Celtic Cross"></textarea>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button class="primary-btn" id="saveButton" type="submit">
+                    Save Changes
+                </button>
+
+                <button class="secondary-btn" id="reloadButton" type="button">
+                    Reload Profile
+                </button>
+            </div>
+        </form>
+
+        <p id="message" class="info" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="footer">AI Palmistry & Tarot Project</div>
+</main>
+
+<script>
+"use strict";
+
+const API_BASE = "http://127.0.0.1:8001";
+
+const form = document.getElementById("profileForm");
+const message = document.getElementById("message");
+const saveButton = document.getElementById("saveButton");
+const reloadButton = document.getElementById("reloadButton");
+
+let profileExists = false;
+
+const fields = {
+    full_name: "fullName",
+    age: "age",
+    age_group: "ageGroup",
+    gender: "gender",
+    date_of_birth: "dateOfBirth",
+    occupation: "occupation",
+    interests: "interests",
+    spiritual_interests: "spiritualInterests",
+    goals: "goals",
+    spiritual_goals: "spiritualGoals",
+    reading_preferences: "readingPreferences"
+};
+
+function getToken() {
+    return localStorage.getItem("access_token")
+        || localStorage.getItem("token");
+}
+
+function showMessage(text, type = "info") {
+    message.textContent = text;
+    message.className = type;
+}
+
+function clearLoginAndRedirect() {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+async function request(url, method = "GET", body = undefined) {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error("Login token not found. Please log in again.");
+    }
+
+    const options = {
+        method: method,
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Accept": "application/json"
+        }
+    };
+
+    if (body !== undefined) {
+        options.headers["Content-Type"] = "application/json";
+        options.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(API_BASE + url, options);
+    const text = await response.text();
+
+    let data = {};
+
+    if (text) {
+        try {
+            data = JSON.parse(text);
+        } catch {
+            data = { detail: text };
+        }
+    }
+
+    if (response.status === 401) {
+        throw new Error(
+            "Your login token is invalid or expired. Please log in again."
+        );
+    }
+
+    return { response, data };
+}
+
+async function loadAccountInformation() {
+    const result = await request("/auth/me");
+
+    if (!result.response.ok) {
+        throw new Error(
+            result.data.detail || "Could not load account information."
+        );
+    }
+
+    const account = result.data;
+
+    document.getElementById("username").value =
+        account.username || "";
+
+    document.getElementById("email").value =
+        account.email || "";
+
+    document.getElementById("role").value =
+        account.role || "user";
+
+    return account;
+}
+
+async function loadProfile() {
+    showMessage("Loading your profile...", "info");
+    reloadButton.disabled = true;
+
+    try {
+        await loadAccountInformation();
+
+        const result = await request("/profile/");
+
+        if (result.response.status === 404) {
+            profileExists = false;
+
+            for (const id of Object.values(fields)) {
+                document.getElementById(id).value = "";
+            }
+
+            showMessage(
+                "Account loaded. Fill in your personal details and save your profile.",
+                "info"
+            );
+
+            return;
+        }
+
+        if (!result.response.ok) {
+            throw new Error(
+                result.data.detail || "Could not load profile."
+            );
+        }
+
+        profileExists = true;
+
+        for (const [key, id] of Object.entries(fields)) {
+            const value = result.data[key];
+            document.getElementById(id).value =
+                value == null ? "" : String(value);
+        }
+
+        showMessage(
+            "Profile loaded successfully. You can edit your details.",
+            "success"
+        );
+
+    } catch (error) {
+        showMessage("Could not load profile: " + error.message, "error");
+    } finally {
+        reloadButton.disabled = false;
+    }
+}
+
+function collectProfile() {
+    const result = {};
+
+    for (const [key, id] of Object.entries(fields)) {
+        const value = document.getElementById(id).value.trim();
+
+        if (key === "age") {
+            result.age = value === "" ? null : Number(value);
+        } else {
+            result[key] = value === "" ? null : value;
+        }
+    }
+
+    return result;
+}
+
+form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const age = document.getElementById("age").value.trim();
+
+    if (age !== "") {
+        const ageNumber = Number(age);
+
+        if (!Number.isInteger(ageNumber) ||
+            ageNumber < 1 || ageNumber > 120) {
+            showMessage("Enter a valid age between 1 and 120.", "error");
+            return;
+        }
+    }
+
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+
+    if (!username || !email) {
+        showMessage("Username and email are required.", "error");
+        return;
+    }
+
+    saveButton.disabled = true;
+    showMessage("Saving your changes...", "info");
+
+    try {
+        // Save username and email to the User table.
+        const accountResult = await request(
+            "/auth/update-account",
+            "PATCH",
+            {
+                username: username,
+                email: email
+            }
+        );
+
+        if (!accountResult.response.ok) {
+            throw new Error(
+                accountResult.data.detail ||
+                "Could not save username and email."
+            );
+        }
+
+        // Save profile information separately to the Profile table.
+        const profileResult = await request(
+            "/profile/",
+            profileExists ? "PUT" : "POST",
+            collectProfile()
+        );
+
+        if (!profileResult.response.ok) {
+            throw new Error(
+                profileResult.data.detail ||
+                "Account saved, but profile details could not be saved."
+            );
+        }
+
+        profileExists = true;
+
+        const savedAccount = accountResult.data;
+
+        document.getElementById("username").value =
+            savedAccount.username || username;
+
+        document.getElementById("email").value =
+            savedAccount.email || email;
+
+        localStorage.setItem("username", document.getElementById("username").value);
+        localStorage.setItem("email", document.getElementById("email").value);
+
+        for (const [key, id] of Object.entries(fields)) {
+            if (Object.prototype.hasOwnProperty.call(profileResult.data, key)) {
+                document.getElementById(id).value =
+                    profileResult.data[key] == null
+                        ? ""
+                        : String(profileResult.data[key]);
+            }
+        }
+
+        showMessage(
+            "Account information and profile saved successfully!",
+            "success"
+        );
+
+    } catch (error) {
+        showMessage("Unable to save changes: " + error.message, "error");
+    } finally {
+        saveButton.disabled = false;
+    }
+});
+
+reloadButton.addEventListener("click", loadProfile);
+
+document.getElementById("logoutButton").addEventListener("click", function () {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("role");
+    window.location.href = "login.html";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    if (!getToken()) {
+        showMessage("Please log in to access your profile.", "error");
+        window.location.href = "login.html";
+        return;
+    }
+
+    loadProfile();
+});
+</script>
+</body>
+</html>

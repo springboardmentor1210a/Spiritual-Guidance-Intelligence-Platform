@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recommendation Engine | Palm & Tarot AI</title>
+
+<style>
+:root {
+    --purple: #6d28d9;
+    --dark: #321052;
+    --bg: #f7f5fc;
+    --border: #e8e1f1;
+    --muted: #777188;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: #29233b;
+}
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    padding: 24px 14px;
+    background: var(--dark);
+    color: white;
+}
+.brand { font-size: 19px; font-weight: 700; margin: 0 10px 26px; }
+.brand small {
+    display: block; margin-top: 7px; color: #d8c5f5;
+    font-size: 12px; font-weight: 400;
+}
+nav a {
+    display: block; padding: 12px; margin: 5px 0;
+    border-radius: 8px; color: #e8def7;
+    text-decoration: none; font-size: 14px;
+}
+nav a:hover, nav a.active { background: var(--purple); color: white; }
+main { flex: 1; min-width: 0; padding: 28px; }
+.topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 15px; flex-wrap: wrap; margin-bottom: 22px;
+}
+h1 { margin: 0 0 8px; font-size: 27px; }
+.subtitle { color: var(--muted); font-size: 14px; line-height: 1.6; }
+button {
+    background: var(--purple); color: white; border: 0;
+    border-radius: 9px; padding: 11px 16px;
+    cursor: pointer; font-weight: 600;
+}
+button:disabled { opacity: .6; cursor: wait; }
+.status {
+    padding: 13px 15px; border-radius: 9px;
+    margin-bottom: 22px; background: #eee7fc;
+    color: #5420a7; font-size: 13px; overflow-wrap: anywhere;
+}
+.status.error { background: #fff0f0; color: #a12626; }
+.status.success { background: #e9f8ef; color: #17653a; }
+.stats {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px; margin-bottom: 28px;
+}
+.stat, .card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px;
+}
+.stat-label { color: var(--muted); font-size: 13px; }
+.stat-value { font-size: 23px; font-weight: 750; margin-top: 9px; }
+h2 { font-size: 19px; margin: 0 0 16px; }
+.cards {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+.card.full { grid-column: 1 / -1; }
+.card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+.card-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    display: grid; place-items: center;
+    background: #f0e7ff; border-radius: 12px; font-size: 22px;
+}
+.card h3 { margin: 0; font-size: 16px; }
+.card-desc { margin-top: 5px; color: var(--muted); font-size: 12px; }
+.content { font-size: 14px; line-height: 1.8; overflow-wrap: anywhere; }
+.content ul { padding-left: 21px; }
+.content li { margin: 6px 0; }
+.content p { margin: 7px 0; }
+.empty { color: var(--muted); }
+.footer { margin-top: 22px; font-size: 12px; color: var(--muted); line-height: 1.7; }
+@media (max-width: 800px) {
+    .sidebar { width: 205px; }
+    main { padding: 20px; }
+}
+@media (max-width: 620px) {
+    .layout { display: block; }
+    .sidebar { width: 100%; padding: 15px; }
+    nav a { display: inline-block; padding: 9px; }
+    main { padding: 16px; }
+    .cards, .stats { grid-template-columns: 1fr; }
+    .card.full { grid-column: auto; }
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="brand">
+            ✦ Palm & Tarot AI
+            <small>Personal Guidance Platform</small>
+        </div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="reading-history.html">Reading History</a>
+            <a href="personality-insights.html">Personality Insights</a>
+            <a class="active" href="recommendation-engine.html">Recommendation Engine</a>
+            <a href="reports.html">Reports</a>
+            <a href="profile.html">My Profile</a>
+            <a href="login.html">Logout</a>
+        </nav>
+    </aside>
+
+    <main>
+        <header class="topbar">
+            <div>
+                <h1>Recommendation Engine</h1>
+                <div class="subtitle">
+                    Suggestions from your available Palmistry and Tarot readings.
+                </div>
+            </div>
+            <button id="refreshBtn" type="button">↻ Refresh Recommendations</button>
+        </header>
+
+        <div id="status" class="status" role="status" aria-live="polite">
+            Connecting to the backend...
+        </div>
+
+        <section class="stats">
+            <div class="stat">
+                <div class="stat-label">Recommendation Categories</div>
+                <div class="stat-value">05</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Reading Source</div>
+                <div class="stat-value" id="source">—</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Backend Status</div>
+                <div class="stat-value" id="connection">Waiting</div>
+            </div>
+        </section>
+
+        <h2>Personalized Recommendations</h2>
+
+        <section class="cards">
+            <article class="card">
+                <div class="card-head">
+                    <div class="card-icon">🌱</div>
+                    <div>
+                        <h3>Personal Growth Recommendations</h3>
+                        <div class="card-desc">Learning and self-development</div>
+                    </div>
+                </div>
+                <div id="growth" class="content empty">Waiting for data...</div>
+            </article>
+
+            <article class="card">
+                <div class="card-head">
+                    <div class="card-icon">💜</div>
+                    <div>
+                        <h3>Relationship Guidance</h3>
+                        <div class="card-desc">Communication and understanding</div>
+                    </div>
+                </div>
+                <div id="relationship" class="content empty">Waiting for data...</div>
+            </article>
+
+            <article class="card">
+                <div class="card-head">
+                    <div class="card-icon">🚀</div>
+                    <div>
+                        <h3>Career Suggestions</h3>
+                        <div class="card-desc">Career development</div>
+                    </div>
+                </div>
+                <div id="career" class="content empty">Waiting for data...</div>
+            </article>
+
+            <article class="card">
+                <div class="card-head">
+                    <div class="card-icon">🎯</div>
+                    <div>
+                        <h3>Goal Alignment Recommendations</h3>
+                        <div class="card-desc">Goals and practical next steps</div>
+                    </div>
+                </div>
+                <div id="goals" class="content empty">Waiting for data...</div>
+            </article>
+
+            <article class="card full">
+                <div class="card-head">
+                    <div class="card-icon">✨</div>
+                    <div>
+                        <h3>Spiritual Development Insights</h3>
+                        <div class="card-desc">Reflection and self-awareness</div>
+                    </div>
+                </div>
+                <div id="spiritual" class="content empty">Waiting for data...</div>
+            </article>
+        </section>
+
+        <div class="footer">
+            These recommendations are reflective guidance, not scientifically validated
+            predictions or a substitute for professional advice.
+        </div>
+    </main>
+</div>
+
+<script>
+const API_URL =
+    "http://127.0.0.1:8001/personalized-guidance/generate";
+
+const statusEl = document.getElementById("status");
+const refreshBtn = document.getElementById("refreshBtn");
+
+function status(message, type = "") {
+    statusEl.textContent = message;
+    statusEl.className = "status" + (type ? " " + type : "");
+}
+
+// Render plain text and JSON values without inserting HTML from the API.
+function renderValue(elementId, value, fallback) {
+    const el = document.getElementById(elementId);
+    el.replaceChildren();
+    el.className = "content";
+
+    if (value === undefined || value === null || value === "") {
+        el.className = "content empty";
+        el.textContent = fallback;
+        return;
+    }
+
+    function add(parent, item) {
+        if (item === null || item === undefined || item === "") return;
+
+        if (Array.isArray(item)) {
+            const list = document.createElement("ul");
+            item.forEach(value => {
+                const li = document.createElement("li");
+                add(li, value);
+                if (li.childNodes.length) list.appendChild(li);
+            });
+            if (list.childNodes.length) parent.appendChild(list);
+            return;
+        }
+
+        if (typeof item === "object") {
+            const list = document.createElement("ul");
+            Object.entries(item).forEach(([key, value]) => {
+                if (value === null || value === undefined || value === "") return;
+
+                const li = document.createElement("li");
+                const label = document.createElement("strong");
+                label.textContent = key.replace(/_/g, " ") + ": ";
+                li.appendChild(label);
+                add(li, value);
+                list.appendChild(li);
+            });
+            if (list.childNodes.length) parent.appendChild(list);
+            return;
+        }
+
+        String(item).split(/\n+/).map(s => s.trim()).filter(Boolean).forEach(line => {
+            const p = document.createElement("p");
+            p.textContent = line;
+            parent.appendChild(p);
+        });
+    }
+
+    add(el, value);
+
+    if (!el.childNodes.length) {
+        el.className = "content empty";
+        el.textContent = fallback;
+    }
+}
+
+function firstValue(objects, keys) {
+    for (const object of objects) {
+        if (!object || typeof object !== "object") continue;
+        for (const key of keys) {
+            if (object[key] !== undefined &&
+                object[key] !== null &&
+                object[key] !== "") {
+                return object[key];
+            }
+        }
+    }
+    return null;
+}
+
+async function loadRecommendations() {
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = "Loading...";
+    document.getElementById("connection").textContent = "Loading";
+    status("Requesting recommendations from your existing backend...");
+
+    try {
+        const token =
+            localStorage.getItem("access_token") ||
+            localStorage.getItem("token");
+
+        if (!token) {
+            throw new Error(
+                "Login token not found. Sign in again and reopen this page."
+            );
+        }
+
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
+
+        const raw = await response.text();
+        let data;
+
+        try {
+            data = JSON.parse(raw);
+        } catch {
+            throw new Error(
+                "The API did not return JSON. Check the endpoint and backend logs."
+            );
+        }
+
+        if (!response.ok) {
+            const detail = data.detail
+                ? (typeof data.detail === "string"
+                    ? data.detail
+                    : JSON.stringify(data.detail))
+                : "HTTP " + response.status;
+
+            throw new Error(detail);
+        }
+
+        // These are the existing guidance response objects.
+        const rec = data.recommendations || {};
+        const guidance = data.personalized_guidance || {};
+        const trends = data.life_trends || {};
+        const synthesis = data.reading_synthesis || data.combined || {};
+
+        renderValue("growth",
+            firstValue([rec, guidance], [
+                "personal_growth", "personal_development",
+                "growth", "personal_growth_guidance"
+            ]),
+            "No separate personal-growth recommendation was returned."
+        );
+
+        renderValue("relationship",
+            firstValue([rec, guidance], [
+                "relationship", "relationships", "relationship_guidance"
+            ]),
+            "No separate relationship recommendation was returned."
+        );
+
+        renderValue("career",
+            firstValue([rec, guidance], [
+                "career", "careers", "career_guidance"
+            ]),
+            "No separate career recommendation was returned."
+        );
+
+        renderValue("goals",
+            firstValue([rec, guidance], [
+                "goal_alignment", "goal_alignment_recommendations",
+                "goals", "goal_guidance"
+            ]),
+            "Your API did not return a dedicated goal-alignment field."
+        );
+
+        renderValue("spiritual",
+            firstValue([guidance, rec, trends, synthesis], [
+                "spiritual_development", "spiritual_development_insights",
+                "spiritual_guidance", "spiritual",
+                "final_guidance", "overall_guidance",
+                "reading_synthesis"
+            ]),
+            "No separate spiritual-development field was returned."
+        );
+
+        const sourceMap = {
+            palmistry_and_tarot: "Palm + Tarot",
+            palmistry: "Palmistry",
+            tarot: "Tarot",
+            tarot_only: "Tarot",
+            palmistry_only: "Palmistry"
+        };
+
+        document.getElementById("source").textContent =
+            sourceMap[data.source] || "Available readings";
+
+        document.getElementById("connection").textContent = "Connected";
+        status("Successfully received a response from the personalized-guidance API.", "success");
+
+    } catch (error) {
+        console.error("Recommendation Engine:", error);
+        document.getElementById("connection").textContent = "Error";
+        status("Could not load recommendations: " + error.message, "error");
+    } finally {
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = "↻ Refresh Recommendations";
+    }
+}
+
+refreshBtn.addEventListener("click", loadRecommendations);
+loadRecommendations();
+</script>
+</body>
+</html>

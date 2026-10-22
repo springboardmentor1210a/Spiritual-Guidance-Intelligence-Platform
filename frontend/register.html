@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account - AI Palmistry & Tarot</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            background: #f7faff;
+        }
+
+        .register-page {
+
+            min-height: calc(100vh - 68px);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 35px 15px;
+
+        }
+
+
+        .register-card {
+
+            width: 850px;
+
+            max-width: 100%;
+
+            background: white;
+
+            border: 1px solid #dfe7f1;
+
+            border-radius: 12px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 5px 25px
+                rgba(40, 80, 130, 0.08);
+
+        }
+
+
+        .register-header {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .register-header h2 {
+
+            font-size: 28px;
+
+            color: #172b4d;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .register-header p {
+
+            color: #718096;
+
+            font-size: 13px;
+
+        }
+
+
+        /* ROLE SECTION */
+
+        .role-title {
+
+            text-align: center;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            color: #526581;
+
+            margin-bottom: 15px;
+
+            letter-spacing: 0.5px;
+
+        }
+
+
+        .roles {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .role-card {
+
+            position: relative;
+
+            background: white;
+
+            border: 2px solid #dfe7f1;
+
+            border-radius: 10px;
+
+            padding: 18px 10px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .role-card:hover {
+
+            border-color: #1769e0;
+
+            background: #f8fbff;
+
+        }
+
+
+        .role-card.selected {
+
+            border-color: #1769e0;
+
+            background: #f4f8ff;
+
+            box-shadow:
+                0 3px 10px
+                rgba(23, 105, 224, 0.10);
+
+        }
+
+
+        .role-icon {
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .role-card h3 {
+
+            font-size: 13px;
+
+            color: #172b4d;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .role-card p {
+
+            color: #718096;
+
+            font-size: 10px;
+
+            line-height: 1.4;
+
+        }
+
+
+        /* CHECK MARK */
+
+        .role-check {
+
+            position: absolute;
+
+            top: 7px;
+
+            right: 7px;
+
+            width: 18px;
+
+            height: 18px;
+
+            border-radius: 50%;
+
+            background: #1769e0;
+
+            color: white;
+
+            font-size: 11px;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+        .role-card.selected .role-check {
+
+            display: flex;
+
+        }
+
+
+        /* FORM */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .form-group.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            color: #526581;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 11px;
+
+            border: 1px solid #ccd7e5;
+
+            border-radius: 6px;
+
+            outline: none;
+
+            font-size: 13px;
+
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #1769e0;
+
+        }
+
+
+        .create-btn {
+
+            width: 100%;
+
+            margin-top: 22px;
+
+        }
+
+
+        #message {
+
+            text-align: center;
+
+            margin-top: 15px;
+
+            font-size: 13px;
+
+        }
+
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #718096;
+
+            font-size: 13px;
+
+        }
+
+
+        .login-link a {
+
+            color: #1769e0;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 750px) {
+
+            .roles {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .register-card {
+
+                padding: 22px;
+
+            }
+
+            .roles {
+
+                grid-template-columns: 1fr 1fr;
+
+            }
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .form-group.full {
+
+                grid-column: auto;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ✿
+        </div>
+
+        <div>
+
+            <h1>
+                AI Palmistry & Tarot
+            </h1>
+
+            <span>
+                INTELLIGENCE PLATFORM
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-right">
+
+        <a href="login.html">
+            Login
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- REGISTER -->
+
+<div class="register-page">
+
+
+    <div class="register-card">
+
+
+        <div class="register-header">
+
+            <h2>
+                Create Your Account
+            </h2>
+
+            <p>
+                Choose your role and create
+                your account to continue.
+            </p>
+
+        </div>
+
+
+
+        <!-- ROLE -->
+
+        <div class="role-title">
+
+            SELECT YOUR ROLE
+
+        </div>
+
+
+        <div class="roles">
+
+
+            <!-- USER -->
+
+            <div
+                class="role-card selected"
+                data-role="user"
+                onclick="selectRole(this)">
+
+                <div class="role-check">
+                    ✓
+                </div>
+
+                <div class="role-icon">
+                    👤
+                </div>
+
+                <h3>
+                    User
+                </h3>
+
+                <p>
+                    Explore palmistry
+                    and tarot readings.
+                </p>
+
+            </div>
+
+
+
+            <!-- TAROT READER -->
+
+            <div
+                class="role-card"
+                data-role="tarot reader"
+                onclick="selectRole(this)">
+
+                <div class="role-check">
+                    ✓
+                </div>
+
+                <div class="role-icon">
+                    🃏
+                </div>
+
+                <h3>
+                    Tarot Reader
+                </h3>
+
+                <p>
+                    Manage tarot readings
+                    and card meanings.
+                </p>
+
+            </div>
+
+
+
+            <!-- SPIRITUAL CONSULTANT -->
+
+            <div
+                class="role-card"
+                data-role="spiritual consultant"
+                onclick="selectRole(this)">
+
+                <div class="role-check">
+                    ✓
+                </div>
+
+                <div class="role-icon">
+                    ✦
+                </div>
+
+                <h3>
+                    Spiritual Consultant
+                </h3>
+
+                <p>
+                    Provide personalized
+                    spiritual guidance.
+                </p>
+
+            </div>
+
+
+
+            <!-- ADMIN -->
+
+            <div
+                class="role-card"
+                data-role="admin"
+                onclick="selectRole(this)">
+
+                <div class="role-check">
+                    ✓
+                </div>
+
+                <div class="role-icon">
+                    ⚙️
+                </div>
+
+                <h3>
+                    Admin
+                </h3>
+
+                <p>
+                    Manage users and
+                    system information.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <form id="registerForm">
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Enter username"
+                        required>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter email"
+                        required>
+
+                </div>
+
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter password"
+                        required
+                        minlength="6">
+
+                </div>
+
+
+            </div>
+
+
+
+            <button
+                type="submit"
+                class="primary-btn create-btn">
+
+                Create Account →
+
+            </button>
+
+
+        </form>
+
+
+
+        <div id="message"></div>
+
+
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* DEFAULT ROLE */
+
+let selectedRole = "user";
+
+
+
+/* ROLE SELECTION */
+
+function selectRole(card) {
+
+
+    const cards =
+        document.querySelectorAll(
+            ".role-card"
+        );
+
+
+    cards.forEach(function(item) {
+
+        item.classList.remove(
+            "selected"
+        );
+
+    });
+
+
+    card.classList.add(
+        "selected"
+    );
+
+
+    selectedRole =
+        card.getAttribute(
+            "data-role"
+        );
+
+
+    console.log(
+        "Selected role:",
+        selectedRole
+    );
+
+}
+
+
+
+/* REGISTER */
+
+document
+.getElementById("registerForm")
+.addEventListener(
+    "submit",
+    async function(event) {
+
+
+        event.preventDefault();
+
+
+        const username =
+            document
+            .getElementById("username")
+            .value;
+
+
+        const email =
+            document
+            .getElementById("email")
+            .value;
+
+
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+
+        const message =
+            document
+            .getElementById("message");
+
+
+        try {
+
+
+            const response =
+                await fetch(
+                    "http://127.0.0.1:8001/auth/register",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                username:
+                                    username,
+
+                                email:
+                                    email,
+
+                                password:
+                                    password,
+
+                                role:
+                                    selectedRole
+
+                            })
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                message.innerText =
+                    data.detail ||
+                    "Registration failed";
+
+                message.style.color =
+                    "#d32f2f";
+
+                return;
+
+            }
+
+
+            message.innerText =
+                "Registration successful!";
+
+            message.style.color =
+                "#159447";
+
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "login.html";
+
+                },
+                1500
+            );
+
+
+        }
+
+        catch (error) {
+
+            message.innerText =
+                "Cannot connect to backend.";
+
+            message.style.color =
+                "#d32f2f";
+
+            console.error(error);
+
+        }
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

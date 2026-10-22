@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spiritual Consultant Dashboard | Palm & Tarot AI</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      --purple-950: #24113f;
+      --purple-900: #321858;
+      --purple-800: #482477;
+      --purple-700: #6035a0;
+      --purple-600: #7547bd;
+      --purple-100: #f0e9fb;
+      --purple-50: #f8f5ff;
+      --ink: #282238;
+      --muted: #777287;
+      --line: #e9e5f1;
+      --surface: #ffffff;
+      --page: #f7f6fb;
+      --green: #17845b;
+      --red: #c33d58;
+      --shadow: 0 8px 26px rgba(46, 24, 75, .06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--page);
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 258px;
+      padding: 25px 17px;
+      background: linear-gradient(180deg, var(--purple-950), var(--purple-900));
+      color: white;
+      display: flex;
+      flex-direction: column;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 10px 28px;
+      border-bottom: 1px solid rgba(255,255,255,.13);
+    }
+
+    .brand-mark {
+      width: 43px;
+      height: 43px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #c4a4ff, #8d61d5);
+      font-size: 22px;
+    }
+
+    .brand h1 {
+      font-size: 15px;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: #d0c1e7;
+      font-size: 11px;
+    }
+
+    .nav-label {
+      margin: 26px 12px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #b8a6d2;
+    }
+
+    .nav {
+      display: grid;
+      gap: 7px;
+    }
+
+    .nav a {
+      color: #e6def2;
+      text-decoration: none;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 13px;
+      border-radius: 11px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: .18s;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: white;
+      background: rgba(178,139,239,.22);
+    }
+
+    .nav a.active {
+      box-shadow: inset 3px 0 #c7a8ff;
+    }
+
+    .nav-icon {
+      width: 21px;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 16px 11px 4px;
+      color: #c7b9dc;
+      font-size: 11px;
+      line-height: 1.6;
+      border-top: 1px solid rgba(255,255,255,.13);
+    }
+
+    .sidebar-bottom strong {
+      display: block;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .main {
+      margin-left: 258px;
+      min-width: 0;
+      padding: 27px 30px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      color: var(--purple-700);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 10px;
+      font-weight: 800;
+      margin: 0 0 7px;
+    }
+
+    .topbar h2 {
+      font-size: clamp(22px, 3vw, 29px);
+      letter-spacing: -.7px;
+      margin: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 7px 0 0;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .refresh-btn {
+      border: 1px solid #ded4ef;
+      background: white;
+      color: var(--purple-800);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .refresh-btn:hover {
+      background: var(--purple-50);
+    }
+
+    .refresh-btn:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--purple-100);
+      color: var(--purple-800);
+      font-weight: 800;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 11px 13px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #9c95aa;
+      flex: 0 0 auto;
+    }
+
+    .status.ok .status-dot {
+      background: #1da575;
+    }
+
+    .status.error .status-dot {
+      background: #d84960;
+    }
+
+    .status-text {
+      flex: 1;
+    }
+
+    .status button {
+      border: 0;
+      background: transparent;
+      color: var(--purple-700);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 14px;
+      margin: 27px 0 14px;
+      scroll-margin-top: 18px;
+    }
+
+    .section-heading h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .section-heading p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .section-tag {
+      background: var(--purple-100);
+      color: var(--purple-800);
+      border-radius: 20px;
+      padding: 6px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .kpi {
+      min-width: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi::after {
+      content: "";
+      position: absolute;
+      width: 75px;
+      height: 75px;
+      right: -22px;
+      top: -25px;
+      border-radius: 50%;
+      background: var(--purple-50);
+    }
+
+    .kpi-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 7px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .kpi-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      background: var(--purple-100);
+      color: var(--purple-800);
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .kpi-value {
+      font-size: clamp(24px, 2.5vw, 31px);
+      letter-spacing: -1px;
+      font-weight: 800;
+      margin-top: 15px;
+      position: relative;
+      z-index: 1;
+      overflow-wrap: anywhere;
+    }
+
+    .kpi-foot {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .grid-equal {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 19px;
+      min-width: 0;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 18px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 17px;
+    }
+
+    .panel h4 {
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .panel .desc {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 5px 0 0;
+      line-height: 1.5;
+    }
+
+    .panel-badge {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--purple-700);
+      background: var(--purple-50);
+      border: 1px solid #eee5fb;
+      border-radius: 7px;
+      padding: 6px 8px;
+      white-space: nowrap;
+    }
+
+    .chart-wrap {
+      height: 260px;
+      position: relative;
+    }
+
+    .chart-wrap.short {
+      height: 230px;
+    }
+
+    .chart-wrap canvas {
+      max-width: 100%;
+    }
+
+    .chart-empty {
+      display: none;
+      position: absolute;
+      inset: 0;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 20px;
+      pointer-events: none;
+    }
+
+    .chart-empty.visible {
+      display: grid;
+    }
+
+    .table-panel {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .table-panel .panel-header {
+      padding: 19px 19px 0;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+    }
+
+    thead th {
+      text-align: left;
+      background: #faf9fd;
+      padding: 12px 18px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #8a8399;
+      font-weight: 800;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    tbody td {
+      padding: 14px 18px;
+      font-size: 12px;
+      border-bottom: 1px solid #f0edf5;
+      color: #4e485e;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .type-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--purple-50);
+      color: var(--purple-800);
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .type-pill::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #8860c5;
+    }
+
+    .empty-row {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px !important;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #9992a7;
+      font-size: 10px;
+      margin-top: 23px;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    @media (max-width: 1150px) {
+      .sidebar {
+        width: 225px;
+      }
+
+      .main {
+        margin-left: 225px;
+        padding: 24px 20px 35px;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 780px) {
+      .sidebar {
+        width: 258px;
+        transform: translateX(-100%);
+        transition: transform .2s ease;
+        box-shadow: 12px 0 35px rgba(0,0,0,.12);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 18px 14px 30px;
+      }
+
+      .mobile-menu {
+        display: inline-grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: white;
+        color: var(--purple-800);
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .topbar-left {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+
+      .top-actions {
+        gap: 6px;
+      }
+
+      .avatar {
+        display: none;
+      }
+
+      .grid-2,
+      .grid-equal {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .chart-wrap {
+        height: 240px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .kpis {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .kpi {
+        padding: 15px;
+      }
+
+      .topbar {
+        flex-wrap: wrap;
+      }
+
+      .top-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .panel {
+        padding: 15px;
+      }
+
+      .table-panel {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">✧</div>
+      <div>
+        <h1>Palm &amp; Tarot AI</h1>
+        <p>Spiritual Intelligence Platform</p>
+      </div>
+    </div>
+
+    <div class="nav-label">CONSULTANT WORKSPACE</div>
+
+    <nav class="nav" aria-label="Dashboard navigation">
+      <a class="active" href="#overview">
+        <span class="nav-icon">▦</span> Dashboard
+      </a>
+      <a href="#user-trends">
+        <span class="nav-icon">↗</span> User Trend Analysis
+      </a>
+      <a href="#effectiveness">
+        <span class="nav-icon">✧</span> Guidance Effectiveness
+      </a>
+      <a href="#consultation-insights">
+        <span class="nav-icon">◷</span> Consultation Insights
+      </a>
+      <a href="#activity">
+        <span class="nav-icon">▤</span> Recent Activity
+      </a>
+      <a href="#" id="logoutLink">
+        <span class="nav-icon">⇥</span> Logout
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <strong>Spiritual Consultant</strong>
+      Live analytics from your platform database
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar" id="overview">
+      <div class="topbar-left">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div>
+          <p class="eyebrow">Executive analytics platform</p>
+          <h2>Spiritual Consultant Dashboard</h2>
+          <p class="subtitle">
+            Monitor reading activity, user trends and available guidance feedback.
+          </p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="refresh-btn" id="refreshButton">↻ &nbsp; Refresh Data</button>
+        <div class="avatar" id="consultantAvatar">SC</div>
+      </div>
+    </header>
+
+    <div class="status" id="connectionStatus" role="status" aria-live="polite">
+      <span class="status-dot"></span>
+      <span class="status-text" id="statusText">Connecting to dashboard API…</span>
+      <button id="statusRetry" type="button">Retry</button>
+    </div>
+
+    <div class="section-heading">
+      <div>
+        <h3>Platform Overview</h3>
+        <p>Summary of records currently available in your backend.</p>
+      </div>
+      <span class="section-tag" id="lastUpdated">NOT YET UPDATED</span>
+    </div>
+
+    <section class="kpis" aria-label="Platform overview statistics">
+      <article class="kpi">
+        <div class="kpi-top">
+          <span class="kpi-label">Total Readings</span>
+          <span class="kpi-icon">✧</span>
+        </div>
+        <div class="kpi-value" id="totalConsultations">—</div>
+        <div class="kpi-foot">Palmistry + Tarot records</div>
+      </article>
+
+      <article class="kpi">
+        <div class="kpi-top">
+          <span class="kpi-label">Unique Users</span>
+          <span class="kpi-icon">♙</span>
+        </div>
+        <div class="kpi-value" id="uniqueUsers">—</div>
+        <div class="kpi-foot">Users with at least one reading</div>
+      </article>
+
+      <article class="kpi">
+        <div class="kpi-top">
+          <span class="kpi-label">Generated Reports</span>
+          <span class="kpi-icon">▤</span>
+        </div>
+        <div class="kpi-value" id="totalReports">—</div>
+        <div class="kpi-foot">Reports stored in the database</div>
+      </article>
+
+      <article class="kpi">
+        <div class="kpi-top">
+          <span class="kpi-label">Average Feedback</span>
+          <span class="kpi-icon">★</span>
+        </div>
+        <div class="kpi-value" id="averageFeedback">—</div>
+        <div class="kpi-foot" id="feedbackFoot">No feedback data loaded</div>
+      </article>
+    </section>
+
+    <div class="section-heading" id="user-trends">
+      <div>
+        <h3>User Trend Analysis</h3>
+        <p>Monthly activity based on timestamps actually recorded by the backend.</p>
+      </div>
+      <span class="section-tag">TREND ANALYSIS</span>
+    </div>
+
+    <section class="grid-2">
+      <article class="panel">
+        <div class="panel-header">
+          <div>
+            <h4>New User Registrations</h4>
+            <p class="desc">Users created each month, if registration timestamps are available.</p>
+          </div>
+          <span class="panel-badge">MONTHLY</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="userTrendChart" aria-label="Monthly new user registrations"></canvas>
+          <div class="chart-empty" id="userTrendEmpty">
+            Registration dates are not available in the API response.
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-header">
+          <div>
+            <h4>Reading Distribution</h4>
+            <p class="desc">Comparison of Palmistry and Tarot records.</p>
+          </div>
+          <span class="panel-badge">BY CATEGORY</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="distributionChart" aria-label="Palmistry and Tarot distribution"></canvas>
+          <div class="chart-empty" id="distributionEmpty">
+            No reading distribution data available.
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="section-heading" id="effectiveness">
+      <div>
+        <h3>Guidance Effectiveness</h3>
+        <p>Feedback-based indicators; no ratings are generated when none are stored.</p>
+      </div>
+      <span class="section-tag">FEEDBACK</span>
+    </div>
+
+    <section class="grid-equal">
+      <article class="panel">
+        <div class="panel-header">
+          <div>
+            <h4>Feedback Rating Distribution</h4>
+            <p class="desc">Number of stored feedback entries for each rating.</p>
+          </div>
+          <span class="panel-badge">RATINGS</span>
+        </div>
+        <div class="chart-wrap short">
+          <canvas id="feedbackChart" aria-label="Feedback rating distribution"></canvas>
+          <div class="chart-empty" id="feedbackEmpty">
+            Feedback ratings are not available yet.
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-header">
+          <div>
+            <h4>Reading Activity Over Time</h4>
+            <p class="desc">Monthly Palmistry and Tarot records based on stored dates.</p>
+          </div>
+          <span class="panel-badge">MONTHLY</span>
+        </div>
+        <div class="chart-wrap short">
+          <canvas id="consultationActivityChart" aria-label="Monthly reading activity"></canvas>
+          <div class="chart-empty" id="activityEmpty">
+            No dated reading records available.
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <div class="section-heading" id="consultation-insights">
+      <div>
+        <h3>Consultation Insights</h3>
+        <p>Explore the types of Tarot readings currently stored in your database.</p>
+      </div>
+      <span class="section-tag">READING TYPES</span>
+    </div>
+
+    <section class="grid-2">
+      <article class="panel">
+        <div class="panel-header">
+          <div>
+            <h4>Tarot Reading Types</h4>
+            <p class="desc">Count of each recorded Tarot reading type.</p>
+          </div>
+          <span class="panel-badge">TAROT</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="consultationTypeChart" aria-label="Tarot reading type counts"></canvas>
+          <div class="chart-empty" id="typeEmpty">
+            No Tarot reading type data available.
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-header">
+          <div>
+            <h4>Data Availability</h4>
+            <p class="desc">A quick summary of backend records used by these charts.</p>
+          </div>
+          <span class="panel-badge">LIVE API</span>
+        </div>
+
+        <div id="dataSummary" style="display:grid;gap:0">
+          <div class="summary-row">
+            <span>Total registered users</span>
+            <strong id="registeredUsersCount">—</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>Unknown registration dates</span>
+          <strong id="unknownRegistrationCount">—</strong>
+        </div>
+          <div class="summary-row">
+            <span>Palmistry readings</span><strong id="palmCount">—</strong>
+          </div>
+          <div class="summary-row">
+            <span>Tarot readings</span><strong id="tarotCount">—</strong>
+          </div>
+          <div class="summary-row">
+            <span>Application sessions</span><strong id="sessionCount">—</strong>
+          </div>
+          <div class="summary-row">
+            <span>Feedback entries</span><strong id="feedbackCount">—</strong>
+          </div>
+          <p id="dataLimitations">
+            Limitations will be shown after data loads.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <div class="section-heading" id="activity">
+      <div>
+        <h3>Recent Activity</h3>
+        <p>Latest reading and report records returned by the API.</p>
+      </div>
+      <span class="section-tag">LATEST RECORDS</span>
+    </div>
+
+    <section class="panel table-panel">
+      <div class="panel-header">
+        <div>
+          <h4>Reading &amp; Report Activity</h4>
+          <p class="desc">Records are shown only when returned by the backend.</p>
+        </div>
+        <span class="panel-badge" id="activityCount">0 RECORDS</span>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Record ID</th>
+              <th>Activity Type</th>
+              <th>Reading / Report Type</th>
+              <th>User ID</th>
+              <th>Date &amp; Time</th>
+            </tr>
+          </thead>
+          <tbody id="consultationTable">
+            <tr>
+              <td colspan="5" class="empty-row">Waiting for API data…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Palm &amp; Tarot AI · Consultant analytics · Values are loaded from the connected backend.
+    </p>
+  </main>
+
+  <style>
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+    }
+
+    .summary-row span {
+      color: var(--muted);
+    }
+
+    #dataLimitations {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 13px 0 0;
+    }
+  </style>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // Change this only if your FastAPI server uses a different address.
+      const API_BASE = "http://127.0.0.1:8001";
+      const REFRESH_INTERVAL_MS = 30000;
+
+      const $ = (id) => document.getElementById(id);
+      const chartInstances = {};
+
+      let requestInProgress = false;
+
+      function getToken() {
+        return localStorage.getItem("access_token")
+          || localStorage.getItem("token")
+          || "";
+      }
+
+      function setStatus(message, kind = "") {
+        const box = $("connectionStatus");
+        box.classList.remove("ok", "error");
+
+        if (kind) {
+          box.classList.add(kind);
+        }
+
+        $("statusText").textContent = message;
+      }
+
+      function displayNumber(value) {
+        if (value === null || value === undefined || value === "") {
+          return "—";
+        }
+
+        const number = Number(value);
+
+        return Number.isFinite(number)
+          ? number.toLocaleString()
+          : "—";
+      }
+
+      function safeDate(value) {
+        if (!value) {
+          return "Not recorded";
+        }
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) {
+          return String(value);
+        }
+
+        return date.toLocaleString();
+      }
+
+      function showEmpty(canvasId, emptyId, isEmpty, message) {
+        const canvas = $(canvasId);
+        const empty = $(emptyId);
+
+        if (empty && message) {
+          empty.textContent = message;
+        }
+
+        if (canvas) {
+          canvas.style.visibility = isEmpty ? "hidden" : "visible";
+        }
+
+        if (empty) {
+          empty.classList.toggle("visible", isEmpty);
+        }
+      }
+
+      function destroyChart(key) {
+        if (chartInstances[key]) {
+          chartInstances[key].destroy();
+          delete chartInstances[key];
+        }
+      }
+
+      function makeChart(
+        key,
+        canvasId,
+        emptyId,
+        config,
+        hasData,
+        emptyMessage
+      ) {
+        destroyChart(key);
+
+        showEmpty(canvasId, emptyId, !hasData, emptyMessage);
+
+        if (!hasData || typeof Chart === "undefined") {
+          return;
+        }
+
+        const canvas = $(canvasId);
+
+        if (!canvas) {
+          return;
+        }
+
+        chartInstances[key] = new Chart(canvas, config);
+      }
+
+      function commonOptions() {
+        return {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: {
+            duration: 350
+          },
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                usePointStyle: true,
+                pointStyle: "circle",
+                boxWidth: 7,
+                padding: 17,
+                color: "#777287",
+                font: {
+                  size: 10
+                }
+              }
+            },
+            tooltip: {
+              backgroundColor: "#321858",
+              padding: 11,
+              cornerRadius: 8
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: "#8a8399",
+                font: {
+                  size: 10
+                }
+              },
+              border: {
+                display: false
+              }
+            },
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: "#f0edf5"
+              },
+              ticks: {
+                precision: 0,
+                color: "#8a8399",
+                font: {
+                  size: 10
+                }
+              },
+              border: {
+                display: false
+              }
+            }
+          }
+        };
+      }
+
+      // Update the KPI cards with actual API values.
+      function updateSummary(data) {
+        const stats = data.statistics || {};
+        
+        $("registeredUsersCount").textContent =
+             displayNumber(stats.total_users);
+
+       $("unknownRegistrationCount").textContent =
+            displayNumber(stats.users_without_registration_date);
+
+        const palmCount = Number(stats.total_palm_readings) || 0;
+        const tarotCount = Number(stats.total_tarot_readings) || 0;
+
+        $("totalConsultations").textContent = displayNumber(
+          stats.total_readings ?? (palmCount + tarotCount)
+        );
+
+        $("uniqueUsers").textContent = displayNumber(
+          stats.unique_users_with_readings ?? stats.unique_users
+        );
+
+        $("totalReports").textContent = displayNumber(
+          stats.total_reports
+        );
+
+        const average = stats.average_feedback;
+
+        $("averageFeedback").textContent =
+          average === null || average === undefined
+            ? "—"
+            : `${Number(average).toFixed(2)} / 5`;
+
+        $("feedbackFoot").textContent =
+          `${displayNumber(stats.feedback_count ?? 0)} stored feedback entries`;
+
+        $("palmCount").textContent = displayNumber(palmCount);
+        $("tarotCount").textContent = displayNumber(tarotCount);
+
+        $("sessionCount").textContent = displayNumber(
+          stats.total_application_sessions
+        );
+
+        $("feedbackCount").textContent = displayNumber(
+          stats.feedback_count ?? 0
+        );
+
+        const name = data.consultant?.username || "";
+
+        if (name) {
+          $("consultantAvatar").textContent = name
+            .trim()
+            .split(/\s+/)
+            .map(part => part[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase();
+        }
+
+        const limitations = Array.isArray(data.data_limitations)
+          ? data.data_limitations
+          : [];
+
+        $("dataLimitations").textContent = limitations.length
+          ? limitations.join(" ")
+          : "Statistics reflect records returned by the backend. Feedback depends on stored feedback records.";
+      }
+
+      // Graph 1: monthly new-user registrations.
+       function updateUserTrend(data) {
+    // Read actual monthly registration data from the backend.
+    const items = Array.isArray(data.monthly_user_trend)
+        ? data.monthly_user_trend
+        : [];
+
+    const stats = data.statistics || {};
+    const unknownDates =
+        Number(stats.users_without_registration_date) || 0;
+
+    const hasData = items.length > 0;
+
+    // Use month positions for the X-axis and registrations for Y.
+    const labels = items.map(
+        item => item.month || item.date || "Unknown"
+    );
+
+    const points = items.map((item, index) => ({
+        x: index,
+        y: Number(item.count) || 0,
+        month: labels[index]
+    }));
+
+    let emptyMessage =
+        "No recorded registration dates are available yet.";
+
+    if (unknownDates > 0) {
+        emptyMessage =
+            `${unknownDates} existing user(s) have unknown registration dates. ` +
+            "Their original registration dates were not recorded.";
+    }
+
+    const options = commonOptions();
+
+    options.plugins.legend.display = false;
+
+    // Show month names on the horizontal axis.
+    options.scales = {
+        x: {
+            type: "linear",
+            title: {
+                display: true,
+                text: "Registration Month"
+            },
+            ticks: {
+                stepSize: 1,
+                callback: function(value) {
+                    return Number.isInteger(value)
+                        ? labels[value] ?? ""
+                        : "";
+                }
+            },
+            min: -0.5,
+            max: Math.max(items.length - 0.5, 0.5)
+        },
+        y: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                text: "Number of New Users"
+            },
+            ticks: {
+                precision: 0
+            }
+        }
+    };
+
+    makeChart(
+        "users",
+        "userTrendChart",
+        "userTrendEmpty",
+        {
+            type: "scatter",
+            data: {
+                datasets: [{
+                    label: "New User Registrations",
+                    data: points,
+                    backgroundColor: "#7547bd",
+                    borderColor: "#7547bd",
+                    pointRadius: 7,
+                    pointHoverRadius: 10
+                }]
+            },
+            options: {
+                ...options,
+                plugins: {
+                    ...options.plugins,
+                    tooltip: {
+                        callbacks: {
+                            title: function(context) {
+                                const point =
+                                    context[0]?.raw;
+
+                                return point?.month || "Unknown month";
+                            },
+                            label: function(context) {
+                                return `New users: ${context.raw.y}`;
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        hasData,
+        emptyMessage
+    );
+}
+      // Graph 2: Palmistry versus Tarot.
+      function updateDistribution(data) {
+        const items = Array.isArray(data.reading_distribution)
+          ? data.reading_distribution
+          : [];
+
+        const valid = items.filter(
+          item => Number.isFinite(Number(item.count))
+        );
+
+        const hasData = valid.length > 0
+          && valid.some(item => Number(item.count) > 0);
+
+        makeChart(
+          "distribution",
+          "distributionChart",
+          "distributionEmpty",
+          {
+            type: "doughnut",
+            data: {
+              labels: valid.map(
+                item => item.reading_type || item.type || "Unspecified"
+              ),
+              datasets: [{
+                data: valid.map(item => Number(item.count) || 0),
+                backgroundColor: [
+                  "#7547bd",
+                  "#e5a2c8",
+                  "#9e8ad4"
+                ],
+                borderColor: "#ffffff",
+                borderWidth: 4,
+                hoverOffset: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              cutout: "66%",
+              plugins: commonOptions().plugins
+            }
+          },
+          hasData,
+          "No Palmistry or Tarot reading records were returned."
+        );
+      }
+
+      // Graph 3: distribution of feedback ratings.
+      function updateFeedback(data) {
+        const items = Array.isArray(data.rating_distribution)
+          ? data.rating_distribution
+          : [];
+
+        const valid = items.filter(
+          item => item.rating !== null && item.rating !== undefined
+        );
+
+        const hasData = valid.length > 0;
+        const options = commonOptions();
+
+        options.plugins.legend.display = false;
+
+        makeChart(
+          "feedback",
+          "feedbackChart",
+          "feedbackEmpty",
+          {
+            type: "bar",
+            data: {
+              labels: valid.map(
+                item => `${item.rating} star${Number(item.rating) === 1 ? "" : "s"}`
+              ),
+              datasets: [{
+                label: "Feedback entries",
+                data: valid.map(item => Number(item.count) || 0),
+                backgroundColor: "#a78bdb",
+                borderRadius: 7,
+                maxBarThickness: 42
+              }]
+            },
+            options
+          },
+          hasData,
+          "No rating distribution is available. Confirm that feedback records and ratings exist."
+        );
+      }
+
+      // Graph 4: monthly reading activity.
+      function updateActivity(data) {
+        const items = Array.isArray(data.monthly_reading_trend)
+          ? data.monthly_reading_trend
+          : [];
+
+        const hasData = items.length > 0;
+        const options = commonOptions();
+
+        options.plugins.legend.display = false;
+
+        makeChart(
+          "activity",
+          "consultationActivityChart",
+          "activityEmpty",
+          {
+            type: "bar",
+            data: {
+              labels: items.map(item => item.month || "Unknown"),
+              datasets: [{
+                label: "Readings",
+                data: items.map(item => Number(item.count) || 0),
+                backgroundColor: "#8c6ac7",
+                borderRadius: 6,
+                maxBarThickness: 45
+              }]
+            },
+            options
+          },
+          hasData,
+          "No valid reading timestamps were returned for monthly activity."
+        );
+      }
+
+      // Graph 5: Tarot reading-type counts.
+      function updateTypes(data) {
+        const items = Array.isArray(data.tarot_reading_types)
+          ? data.tarot_reading_types
+          : [];
+
+        const valid = items.filter(item => item.reading_type);
+        const hasData = valid.length > 0;
+
+        const options = commonOptions();
+
+        options.indexAxis = "y";
+        options.plugins.legend.display = false;
+
+        options.scales.x = {
+          beginAtZero: true,
+          grid: {
+            color: "#f0edf5"
+          },
+          ticks: {
+            precision: 0,
+            color: "#8a8399",
+            font: {
+              size: 10
+            }
+          },
+          border: {
+            display: false
+          }
+        };
+
+        options.scales.y = {
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: "#777287",
+            font: {
+              size: 10
+            }
+          },
+          border: {
+            display: false
+          }
+        };
+
+        makeChart(
+          "types",
+          "consultationTypeChart",
+          "typeEmpty",
+          {
+            type: "bar",
+            data: {
+              labels: valid.map(item => item.reading_type),
+              datasets: [{
+                label: "Readings",
+                data: valid.map(item => Number(item.count) || 0),
+                backgroundColor: [
+                  "#7547bd",
+                  "#b39add",
+                  "#d5c7ef",
+                  "#9b80ce",
+                  "#e5a2c8",
+                  "#6e5a9d"
+                ],
+                borderRadius: 6,
+                maxBarThickness: 34
+              }]
+            },
+            options
+          },
+          hasData,
+          "No Tarot reading types were returned by the API."
+        );
+      }
+
+      // Fill the recent activity table safely.
+      function updateActivityTable(data) {
+        const tbody = $("consultationTable");
+
+        const items = Array.isArray(data.recent_activity)
+          ? data.recent_activity
+          : [];
+
+        $("activityCount").textContent =
+          `${items.length} RECORD${items.length === 1 ? "" : "S"}`;
+
+        tbody.replaceChildren();
+
+        if (!items.length) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+
+          td.colSpan = 5;
+          td.className = "empty-row";
+          td.textContent =
+            "No reading or report activity was returned by the API.";
+
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+          return;
+        }
+
+        items.slice(0, 20).forEach(item => {
+          const tr = document.createElement("tr");
+
+          const values = [
+            item.id === null || item.id === undefined
+              ? "—"
+              : `#${item.id}`,
+
+            item.type || "Record",
+
+            item.reading_type
+              || item.report_type
+              || item.title
+              || "Unspecified",
+
+            item.user_id === null || item.user_id === undefined
+              ? "—"
+              : String(item.user_id),
+
+            safeDate(item.created_at)
+          ];
+
+          values.forEach((value, index) => {
+            const td = document.createElement("td");
+
+            if (index === 1) {
+              const pill = document.createElement("span");
+              pill.className = "type-pill";
+              pill.textContent = String(value);
+              td.appendChild(pill);
+            } else {
+              td.textContent = String(value);
+            }
+
+            tr.appendChild(td);
+          });
+
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Fetch real data from FastAPI.
+      async function loadDashboard() {
+        if (requestInProgress) {
+          return;
+        }
+
+        requestInProgress = true;
+
+        $("refreshButton").disabled = true;
+        $("refreshButton").textContent = "Loading…";
+
+        try {
+          const token = getToken();
+
+          if (!token) {
+            throw new Error(
+              "Login token not found. Please log in again, then reopen this dashboard."
+            );
+          }
+
+          const response = await fetch(
+            `${API_BASE}/dashboard/consultant/summary`,
+            {
+              method: "GET",
+              headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
+              }
+            }
+          );
+
+          if (response.status === 401 || response.status === 403) {
+            throw new Error(
+              `Access denied (${response.status}). Sign in with an account assigned the spiritual_consultant role.`
+            );
+          }
+
+          if (!response.ok) {
+            const body = await response.text();
+
+            throw new Error(
+              `Dashboard API returned ${response.status}` +
+              (body ? `: ${body.slice(0, 180)}` : "")
+            );
+          }
+
+          const data = await response.json();
+
+          if (data.success === false) {
+            throw new Error(
+              data.message || "The API did not return dashboard data."
+            );
+          }
+
+          updateSummary(data);
+          updateUserTrend(data);
+          updateDistribution(data);
+          updateFeedback(data);
+          updateActivity(data);
+          updateTypes(data);
+          updateActivityTable(data);
+
+          $("lastUpdated").textContent =
+            `UPDATED ${new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit"
+            })}`;
+
+          setStatus(
+            data.message ||
+              "Connected successfully. Dashboard data loaded from the backend.",
+            "ok"
+          );
+
+        } catch (error) {
+          console.error("Consultant dashboard load failed:", error);
+
+          setStatus(
+            error.message ||
+              "Could not load dashboard data. Check the API and login token.",
+            "error"
+          );
+
+        } finally {
+          requestInProgress = false;
+          $("refreshButton").disabled = false;
+          $("refreshButton").textContent = "↻  Refresh Data";
+        }
+      }
+
+      // Manual refresh.
+      $("refreshButton").addEventListener("click", loadDashboard);
+      $("statusRetry").addEventListener("click", loadDashboard);
+
+      // Logout and remove both token-key variants used by this project.
+      $("logoutLink").addEventListener("click", event => {
+        event.preventDefault();
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        window.location.href = "login.html";
+      });
+
+      // Mobile sidebar.
+      $("mobileMenu").addEventListener("click", () => {
+        $("sidebar").classList.toggle("open");
+      });
+
+      // Active navigation highlight.
+      document.querySelectorAll(".nav a[href^='#']").forEach(link => {
+        link.addEventListener("click", () => {
+          document.querySelectorAll(".nav a").forEach(item => {
+            item.classList.remove("active");
+          });
+
+          link.classList.add("active");
+
+          if (window.innerWidth <= 780) {
+            $("sidebar").classList.remove("open");
+          }
+        });
+      });
+
+      // Load initially, then refresh every 30 seconds.
+      loadDashboard();
+      setInterval(loadDashboard, REFRESH_INTERVAL_MS);
+    })();
+  </script>
+</body>
+</html>
