@@ -1,0 +1,50 @@
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+backend/data/users.json
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# Backup folders
+_backup_*/
+
+# Temporary files
+scratch/
+
+# Other virtual environments
+venv/
+.venv/
+
+# Python cache
+**/__pycache__/
+# Other Python virtual environments
+backend/.venv312/
+backend/.venv312
+
+# Python cache
+*.py[cod]
+**/__pycache__/
+
+# Docker and local environment
+backend/.env
+
+# Backup files
+*.bak
+*_old*
+*_backup*
+
+# Local application data
+backend/data/*.json
